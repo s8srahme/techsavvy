@@ -1,0 +1,151 @@
+.header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	background-color: rgba($color-dark-gray, 0.9);
+	flex-direction: column;
+	justify-content: space-between;
+	z-index: 2;
+	@include transition(all 0.4s ease-in-out 0s);
+	@include breakpoint(md) {
+		flex-direction: row;
+	}
+	&.shrink {
+		background-color: rgba($color-light-gray, 1);
+		@include box-shadow(bottom);
+	}
+
+	.header-logo-wrapper {
+		height: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		margin: $gutter-md 0;
+		@include transition(all 0.4s ease-in-out 0s);
+		@include breakpoint(md) {
+			margin: 0;
+			width: auto;
+			flex: 2;
+			justify-content: flex-start;
+		}
+		&.shrink {
+			margin: 0;
+		}
+
+		.header-logo {
+			@include font($font-size-x-large, $font-weight-regular, $font-style-regular, $color-light-gray);
+			@include transition(all 0.4s ease-in-out 0s);
+			text-transform: uppercase;
+			padding: 0 $gutter-md;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			@include breakpoint(0, $breakpoint-sm) {
+				font-size: $font-size-large;
+			}
+			@include breakpoint(xl) {
+				padding: 0 $gutter-lg;
+			}
+			&.shrink {
+				color: $color-dark-gray;
+			}
+
+			&:last-child {
+				cursor: pointer;
+				@include breakpoint(md) {
+					display: none;
+					overflow: hidden;
+				}
+			}
+		}
+		.header-icon-wrapper {
+			padding: 0 $gutter-md;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+			@include breakpoint(md) {
+				display: none;
+			}
+
+			.header-icon {
+				color: $color-medium-gray;
+				height: $font-size-x-large;
+				width: $font-size-x-large;
+				@include transition(color 0.2s ease-in 0s);
+				&:hover {
+					color: $color-light-gray;
+				}
+				&.shrink:hover {
+					color: $color-dark-gray;
+				}
+			}
+		}
+	}
+
+	.header-nav {
+		display: inline-block;
+		width: 100%;
+		max-height: 0;
+		overflow: hidden;
+		border-top: none;
+		padding: 0;
+		@include transition(all 0.2s ease-in-out 0s);
+		&.collapse {
+			max-height: 299px;
+			padding: $gutter-lg 0;
+			border-top: 1px solid lighten($color-dark-gray, 15%);
+			@include breakpoint(md) {
+				padding: 0;
+				border-top: none;
+			}
+		}
+		&.shrink {
+			padding: $gutter-md 0;
+			border-color: darken($color-light-gray, 10%);
+			@include breakpoint(md) {
+				padding: 0;
+				border-top: none;
+			}
+		}
+		@include breakpoint(md) {
+			display: flex;
+			width: auto;
+			flex: 3;
+			flex-direction: row;
+			max-height: 82px;
+		}
+
+		.header-link {
+			flex: 1;
+			height: 50px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-transform: capitalize;
+			@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-light-gray);
+			@include transition(all 0.4s ease-in-out 0s);
+			@include breakpoint(md) {
+				height: 82px;
+			}
+
+			&:hover {
+				background-color: $color-light-gray;
+				color: $color-dark-gray;
+			}
+			&.shrink:hover {
+				background-color: $color-dark-gray;
+				color: $color-light-gray;
+			}
+			&.shrink {
+				color: $color-dark-gray;
+				height: 50px;
+			}
+		}
+	}
+}

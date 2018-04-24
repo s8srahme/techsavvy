@@ -1,0 +1,17 @@
+.btn {
+	@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-dark-gray, 1);
+	letter-spacing: 2px;
+	height: 44px;
+	padding: 0 $gutter-lg;
+	border: 2px solid $color-dark-gray;
+	@include transition(all 0.2s ease-in 0s);
+	text-transform: uppercase;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+
+	&:hover {
+		color: $color-light-gray;
+		background-color: $color-dark-gray;
+	}
+}

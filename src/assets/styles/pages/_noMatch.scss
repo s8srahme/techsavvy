@@ -1,0 +1,58 @@
+.no-match-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: $color-dark-gray;
+	height: 100vh;
+	width: 100%;
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));
+	padding-top: 8.2rem;
+
+	.no-match-message-wrapper {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+
+		hgroup {
+			margin: $gutter-sm 0 $gutter-xxxl;
+			h1 {
+				font-weight: $font-weight-bold;
+				color: $color-light-gray;
+				text-transform: uppercase;
+				text-align: center;
+			}
+			h3 {
+				color: $color-light-gray;
+				@include breakpoint(0, $breakpoint-sm) {
+					text-align: center;
+				}
+			}
+		}
+		.btn {
+			color: $color-light-gray;
+			border-color: $color-light-gray;
+			&:hover {
+				color: $color-dark-gray;
+				background-color: $color-light-gray;
+			}
+		}
+	}
+
+	.no-match-img-wrapper {
+		width: 250px;
+		@include breakpoint(0, $breakpoint-sm) {
+			width: 175px;
+		}
+
+		#no-match-graphic {
+			display: block;
+			animation: shake 3s ease-in-out 0s infinite normal;
+			width: 100%;
+		}
+	}
+}

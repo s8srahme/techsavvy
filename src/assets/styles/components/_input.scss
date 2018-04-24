@@ -1,0 +1,37 @@
+.input-txt {
+	@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-dark-gray, 1);
+	@include transition(all 0.2s ease-in 0s);
+	height: 44px;
+	padding: 0 $gutter-sm;
+	width: 100%;
+	border: 0 solid $color-medium-gray;
+	border-bottom-width: 2px;
+	letter-spacing: 2px;
+
+	&::placeholder {
+		@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-medium-gray, 1);
+		text-transform: uppercase;
+	}
+
+	&:focus {
+		border-color: $color-dark-gray;
+		outline: none;
+		color: $color-dark-gray;
+	}
+}
+
+.btn-radio {
+	display: flex;
+	width: $font-size-small;
+	height: $font-size-small;
+	margin: $gutter-sm;
+	z-index: 1;
+	outline: $font-size-small / 2 solid $color-medium-gray;
+	outline-offset: $font-size-small / -2;
+	cursor: pointer;
+	@include transition(transform 0.4s ease-out 0s);
+
+	&:checked {
+		outline-color: $color-dark-gray;
+	}
+}

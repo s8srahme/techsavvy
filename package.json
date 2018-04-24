@@ -1,0 +1,28 @@
+{
+	"name": "react-app",
+	"version": "0.1.0",
+	"private": true,
+	"homepage": "https://sbramd.github.io/react-app",
+	"dependencies": {
+		"ajv": "^6.2.1",
+		"gh-pages": "^1.1.0",
+		"node-sass-chokidar": "0.0.3",
+		"react": "^16.2.0",
+		"react-dom": "^16.2.0",
+		"react-feather": "^1.0.8",
+		"react-router-dom": "^4.2.2",
+		"react-scripts": "1.1.1",
+		"react-transition-group": "^2.2.1"
+	},
+	"scripts": {
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build",
+		"build-css": "node-sass-chokidar src/ -o src/",
+		"watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+		"start": "PORT=3006 react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject"
+	},
+	"devDependencies": {}
+}

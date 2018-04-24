@@ -1,0 +1,121 @@
+.footer {
+	background-color: $color-dark-gray;
+	.container {
+		padding: $gutter-xxxl 0;
+		.row {
+			.column._55 {
+				@include breakpoint(md) {
+					justify-content: flex-start;
+				}
+
+				h2 {
+					text-transform: uppercase;
+					color: $color-light-gray;
+					text-align: center;
+					@include breakpoint(md) {
+						text-align: left;
+					}
+				}
+				p {
+					margin: $gutter-lg 0;
+					color: $color-light-gray;
+					text-align: center;
+					@include breakpoint(md) {
+						text-align: left;
+					}
+				}
+				span {
+					display: flex;
+					align-items: center;
+					color: $color-light-gray;
+					justify-content: center;
+					@include breakpoint(md) {
+						justify-content: flex-start;
+					}
+
+					.footer-icon {
+						height: $font-size-regular;
+						width: $font-size-regular;
+						margin: 0 $gutter-xs;
+					}
+				}
+			}
+			.column._20 {
+				display: flex;
+				justify-content: center;
+				margin-top: $gutter-xl;
+				@include breakpoint(md) {
+					margin-top: 0;
+				}
+
+				ul {
+					display: flex;
+					flex-direction: column;
+					@include breakpoint($breakpoint-sm, $breakpoint-md) {
+						flex-direction: row;
+					}
+
+					li {
+						display: flex;
+						@include breakpoint(0, $breakpoint-sm) {
+							justify-content: center;
+						}
+						a {
+							@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-medium-gray, 1.3);
+							@include transition(all 0.2s ease-in 0s);
+							padding: $gutter-xs;
+							text-transform: capitalize;
+							&:hover {
+								color: $color-light-gray;
+							}
+						}
+					}
+				}
+			}
+			.column._25 {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				margin-top: $gutter-xl;
+				@include breakpoint(md) {
+					margin-top: 0;
+				}
+
+				span {
+					display: flex;
+					@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-medium-gray, 1);
+					text-transform: uppercase;
+				}
+				.footer-socials-wrapper {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: center;
+					margin-top: $gutter-sm;
+
+					.footer-social {
+						display: flex;
+						padding: $gutter-sm;
+						&:hover {
+							.footer-icon {
+								color: $color-light-gray;
+							}
+						}
+
+						.footer-icon {
+							color: $color-medium-gray;
+							height: $font-size-x-large;
+							width: $font-size-x-large;
+							@include transition(color 0.2s ease-in 0s);
+							@include breakpoint(0, $breakpoint-sm) {
+								height: $font-size-large;
+								width: $font-size-large;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,9 @@
+.separator {
+	&:after {
+		content: "";
+		display: flex;
+		width: 50px;
+		border-bottom: 3px solid $color-medium-gray;
+		margin: $gutter-md auto 0;
+	}
+}

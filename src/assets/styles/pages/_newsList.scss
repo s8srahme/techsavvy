@@ -1,0 +1,109 @@
+.news-list-content {
+	background-color: darken($color-light-gray, 5%);
+
+	.container {
+		padding: $gutter-xxxl 0;
+
+		.news-heading-wrapper {
+			margin-bottom: $gutter-xl;
+			justify-content: center;
+
+			h1 {
+				text-transform: uppercase;
+				text-align: center;
+			}
+		}
+		.news-cards-wrapper {
+			display: flex;
+			flex-direction: column-reverse;
+
+			.row + .row {
+				margin-top: 0;
+				margin-bottom: $gutter-md;
+			}
+			.row {
+				.column {
+					.news-card {
+						height: 100%;
+						display: flex;
+						flex-direction: column;
+						background-color: $color-light-gray;
+						overflow: hidden;
+						@include box-shadow(all);
+
+						.news-card-info-wrapper {
+							width: 100%;
+							max-height: 350px;
+							padding: $gutter-md;
+
+							& > span {
+								text-transform: uppercase;
+								font-weight: $font-weight-bold;
+							}
+							hgroup {
+								padding: $gutter-sm 0;
+
+								h2 {
+									text-align: justify;
+									// @include truncate(1.1, 3);
+									@include breakpoint($breakpoint-md, $breakpoint-lg) {
+										font-size: $font-size-large;
+									}
+								}
+								h3 {
+									color: $color-medium-gray;
+								}
+							}
+							p {
+								text-align: justify;
+							}
+							.news-meta {
+								display: flex;
+								align-items: center;
+								flex-direction: row;
+								padding-top: $gutter-md;
+
+								span {
+									text-transform: uppercase;
+								}
+								time {
+									@include font($font-size-small, $font-weight-regular, $font-style-regular, $color-medium-gray);
+									margin-left: $gutter-md;
+									font-variant: small-caps;
+								}
+							}
+						}
+						.news-card-img-wrapper {
+							width: 100%;
+							height: 250px;
+							overflow: hidden;
+							position: relative;
+							background-color: lighten($color-dark-gray, 80%);
+
+							.news-thumbnail {
+								display: block;
+								@include transition(transform 0.4s ease-in-out 0s);
+								width: 100%;
+								height: 100%;
+								object-fit: cover;
+							}
+							.news-card-img-overlay {
+								position: absolute;
+								bottom: 0;
+								left: 0;
+								right: 0;
+								top: 0;
+								z-index: 1;
+								background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.1), rgba($color-dark-gray, 0.8));
+							}
+						}
+
+						&:hover > .news-card-img-wrapper > img {
+							transform: scale(1.2);
+						}
+					}
+				}
+			}
+		}
+	}
+}
