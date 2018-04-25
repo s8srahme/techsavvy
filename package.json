@@ -15,6 +15,7 @@
 		"react-transition-group": "^2.2.1"
 	},
 	"scripts": {
+		// "postbuild": "node postbuild.js",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
 		"build-css": "node-sass-chokidar src/ -o src/",
