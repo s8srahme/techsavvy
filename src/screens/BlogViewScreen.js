@@ -49,6 +49,7 @@ export class BlogViewScreen extends Component {
 				category: "tech",
 				author: "RAYMOND WONG"
 			},
+			// eslint-disable-next-line no-unused-vars
 			slug = this.props.slug;
 		return <NewsView data={post} />;
 	};

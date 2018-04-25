@@ -4,8 +4,8 @@ export const slugify = text => {
 		.trim()
 		.toLowerCase()
 		.replace(/\s+/g, "-")
-		.replace(/[^\w\-]+/g, "")
-		.replace(/\-\-+/g, "-")
+		.replace(/[^\w\-]+/g, "") // eslint-disable-line no-useless-escape
+		.replace(/\-\-+/g, "-") // eslint-disable-line no-useless-escape
 		.replace(/^-+/, "")
 		.replace(/-+$/, "");
 };
