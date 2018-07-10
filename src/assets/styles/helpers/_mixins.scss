@@ -1,4 +1,4 @@
-@mixin font($size: false, $weight: false, $style: false, $color: false, $lh: false) {
+@mixin font($size: false, $weight: false, $style: false, $color: false, $lh: false, $ls: false) {
 	font-family: $font-family-dosis;
 	@if $size {
 		font-size: $size;
@@ -14,6 +14,9 @@
 	}
 	@if $lh {
 		line-height: $lh;
+	}
+	@if $ls {
+		letter-spacing: $ls;
 	}
 }
 

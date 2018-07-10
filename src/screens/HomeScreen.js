@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { bgImgLandingContent, iconRedux, iconSmartphone, iconAnalytics } from "../assets";
+import { bgImgRegentStreet, iconRedux, iconSmartphone, iconAnalytics } from "../assets";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
 import { NewsList } from "../components";
 import { slugify } from "../utils";
@@ -24,11 +24,11 @@ export default class HomeScreen extends Component {
 	// };
 
 	componentDidMount = () => {
-		// 	window.addEventListener("resize", this._onHandleResize);
+		// 	window.addEventListener("resize", this._handleResize);
 	};
 
 	componentWillUnmount = () => {
-		// window.removeEventListener("resize", this._onHandleResize);
+		// window.removeEventListener("resize", this._handleResize);
 		window.scrollTo(0, 0);
 	};
 
@@ -292,7 +292,7 @@ export default class HomeScreen extends Component {
 			className="landing-content"
 			style={{
 				backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)),
-			url(${bgImgLandingContent})`,
+			url(${bgImgRegentStreet})`,
 				paddingTop: `${this.state.offsetTop > 0 ? "8.2rem" : "5rem"}`
 			}}
 		>
@@ -302,7 +302,7 @@ export default class HomeScreen extends Component {
 			</div>
 			<div className="landing-message-wrapper">
 				<figcaption className="landing-message">I Make Creative, Clever, React Apps. Simple.</figcaption>
-				<a className="btn">let's rock</a>
+				<a className="btn inverse">let's rock</a>
 			</div>
 		</figure>
 	);
@@ -322,7 +322,7 @@ export default class HomeScreen extends Component {
 								type="email"
 								// name="email"
 								id="email"
-								className="input-txt"
+								className="txt-input"
 								placeholder="Your email"
 								autoComplete="off"
 								required
@@ -403,7 +403,7 @@ export default class HomeScreen extends Component {
 		const [slideCount, i] = [this.state.slideCount, e.target.value];
 
 		if (i === slideCount) return;
-		else this.setState({ translateValue: -(i / arr.length * 100), slideCount: i });
+		else this.setState({ translateValue: -((i / arr.length) * 100), slideCount: i });
 	};
 
 	_renderClientContent = (testimonials, clients) => (
@@ -420,7 +420,7 @@ export default class HomeScreen extends Component {
 								return (
 									<input
 										key={i}
-										className="btn-radio"
+										className="radio-btn"
 										type="radio"
 										value={i}
 										// name="slider"

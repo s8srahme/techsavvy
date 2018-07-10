@@ -66,7 +66,7 @@ export class BlogListScreen extends Component {
 		];
 		return (
 			<main className="wrapper">
-				<NewsList data={posts} style={{ padding: "11.4rem 0 6.4rem" }} />
+				<NewsList data={posts} hasHeaderButton hasHeaderTabs />
 			</main>
 		);
 	};

@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "react-feather";
+import { UserFormScreen } from "../screens";
 
 export class Header extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isMenuVisible: false
+			isMenuVisible: false,
+			isModalOpen: false
 		};
 	}
 
@@ -28,8 +30,49 @@ export class Header extends Component {
 		this.setState({ isMenuVisible: !this.state.isMenuVisible });
 	};
 
+	// _toggleModal = () => {
+	// 	this.setState({
+	// 		isModalOpen: !this.state.isModalOpen
+	// 	});
+	// };
+
+	_handleModalClickIn = () => {
+		this.setState({
+			isModalOpen: true
+		});
+	};
+
+	_handleModalClickOut = () => {
+		this.setState({
+			isModalOpen: false
+		});
+	};
+
 	render = () => {
-		const { links } = this.props;
+		const links = [
+			{
+				name: "home",
+				path: "/"
+			},
+			{
+				name: "blog",
+				path: "/blog"
+			},
+			{
+				name: "about",
+				path: "/about"
+			},
+			{
+				name: "contact",
+				path: "/contact"
+			},
+			{
+				name: "join us",
+				path: this.props.location.pathname,
+				onClick: this._handleModalClickIn
+			}
+		];
+
 		return (
 			<header className={`header ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
 				<figure className={`header-logo-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
@@ -46,12 +89,33 @@ export class Header extends Component {
 						this.state.offsetTop > 0 && this.state.isMenuVisible ? "shrink" : ""
 					} header-nav`}
 				>
-					{links.map((obj, i) => (
-						<Link to={obj.path} key={i} className={`header-link ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
-							{obj.name}
-						</Link>
-					))}
+					{links.map((obj, i) => {
+						let props = {};
+						if (obj.onClick)
+							props = {
+								onClick: () => {
+									obj.onClick();
+									this._toggleMenu();
+								}
+							};
+						else props = { onClick: this._toggleMenu };
+
+						return (
+							<Link
+								to={{
+									pathname: obj.path
+									// state: { prevPath: this.props.location.pathname }
+								}}
+								key={i}
+								className={`header-link ${this.state.offsetTop > 0 ? "shrink" : ""}`}
+								{...props}
+							>
+								{obj.name}
+							</Link>
+						);
+					})}
 				</nav>
+				<UserFormScreen showModal={this.state.isModalOpen} onClose={this._handleModalClickOut} />
 			</header>
 		);
 	};

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { iconRobot } from "../assets";
 
 export const NoMatch = ({ location }) => (
@@ -12,7 +13,9 @@ export const NoMatch = ({ location }) => (
 				{/* <h3>No match for <code>{location.pathname}</code></h3> */}
 				<h3 className="no-match-message">Oops! This page does not exist.</h3>
 			</hgroup>
-			<a className="btn">go back</a>
+			<Link className="btn" to="/">
+				go back
+			</Link>
 		</div>
 	</article>
 );

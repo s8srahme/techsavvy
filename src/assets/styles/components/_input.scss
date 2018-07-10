@@ -1,4 +1,4 @@
-.input-txt {
+.txt-input {
 	@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-dark-gray, 1);
 	@include transition(all 0.2s ease-in 0s);
 	height: 44px;
@@ -10,7 +10,39 @@
 
 	&::placeholder {
 		@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-medium-gray, 1);
-		text-transform: uppercase;
+		text-transform: capitalize;
+	}
+	&:focus {
+		border-color: $color-dark-gray;
+		outline: none;
+		color: $color-dark-gray;
+	}
+	&.inverse {
+		color: $color-light-gray;
+		background-color: $color-dark-gray;
+
+		&:focus {
+			border-color: $color-light-gray;
+			color: $color-light-gray;
+		}
+	}
+}
+
+.txt-area {
+	@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-dark-gray, 1);
+	@include transition(all 0.2s ease-in 0s);
+	background-color: darken($color-light-gray, 3%);
+	height: 0;
+	min-height: 150px;
+	padding: $gutter-sm;
+	width: 100%;
+	border: 0 solid $color-medium-gray;
+	border-right-width: 3px;
+	border-radius: 5px;
+	resize: none;
+
+	&::placeholder {
+		@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-medium-gray, 1);
 	}
 
 	&:focus {
@@ -20,7 +52,7 @@
 	}
 }
 
-.btn-radio {
+.radio-btn {
 	display: flex;
 	width: $font-size-small;
 	height: $font-size-small;

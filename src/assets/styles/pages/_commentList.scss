@@ -1,0 +1,166 @@
+.comment-content {
+	background-color: darken($color-light-gray, 5%);
+
+	.container {
+		max-width: $breakpoint-md;
+		padding: $gutter-xxxl 0;
+
+		.row {
+			.comment-heading-wrapper {
+				padding: 0 $gutter-md;
+			}
+
+			.comment-card {
+				margin: 0 $gutter-md;
+				padding: $gutter-md;
+				background-color: $color-light-gray;
+
+				.comment-card-heading-wrapper {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: flex-start;
+
+					.comment-card-img-wrapper {
+						width: 75px;
+						height: 75px;
+						border-radius: 50%;
+						overflow: hidden;
+						position: relative;
+						&:hover > img {
+							transform: scale(1.2);
+						}
+
+						.comment-thumbnail {
+							display: block;
+							@include transition(transform 0.4s ease-in-out 0s);
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+						}
+						.comment-card-img-overlay {
+							position: absolute;
+							bottom: 0;
+							left: 0;
+							right: 0;
+							top: 0;
+							z-index: 1;
+							background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.1), rgba($color-dark-gray, 0.8));
+						}
+					}
+					.comment-card-title-wrapper {
+						display: flex;
+						flex: 1;
+						flex-direction: column;
+						margin-left: $gutter-md;
+
+						h3 {
+							text-transform: capitalize;
+							@include breakpoint(xs) {
+								font-size: $font-size-regular;
+							}
+						}
+						time {
+							@include font($font-size-small, $font-weight-regular, $font-style-regular, $color-medium-gray);
+							font-variant: small-caps;
+						}
+					}
+					.comment-card-clickable-title-wrapper {
+						display: flex;
+						flex: 1;
+						flex-direction: column;
+						margin-left: $gutter-md;
+
+						h3 {
+							@include transition(color 0.2s ease-in 0s);
+							color: $color-medium-gray;
+							// text-transform: capitalize;
+							&:hover {
+								cursor: pointer;
+								color: $color-dark-gray;
+							}
+							@include breakpoint(xs) {
+								font-size: $font-size-regular;
+							}
+						}
+					}
+
+					.comment-card-dropdown-wrapper {
+						// justify-self: flex-end;
+						position: relative;
+
+						.comment-card-dropdown-btn {
+							display: flex;
+							flex-direction: column;
+							align-items: flex-end;
+							justify-content: flex-start;
+							padding: $gutter-sm;
+
+							&:hover {
+								cursor: pointer;
+								.comment-card-dropdown-icon {
+									color: $color-dark-gray;
+								}
+							}
+							.comment-card-dropdown-icon {
+								color: $color-medium-gray;
+								height: $font-size-x-large;
+								width: $font-size-x-large;
+								@include transition(color 0.2s ease-in 0s);
+								@include breakpoint(xs) {
+									height: $font-size-large;
+									width: $font-size-large;
+								}
+							}
+						}
+						.comment-card-dropdown-list {
+							@include box-shadow(all);
+							position: absolute;
+							z-index: 1;
+							right: 0;
+							display: flex;
+							flex-direction: column;
+							padding: $gutter-sm 0;
+							background-color: $color-light-gray;
+
+							.comment-card-dropdown-item {
+								@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3);
+								padding: $gutter-sm $gutter-md;
+								width: 150px;
+								&:hover {
+									cursor: pointer;
+									background-color: darken($color-light-gray, 5%);
+								}
+							}
+						}
+					}
+				}
+				#comment-form {
+					.txt-area {
+						margin: $gutter-sm 0;
+					}
+					.comment-inputs-wrapper {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+
+						.btn {
+							@include breakpoint(xs) {
+								flex: 1;
+								justify-content: center;
+								padding: 0;
+								// font-size: $font-size-small;
+							}
+							&:last-child {
+								margin-left: $gutter-sm;
+							}
+						}
+					}
+				}
+				p {
+					margin-top: $gutter-sm;
+				}
+			}
+		}
+	}
+}

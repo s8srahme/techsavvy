@@ -15,9 +15,10 @@ $font-style-italic: italic;
 $font-style-oblique: oblique;
 
 $font-family-dosis: "Dosis", sans-serif;
+$font-family-times-new-roman: "Times New Roman", serif;
 
 h1 {
-	@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1);
+	@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1, -1px);
 }
 h2 {
 	@include font($font-size-x-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.1);
@@ -25,6 +26,7 @@ h2 {
 h3 {
 	@include font($font-size-large, $font-weight-light, $font-style-regular, $color-dark-gray, 1.1);
 }
+h4,
 p {
 	@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3);
 }
