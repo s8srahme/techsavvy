@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { ChevronDown } from "react-feather";
+import { ChevronDown, Edit2, Delete } from "react-feather";
+import { Dropdown } from ".";
 
 class CommentEditing extends Component {
 	constructor(props) {
@@ -153,14 +154,21 @@ class CommentView extends Component {
 								<ChevronDown className="comment-card-dropdown-icon" />
 							</div>
 							{isDropdownActive && (
-								<ul className="comment-card-dropdown-list">
-									<li onClick={() => this._handleEditClickIn()} className="comment-card-dropdown-item">
-										Edit
-									</li>
-									<li onClick={() => {}} className="comment-card-dropdown-item">
-										Delete
-									</li>
-								</ul>
+								// <ul className="comment-card-dropdown-list">
+								// 	<li onClick={() => this._handleEditClickIn() } className="comment-card-dropdown-item">
+								// 		Edit
+								// 	</li>
+								// 	<li onClick={() => {}} className="comment-card-dropdown-item">
+								// 		Delete
+								// 	</li>
+								// </ul>
+								<Dropdown
+									shouldDropdownShrink={this.state.offsetTop > 0}
+									items={[
+										{ icon: Edit2, title: "Edit", onClick: () => this._handleEditClickIn() },
+										{ icon: Delete, title: "Delete", onClick: () => {} }
+									]}
+								/>
 							)}
 						</div>
 					</header>

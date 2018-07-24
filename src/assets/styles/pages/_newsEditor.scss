@@ -67,10 +67,10 @@
 				width: 100%;
 
 				.news-editor-form-title {
-					@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1);
-					min-height: 75px;
+					@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-dark-gray, 1);
+					min-height: 80px;
 					margin-bottom: $gutter-md;
-					padding: $gutter-sm;
+					padding: $gutter-md;
 
 					// &.resize {
 					// 	padding: $gutter-sm;
@@ -88,17 +88,19 @@
 					}
 
 					&::placeholder {
-						@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-medium-gray, 1);
+						@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-medium-gray, 1);
+						letter-spacing: normal;
 					}
 				}
 				.news-editor-form-description {
-					@include font($font-size-large, $font-weight-light, $font-style-regular, $color-dark-gray, 1.3);
+					@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3, 2px);
 					min-height: 300px;
 					height: auto;
 					margin-bottom: $gutter-md;
+					padding: $gutter-md;
 
 					// &.placeholder {
-					// 	@include font($font-size-large, $font-weight-light, $font-style-regular, $color-medium-gray, 1.3);
+					// 	@include font($font-size-large, $font-weight-light, $font-style-regular, $color-medium-gray, 1.3, 2px);
 					// }
 
 					h2 {
@@ -109,26 +111,22 @@
 						margin: $gutter-xl 0 $gutter-md;
 					}
 					p {
-						text-align: justify;
+						// text-align: justify;
 						margin-bottom: $gutter-md;
-						@include font($font-size-large, $font-weight-light, $font-style-regular, $color-dark-gray, 1.3);
+						@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3, 2px);
 
 						&:last-child {
 							margin-bottom: 0;
 						}
-						a {
-							@extend .link;
-						}
+					}
+					a {
+						@extend .link;
 					}
 					blockquote {
-						@include font($font-size-large, $font-weight-light, $font-style-italic, $color-dark-gray, 1.3);
+						@include font($font-size-large, $font-weight-regular, $font-style-italic, $color-dark-gray, 1.3, 2px);
 						border-left: 3px solid $color-dark-gray;
 						padding: $gutter-sm $gutter-md;
 						margin-bottom: $gutter-md;
-
-						a {
-							@extend .link;
-						}
 					}
 				}
 				.news-editor-tags-wrapper {
@@ -136,6 +134,7 @@
 
 					h4 {
 						margin-bottom: $gutter-xs;
+						letter-spacing: normal;
 						@include breakpoint(xs) {
 							text-align: center;
 						}
@@ -146,33 +145,6 @@
 						flex-wrap: wrap;
 						@include breakpoint(xs) {
 							justify-content: center;
-						}
-
-						.news-editor-tag {
-							padding: 0.8rem $gutter-sm;
-							background-color: darken($color-light-gray, 5%);
-							border-radius: 3px;
-							margin: $gutter-xs;
-							@include transition(all 0.2s ease-in 0s);
-
-							&:first-child {
-								margin-left: 0;
-							}
-							&:hover {
-								cursor: pointer;
-								background-color: darken($color-light-gray, 10%);
-							}
-							&.active {
-								background-color: $color-dark-gray;
-								span {
-									color: $color-light-gray;
-								}
-							}
-
-							span {
-								text-transform: capitalize;
-								color: $color-dark-gray;
-							}
 						}
 					}
 				}

@@ -8,7 +8,8 @@ import {
 	BlogEditorScreen,
 	NoMatchScreen,
 	HomeScreen,
-	UserViewScreen
+	UserViewScreen,
+	UserEditingScreen
 } from "../screens";
 
 // const RootComponent = props => {
@@ -59,6 +60,7 @@ const RootComponent = withRouter(({ location, history, match }) => {
 							}}
 						/>
 						<Route exact path="/user/:id" component={UserViewScreen} />
+						<Route exact path="/user/:id/edit" component={UserEditingScreen} />
 						<Route component={NoMatchScreen} />
 					</Switch>
 				</CSSTransition>

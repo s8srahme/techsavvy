@@ -1,8 +1,26 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import {
+	iconMale
+	// iconFemale
+} from "../../assets";
 
 export class UserView extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isAdmin: false
+		};
+	}
+
+	componentWillMount = () => {
+		const { data } = this.props;
+		this.setState({ isAdmin: data.admin });
+	};
+
 	render = () => {
 		const { data } = this.props,
+			{ isAdmin } = this.state,
 			stats = [
 				{ label: "Stories", value: 18 },
 				{ label: "Followers", value: 512 },
@@ -24,7 +42,11 @@ export class UserView extends Component {
 						<header className="row">
 							<figure className="column user-heading-wrapper">
 								<div className="user-img-wrapper">
-									<img src={data.image_url} alt="user infographic" className="user-thumbnail" />
+									<img
+										src={data.image_url ? data.image_url : iconMale}
+										alt="user infographic"
+										className="user-thumbnail"
+									/>
 									<div className="user-img-overlay" />
 								</div>
 								<figcaption className="user-info-wrapper">
@@ -32,15 +54,10 @@ export class UserView extends Component {
 										<h1>{data.name}</h1>
 										<h4>{data.location}</h4>
 									</hgroup>
-									<p>{data.bio}</p>
+									{/* <p>{data.bio}</p> */}
 								</figcaption>
 							</figure>
 						</header>
-						<div className="row">
-							<div className="column btn-wrapper">
-								<button className="btn">follow</button>
-							</div>
-						</div>
 						<ul className="row user-stats">
 							{stats.map((obj, i) => (
 								<li key={i} className="column user-stats-item">
@@ -49,6 +66,20 @@ export class UserView extends Component {
 								</li>
 							))}
 						</ul>
+						<footer className="row">
+							<div className="column btn-wrapper">
+								<p>{data.bio}</p>
+								{!isAdmin ? (
+									<Link to={`/user/${data._id}/edit`} className="btn">
+										edit
+									</Link>
+								) : (
+									<button className="btn" onClick={() => {}}>
+										follow
+									</button>
+								)}
+							</div>
+						</footer>
 					</section>
 				</div>
 			</main>

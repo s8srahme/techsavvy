@@ -10,6 +10,7 @@
 	&-control-group {
 		display: flex;
 		flex-direction: row;
+		margin-bottom: -$gutter-sm;
 
 		// .slider-control {
 		// }
@@ -35,13 +36,13 @@
 			// }
 			.slider-caption {
 				font-weight: $font-weight-bold;
-				font-style: $font-style-italic;
 				text-transform: uppercase;
+				letter-spacing: 2px;
 			}
 			.slider-txt {
 				text-align: center;
 				font-style: $font-style-italic;
-				margin-bottom: $gutter-md;
+				margin-bottom: $gutter-lg;
 				max-width: $breakpoint-sm;
 				@include breakpoint(md) {
 					max-width: $breakpoint-md;

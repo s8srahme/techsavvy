@@ -6,6 +6,7 @@ import { CommentListScreen } from "./CommentListScreen";
 import HomeScreen from "./HomeScreen";
 import { UserFormScreen } from "./User/UserFormScreen";
 import { UserViewScreen } from "./User/UserViewScreen";
+import { UserEditingScreen } from "./User/UserEditingScreen";
 
 export {
 	BlogListScreen,
@@ -15,5 +16,6 @@ export {
 	HomeScreen,
 	CommentListScreen,
 	UserFormScreen,
-	UserViewScreen
+	UserViewScreen,
+	UserEditingScreen
 };

@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { iconRobot } from "../assets";
+import { iconCaution } from "../assets";
 
 export const NoMatch = ({ location }) => (
 	<article className="no-match-content">
 		<div className="no-match-img-wrapper">
-			<img src={iconRobot} alt="no-match graphic" id="no-match-graphic" />
+			<img src={iconCaution} alt="no-match graphic" id="no-match-graphic" />
 		</div>
 		<div className="no-match-message-wrapper">
 			<hgroup>

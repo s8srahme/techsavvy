@@ -10,7 +10,7 @@ export class BlogViewScreen extends Component {
 	}
 
 	componentWillMount = () => {
-		window.scrollTo(0, 0);
+		// window.scrollTo(0, 0);
 	};
 
 	render = () => {

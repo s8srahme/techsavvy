@@ -1,8 +1,25 @@
 export let bgImgRegentStreet = require("./bg-img-regent-street.jpg");
 export let bgImgEmptyStreet = require("./bg-img-empty-street.jpg");
-export let iconRobot = require("./icon-robot.svg");
+export let bgImgTimesSquare = require("./bg-img-times-square.jpg");
+export let bgImgBusLane = require("./bg-img-bus-lane.jpg");
+export let bgImgJeshootsCom = require("./bg-img-jeshoots-com-compressed.jpg");
+export let bgImgLukasBlazek = require("./bg-img-lukas-blazek.jpg");
+export let bgImgThoughtCatalog = require("./bg-img-thought-catalog.jpg");
+export let bgImgBenchAccounting = require("./bg-img-bench-accounting.jpg");
+
+export let iconCaution = require("./icon-caution.svg");
 export let iconRedux = require("./icon-redux.svg");
 export let iconAnalytics = require("./icon-analytics.svg");
 export let iconSmartphone = require("./icon-smartphone.svg");
 export let iconPicture = require("./icon-picture.svg");
 export let iconEdit = require("./icon-edit.svg");
+export let iconMale = require("./icon-male.svg");
+export let iconFemale = require("./icon-female.svg");
+export let iconTimeManagement = require("./icon-time-management.svg");
+export let iconSearch = require("./icon-search.svg");
+export let iconScience = require("./icon-science.svg");
+export let iconGallery = require("./icon-gallery.svg");
+export let iconResponsive = require("./icon-responsive.svg");
+export let iconSetting = require("./icon-setting.svg");
+export let iconPencil = require("./icon-pencil.svg");
+export let iconPostbox = require("./icon-postbox.svg");

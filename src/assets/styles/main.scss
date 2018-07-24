@@ -20,13 +20,15 @@
 @import "./components/carousel";
 @import "./components/modal";
 @import "./components/loader";
+@import "./components/dropdown";
 
 @import "./pages/home";
 @import "./pages/newsList";
 @import "./pages/newsView";
 @import "./pages/newsEditor";
 @import "./pages/commentList";
-@import "./pages/userList";
-@import "./pages/userForm";
-@import "./pages/userView";
+@import "./pages/User/userList";
+@import "./pages/User/userForm";
+@import "./pages/User/userView";
+@import "./pages/User/userEditing";
 @import "./pages/noMatch";

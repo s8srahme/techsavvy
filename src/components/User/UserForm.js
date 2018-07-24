@@ -59,7 +59,7 @@ export class UserForm extends React.Component {
 		return (
 			<form name="user-register-form" id="user-register-form" className="row" onSubmit={this._handleFormSubmit}>
 				<fieldset>
-					<legend>Let’s make things official.</legend>
+					{/* <legend>Let’s make things official.</legend> */}
 					<div className="user-form-input-wrapper">
 						<input
 							type="text"
@@ -129,7 +129,7 @@ export class UserForm extends React.Component {
 		return (
 			<form name="user-login-form" id="user-login-form" className="row" onSubmit={this._handleFormSubmit}>
 				<fieldset>
-					<legend>Welcome back.</legend>
+					{/* <legend>Welcome back.</legend> */}
 					<div className="user-form-input-wrapper">
 						<input
 							type="email"

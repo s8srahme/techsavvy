@@ -26,10 +26,13 @@ export class NewsView extends Component {
 						<section className="row">
 							<article className="column">
 								<header className="news-info-wrapper">
-									<span>{data.category}</span>
+									<div className="news-tag-wrapper">
+										<span className="tag active">{data.category}</span>
+									</div>
 									<h1>{data.title}</h1>
 									<div className="news-meta">
-										<span>{data.author_name}</span>
+										<span>{data.author_name.toLowerCase()}</span>
+										<span>{"\u00b7"}</span>
 										<time>{data.timestamp}</time>
 									</div>
 								</header>

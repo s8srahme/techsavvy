@@ -3,15 +3,15 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
+	// background-position: center center;
+	// background-repeat: no-repeat;
+	// background-attachment: fixed;
+	// background-size: cover;
 	background-color: $color-dark-gray;
 	height: 100vh;
 	width: 100%;
 	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));
-	padding-top: 8.2rem;
+	padding-top: 10rem;
 
 	.no-match-message-wrapper {
 		display: flex;
@@ -20,6 +20,7 @@
 
 		hgroup {
 			margin: $gutter-sm 0 $gutter-xxxl;
+
 			h1 {
 				font-weight: $font-weight-bold;
 				color: $color-light-gray;
@@ -27,6 +28,7 @@
 				text-align: center;
 			}
 			h3 {
+				margin-top: $gutter-xs;
 				color: $color-light-gray;
 				@include breakpoint(0, $breakpoint-sm) {
 					text-align: center;

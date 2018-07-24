@@ -48,13 +48,13 @@ export class Footer extends Component {
 				<div className="container">
 					<section className="row">
 						<article className="column _55">
-							<h2>lonelyblock</h2>
+							<h2>Techsavvy</h2>
 							<p>
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt.
 								Curabitur id augue ornare, mattis metus quis, feugiat elit.
 							</p>
 							<span>
-								&copy; 2018 Made with<Heart className="footer-icon" />by Sabbir Ahmed
+								&copy; 2018 Made with<Heart className="footer-icon" />by TheBlackSheep
 							</span>
 						</article>
 						<article className="column _20">

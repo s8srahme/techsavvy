@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-26.875" y1="556.853" x2="-26.875" y2="618.881" gradientTransform="matrix(8 0 0 -8 455 4941)">
+	<stop  offset="0" style="stop-color:#006DF0"/>
+	<stop  offset="1" style="stop-color:#00E7F0"/>
+</linearGradient>
+<path style="fill:url(#SVGID_1_);" d="M456,0H168c-13.255,0-24,10.745-24,24v176H40c-13.255,0-24,10.745-24,24v160H8
+	c-4.418,0-8,3.582-8,8c0.026,22.08,17.92,39.974,40,40h256c22.069,0.022,39.978-17.851,40-39.92c0-0.027,0-0.053,0-0.08
+	c0-4.418-3.582-8-8-8h-8v-88h88c4.418,0,8-3.582,8-8s-3.582-8-8-8h-41.968l-11.424-40H456c13.255,0,24-10.745,24-24l0,0V24
+	C480,10.745,469.255,0,456,0z M313.024,408.944c-4.519,4.51-10.64,7.047-17.024,7.056H40c-10.168-0.012-19.229-6.418-22.632-16H136
+	c0,4.418,3.582,8,8,8h48c4.418,0,8-3.582,8-8h118.632C317.44,403.356,315.525,406.409,313.024,408.944L313.024,408.944z M192,384
+	c-4.418,0-8,3.582-8,8h-32c0-4.418-3.582-8-8-8H32V224c0-4.418,3.582-8,8-8h256c4.418,0,8,3.582,8,8v160H192z M349.392,280H320v-40
+	h17.968L349.392,280z M464,216c0,4.418-3.582,8-8,8H320c0-13.255-10.745-24-24-24H160V24c0-4.418,3.582-8,8-8h288
+	c4.418,0,8,3.582,8,8V216z"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-5.875" y1="556.853" x2="-5.875" y2="618.881" gradientTransform="matrix(8 0 0 -8 455 4941)">
+	<stop  offset="0" style="stop-color:#006DF0"/>
+	<stop  offset="1" style="stop-color:#00E7F0"/>
+</linearGradient>
+<path style="fill:url(#SVGID_2_);" d="M440,304h-64c-13.255,0-24,10.745-24,24v128c0,13.255,10.745,24,24,24h64
+	c13.255,0,24-10.745,24-24V328C464,314.745,453.255,304,440,304z M448,456c0,4.418-3.582,8-8,8h-64c-4.418,0-8-3.582-8-8V328
+	c0-4.418,3.582-8,8-8h64c4.418,0,8,3.582,8,8V456z"/>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>

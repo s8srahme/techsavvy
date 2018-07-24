@@ -1,8 +1,29 @@
 import React, { Component } from "react";
-import { bgImgRegentStreet, iconRedux, iconSmartphone, iconAnalytics } from "../assets";
+import {
+	bgImgJeshootsCom,
+	// iconRedux,
+	iconSmartphone,
+	iconAnalytics,
+	iconGallery,
+	iconPencil,
+	iconScience,
+	iconTimeManagement,
+	iconResponsive,
+	iconSearch,
+	iconPostbox
+} from "../assets";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
-import { NewsList } from "../components";
-import { slugify } from "../utils";
+import { NewsList, Loader } from "../components";
+import { slugify, truncate } from "../utils";
+
+const breakpoint = {
+	xs: 320,
+	sm: 480,
+	md_2: 600,
+	md: 768,
+	lg: 1024,
+	xl: 1280
+};
 
 export default class HomeScreen extends Component {
 	constructor(props) {
@@ -10,26 +31,39 @@ export default class HomeScreen extends Component {
 		this.state = {
 			slideCount: 0,
 			translateValue: 0,
-			offsetTop: 0
-			// windowHeight: window.innerHeight,
-			// windowWidth: window.innerWidth
+			offsetTop: 0,
+			isContactLoading: false,
+			errorInputIndex: -1,
+			contactEmail: "",
+			windowHeight: window.innerHeight,
+			windowWidth: window.innerWidth
 		};
 	}
 
-	// _handleResize = e => {
-	// 	this.setState({
-	// 		windowHeight: window.innerHeight,
-	// 		windowWidth: window.innerWidth
-	// 	});
-	// };
+	_handleResize = e => {
+		this.setState({
+			windowHeight: window.innerHeight,
+			windowWidth: window.innerWidth
+		});
+	};
+
+	_handleScroll = e => {
+		let offsetTop = this.instance.getBoundingClientRect().top;
+		this.setState(
+			{ offsetTop }
+			// , () => console.log(offsetTop)
+		);
+	};
 
 	componentDidMount = () => {
-		// 	window.addEventListener("resize", this._handleResize);
+		window.scrollTo(0, 0);
+		window.addEventListener("resize", this._handleResize);
+		window.addEventListener("scroll", this._handleScroll);
 	};
 
 	componentWillUnmount = () => {
-		// window.removeEventListener("resize", this._handleResize);
-		window.scrollTo(0, 0);
+		window.removeEventListener("resize", this._handleResize);
+		window.removeEventListener("scroll", this._handleScroll);
 	};
 
 	render = () => {
@@ -82,20 +116,20 @@ export default class HomeScreen extends Component {
 					category: "tech",
 					author: "LEAH STODART",
 					slug: slugify("This Samsung smart TV deal is HUGE — both in screen size and discount")
+				},
+				{
+					thumbnail:
+						"https://i.amz.mshcdn.com/e7CcQOUVZ11v8ZxZMpY7b5utGiY=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F722728%2F18aba02e-ce15-4af5-a077-6946cbd81fb4.jpg",
+					title: "iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers",
+					subtitle:
+						"No more numbers, no more upgrade treadmills: When Apple launches its new lineup of iPhones, there's only one thing it should call them, and that thing is 'iPhone.'",
+					description:
+						"We already have a MacBook, an iPad, and an iPod Touch, but Apple continues to develop its most popular device through a series of numbered, annual updates.",
+					timestamp: "6 mins ago",
+					category: "tech",
+					author: "DAMON BERES",
+					slug: slugify("iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers")
 				}
-				// {
-				// 	thumbnail:
-				// 		"https://i.amz.mshcdn.com/e7CcQOUVZ11v8ZxZMpY7b5utGiY=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F722728%2F18aba02e-ce15-4af5-a077-6946cbd81fb4.jpg",
-				// 	title: "iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers",
-				// 	subtitle:
-				// 		"No more numbers, no more upgrade treadmills: When Apple launches its new lineup of iPhones, there's only one thing it should call them, and that thing is 'iPhone.'",
-				// 	description:
-				// 		"We already have a MacBook, an iPad, and an iPod Touch, but Apple continues to develop its most popular device through a series of numbered, annual updates.",
-				// 	timestamp: "6 mins ago",
-				// 	category: "tech",
-				// 	author: "DAMON BERES",
-				// 	slug: slugify("iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers")
-				// }
 			],
 			socials = [
 				{ name: Twitter, href: "" },
@@ -170,56 +204,62 @@ export default class HomeScreen extends Component {
 				},
 				{
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo. Nullam at mauris ac lorem varius pellentesque at a orci.",
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo.",
+					author: "RAYMOND WONG"
+				},
+				{
+					description:
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis.",
 					author: "Andy Tran"
 				},
 				{
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo. Nullam at mauris ac lorem varius pellentesque at a orci.",
-					author: "Andy Tran"
-				},
-				{
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo. Nullam at mauris ac lorem varius pellentesque at a orci.",
-					author: "Andy Tran"
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum.",
+					author: "RAYMOND WONG"
 				}
 			],
 			features = [
 				{
 					name: Airplay,
+					icon: iconResponsive,
 					title: "fully responsive",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit."
-				},
-				{
-					name: ZoomIn,
-					title: "seo friendly",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit."
+						"Our website uses flexible grids and layouts to resize the content according to the size of the device that it is being viewed on."
 				},
 				{
 					name: Copy,
-					title: "drag & drop",
+					icon: iconPencil,
+					title: "Unique Typography",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit."
+						"We have a particular font used to help our viewers immediately identify us, making it easier for us to more accurately express ourselves through typography."
 				},
 				{
 					name: Airplay,
-					title: "retina display",
+					icon: iconGallery,
+					title: "Semi-Flat Design",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit."
+						"Not only is our flat design easier for users to comprehend, but it can also load more quickly on websites without complicated or overly-technical elements."
 				},
 				{
 					name: Box,
-					title: "out of the box",
+					icon: iconTimeManagement,
+					title: "Fast Loading",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit."
+						"We ensure a fast and smooth experience for our site visitors and allow users to interact with us without reloading the page."
 				},
 				{
 					name: Users,
-					title: "24/7 support",
+					icon: iconScience,
+					title: "Progressive Web App",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit."
+						"Our app comes with PWA features to bring the best of mobile sites and native apps to users. It is reliable, fast, and engaging. It originates from a secure origin and loads regardless of network state."
+				},
+				{
+					name: ZoomIn,
+					icon: iconSearch,
+					title: "seo friendly",
+					description:
+						"By using the right keywords in specific website headers and text areas, we try to rank higher in popular engines, like Google, for gaining much sought after exposure."
 				}
 			],
 			about = [
@@ -227,14 +267,14 @@ export default class HomeScreen extends Component {
 					icon: iconAnalytics,
 					title: "Explore interesting ideas and perspectives",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit.",
+						"We tap into the brains of the world’s most insightful writers, thinkers, and storytellers to bring you the smartest takes on topics that matter.",
 					routeName: ""
 				},
 				{
 					icon: iconSmartphone,
-					title: "Share your stories on-the-go",
+					title: "Share and follow stories on the go",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum orci quis gravida tincidunt. Curabitur id augue ornare, mattis metus quis, feugiat elit.",
+						"Our mobile app offers instant access by a simple tap, allowing you to consume your content quickly and offering seamless experience.",
 					routeName: ""
 				}
 			],
@@ -271,10 +311,7 @@ export default class HomeScreen extends Component {
 				}
 			];
 		return (
-			<main
-				className="wrapper"
-				// ref={n => (this.node = n)}
-			>
+			<main className="wrapper" ref={el => (this.instance = el)}>
 				{this._renderLandingContent()}
 				{this._renderContactContent(socials)}
 				<NewsList data={news} />
@@ -291,67 +328,88 @@ export default class HomeScreen extends Component {
 		<figure
 			className="landing-content"
 			style={{
-				backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)),
-			url(${bgImgRegentStreet})`,
-				paddingTop: `${this.state.offsetTop > 0 ? "8.2rem" : "5rem"}`
+				backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
+			url(${bgImgJeshootsCom})`,
+				paddingTop: `${this.state.offsetTop < 0 ? "5rem" : "10rem"}`
 			}}
 		>
-			<div className="landing-img-wrapper">
-				{/* <img src="https://dummyimage.com/250x250/ffffff/333333.png" alt="landing graphic" id="landing-graphic" /> */}
-				<img src={iconRedux} alt="landing graphic" id="landing-graphic" />
-			</div>
-			<div className="landing-message-wrapper">
-				<figcaption className="landing-message">I Make Creative, Clever, React Apps. Simple.</figcaption>
-				<a className="btn inverse">let's rock</a>
+			<div className="container">
+				<section className="row">
+					<article className="landing-message-wrapper column">
+						<figcaption className="landing-message">Open content publishing for tech enthusiasts</figcaption>
+						<span className="separator" />
+						<h4>Document your insights and grow an audience around the things you are passionate about.</h4>
+						<button className="btn">Explore</button>
+					</article>
+					<article className="column _20" />
+				</section>
 			</div>
 		</figure>
 	);
 
+	// _renderLandingContent = () => (
+	// 	<figure
+	// 		className="landing-content"
+	// 		style={{
+	// 			backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, .4), rgba(0, 0, 0, 0.8)),
+	// 		url(${bgImgBusLane})`,
+	// 			paddingTop: `${this.state.offsetTop > 0 ? "10rem" : "5rem"}`
+	// 		}}
+	// 	>
+	// 		{/* <div className="landing-img-wrapper">
+	// 			<img src={iconRedux} alt="landing graphic" id="landing-graphic" />
+	// 		</div> */}
+	// 		<div className="landing-message-wrapper">
+	// 			<figcaption className="landing-message">Open content publishing for tech enthusiasts</figcaption>
+	// 			<h3>Document your insights and grow an audience around the things you are passionate about.</h3>
+	// 			<button className="btn inverse">scroll down</button>
+	// 		</div>
+	// 	</figure>
+	// );
+
+	_handleFormSubmit = event => {
+		event.preventDefault();
+		const { contactEmail } = this.state;
+
+		this.setState({ isContactLoading: true }, () => console.log(contactEmail));
+	};
+
 	_renderContactContent = socials => (
 		<div className="contact-content">
 			<section className="container">
-				<header className="row contact-heading-wrapper">
-					<h1>Do not miss a thing</h1>
-				</header>
-				<form action="" name="contact-form" id="contact-form" className="row">
+				<figure className="row contact-img-wrapper">
+					<img src={iconPostbox} alt="contact infographic" className="contact-graphic" />
+					<figcaption>Subscribe</figcaption>
+				</figure>
+				<form
+					// action=""
+					name="contact-form"
+					id="contact-form"
+					className="row"
+					onSubmit={this._handleFormSubmit}
+				>
 					<fieldset>
-						<legend>Be the first to find out about our news, updates and announcements.</legend>
-						{/* <label for="name">Email</label> */}
-						<div className="contact-inputs-wrapper">
+						<legend>Sign up for our newsletter and get notified about the next update.</legend>
+						<div className="contact-input-wrapper">
+							{/* <label for="name">Email</label> */}
 							<input
 								type="email"
-								// name="email"
+								name="email"
 								id="email"
 								className="txt-input"
-								placeholder="Your email"
+								placeholder="Put your email address here"
 								autoComplete="off"
 								required
+								value={this.state.contactEmail}
+								onChange={event => this.setState({ contactEmail: event.target.value })}
 							/>
-							<input type="submit" className="btn" value="Subscribe" />
+							{this.state.errorInputIndex === 0 && <span>Please enter a valid email address</span>}
 						</div>
-						{/* <span>Please enter a valid address.</span> */}
+						<div className="contact-input-wrapper">
+							{this.state.isContactLoading ? <Loader /> : <input type="submit" className="btn" value="sign me up" />}
+						</div>
 					</fieldset>
 				</form>
-				<footer className="row">
-					<span>Stay connected</span>
-					<div className="contact-socials-wrapper">
-						{socials.map((social, index) => {
-							const Icon = social["name"];
-							return (
-								<a key={index} className="contact-social">
-									<Icon
-										className="contact-icon"
-										// color={"red"}
-										// size={48}
-										// onClick={() => {
-										// 	alert("it's working");
-										// }}
-									/>
-								</a>
-							);
-						})}
-					</div>
-				</footer>
 			</section>
 		</div>
 	);
@@ -361,16 +419,16 @@ export default class HomeScreen extends Component {
 			<div key={index} className="about-content">
 				<div className="container">
 					<section className="row">
+						<figure className="column about-img-wrapper">
+							<img src={item.icon} alt="about infographic" className="about-graphic" />
+						</figure>
 						<article className="column about-info-wrapper">
-							<h2>{item.title}</h2>
+							<h1>{item.title}</h1>
 							<p>{item.description}</p>
 							<div className="btn-wrapper">
 								<a className="btn">learn more</a>
 							</div>
 						</article>
-						<figure className="column about-img-wrapper">
-							<img src={item.icon} alt="about infographic" className="about-graphic" />
-						</figure>
 					</section>
 				</div>
 			</div>
@@ -398,12 +456,12 @@ export default class HomeScreen extends Component {
 		return rows;
 	};
 
-	_handleOptionChange = (e, arr) => {
-		e.preventDefault();
-		const [slideCount, i] = [this.state.slideCount, e.target.value];
+	_handleOptionChange = (e, length) => {
+		// e.preventDefault();
+		const [slideCount, i] = [this.state.slideCount, Number(e.target.value)];
 
 		if (i === slideCount) return;
-		else this.setState({ translateValue: -((i / arr.length) * 100), slideCount: i });
+		else this.setState({ translateValue: -((i / length) * 100), slideCount: i });
 	};
 
 	_renderClientContent = (testimonials, clients) => (
@@ -426,7 +484,7 @@ export default class HomeScreen extends Component {
 										// name="slider"
 										// title="slide1"
 										checked={this.state.slideCount === i}
-										onChange={e => this._handleOptionChange(e, testimonials)}
+										onChange={e => this._handleOptionChange(e, testimonials.length)}
 									/>
 								);
 							})}
@@ -438,12 +496,25 @@ export default class HomeScreen extends Component {
 								width: `${100 * testimonials.length}%`
 							}}
 						>
-							{testimonials.map((obj, index) => (
-								<div key={index} className="slider-contents">
-									<p className="slider-txt">{obj.description}</p>
-									<span className="slider-caption">{obj.author}</span>
-								</div>
-							))}
+							{testimonials.map((obj, index) => {
+								let { windowWidth } = this.state,
+									description = "";
+
+								if (windowWidth >= breakpoint.md) {
+									description = truncate(obj.description, 350, " ");
+								} else if (windowWidth < breakpoint.md && windowWidth >= breakpoint.sm) {
+									description = truncate(obj.description, 200, " ");
+								} else {
+									description = truncate(obj.description, 150, " ");
+								}
+
+								return (
+									<div key={index} className="slider-contents">
+										<p className="slider-txt">{description}</p>
+										<h4 className="slider-caption">{`\u2015 ${obj.author}`}</h4>
+									</div>
+								);
+							})}
 						</div>
 					</article>
 				</section>
@@ -475,7 +546,7 @@ export default class HomeScreen extends Component {
 								<img src={col.thumbnail} alt="card infographic" className="work-thumbnail" />
 							</div>
 							<figcaption className="work-card-info-wrapper">
-								<span>{col.category}</span>
+								<h4>{col.category}</h4>
 								<h3>{col.title}</h3>
 							</figcaption>
 						</figure>
@@ -502,7 +573,7 @@ export default class HomeScreen extends Component {
 								<figcaption className="team-card-info-wrapper">
 									<hgroup>
 										<h2>{col.title}</h2>
-										<span>{col.subtitle}</span>
+										<h4>{col.subtitle}</h4>
 									</hgroup>
 									{/* <p>{col.description}</p> */}
 									<Socials data={col.socials} />
@@ -545,11 +616,12 @@ export default class HomeScreen extends Component {
 			rows.push(
 				<section key={rowKey} className="row feature-cards-wrapper">
 					{cols.map((col, colKey) => {
-						const Icon = col["name"];
+						// const Icon = col["name"];
 						return (
 							<figure key={colKey} className="column feature-card">
 								<span className="feature-icon-wrapper">
-									<Icon className="feature-icon" />
+									{/* <Icon className="feature-icon" /> */}
+									<img src={col.icon} alt="feature infographic" className="feature-icon" />
 								</span>
 								<figcaption className="feature-card-info-wrapper">
 									<h3>{col.title}</h3>

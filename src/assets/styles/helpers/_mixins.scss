@@ -77,18 +77,6 @@
 	}
 }
 
-// @mixin truncate($line-height: 1.1, $lines-to-show: 2) {
-// 	// white-space: nowrap;
-// 	// overflow: hidden;
-// 	// text-overflow: ellipsis;
-// 	// max-width: 450px;
-// 	// max-height: $line-height * $lines-to-show;
-// 	overflow: hidden;
-// 	display: -webkit-box;
-// 	-webkit-line-clamp: 2;
-// 	-webkit-box-orient: vertical;
-// }
-
 @mixin transition($args...) {
 	transition: $args;
 }

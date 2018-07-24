@@ -217,10 +217,10 @@ url("${this.state.featuredImage}")`
 										{tags.map((obj, i) => (
 											<li
 												key={i}
-												className={`news-editor-tag ${this.state.activeTagIndex === i && "active"}`}
+												className={`tag ${this.state.activeTagIndex === i && "active"}`}
 												onClick={() => this._handleTagClick(i)}
 											>
-												<span>{obj.name.toLowerCase()}</span>
+												{obj.name.toLowerCase()}
 											</li>
 										))}
 									</ul>

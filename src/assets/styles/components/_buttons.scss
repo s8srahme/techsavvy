@@ -27,3 +27,33 @@
 		}
 	}
 }
+
+.tag {
+	@include font($font-size-small, $font-weight-regular, $font-style-regular, $color-dark-gray, 1, 2px);
+	@include transition(all 0.2s ease-in 0s);
+	height: 30px;
+	padding: 0 $gutter-md;
+	text-transform: uppercase;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: darken($color-light-gray, 5%);
+	outline: none;
+	border-radius: 15px;
+	margin: $gutter-xs;
+
+	&:first-child {
+		margin-left: 0;
+	}
+	&:hover {
+		background-color: darken($color-light-gray, 10%);
+		cursor: pointer;
+	}
+	&.active {
+		background-color: $color-dark-gray;
+		color: $color-light-gray;
+		&:hover {
+			cursor: default;
+		}
+	}
+}

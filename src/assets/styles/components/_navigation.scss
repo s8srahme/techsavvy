@@ -1,151 +1,256 @@
-.header {
+.header-content {
 	position: fixed;
 	top: 0;
 	width: 100%;
-	display: flex;
-	align-items: center;
-	background-color: rgba($color-dark-gray, 0.9);
-	flex-direction: column;
-	justify-content: space-between;
 	z-index: 2;
+	background-color: rgba($color-dark-gray, 0.9);
 	@include transition(all 0.4s ease-in-out 0s);
 	@include breakpoint(md) {
-		flex-direction: row;
+		&.transparent {
+			background-color: transparent;
+		}
 	}
 	&.shrink {
 		background-color: rgba($color-light-gray, 1);
 		@include box-shadow(bottom);
 	}
 
-	.header-logo-wrapper {
-		height: 50px;
+	.header-wrapper {
+		position: relative;
+		margin: 0 auto;
+		max-width: $breakpoint-xl;
 		display: flex;
 		align-items: center;
+		flex-direction: column;
 		justify-content: space-between;
-		width: 100%;
-		margin: $gutter-md 0;
 		@include transition(all 0.4s ease-in-out 0s);
 		@include breakpoint(md) {
-			margin: 0;
-			width: auto;
-			flex: 2;
-			justify-content: flex-start;
-		}
-		&.shrink {
-			margin: 0;
-		}
-
-		.header-logo {
-			@include font($font-size-x-large, $font-weight-regular, $font-style-regular, $color-light-gray);
-			@include transition(all 0.4s ease-in-out 0s);
-			text-transform: uppercase;
-			padding: 0 $gutter-md;
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			@include breakpoint(0, $breakpoint-sm) {
-				font-size: $font-size-large;
-			}
-			@include breakpoint(xl) {
-				padding: 0 $gutter-lg;
-			}
-			&.shrink {
-				color: $color-dark-gray;
-			}
-
-			&:last-child {
-				cursor: pointer;
-				@include breakpoint(md) {
-					display: none;
-					overflow: hidden;
-				}
-			}
-		}
-		.header-icon-wrapper {
-			padding: 0 $gutter-md;
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-			@include breakpoint(md) {
-				display: none;
-			}
-
-			.header-icon {
-				color: $color-medium-gray;
-				height: $font-size-x-large;
-				width: $font-size-x-large;
-				@include transition(color 0.2s ease-in 0s);
-				&:hover {
-					color: $color-light-gray;
-				}
-				&.shrink:hover {
-					color: $color-dark-gray;
-				}
-			}
-		}
-	}
-
-	.header-nav {
-		display: inline-block;
-		width: 100%;
-		max-height: 0;
-		overflow: hidden;
-		border-top: none;
-		padding: 0;
-		@include transition(all 0.2s ease-in-out 0s);
-		&.collapse {
-			max-height: 299px;
-			padding: $gutter-lg 0;
-			border-top: 1px solid lighten($color-dark-gray, 15%);
-			@include breakpoint(md) {
-				padding: 0;
-				border-top: none;
-			}
-		}
-		&.shrink {
-			padding: $gutter-md 0;
-			border-color: darken($color-light-gray, 10%);
-			@include breakpoint(md) {
-				padding: 0;
-				border-top: none;
-			}
-		}
-		@include breakpoint(md) {
-			display: flex;
-			width: auto;
-			flex: 3;
 			flex-direction: row;
-			max-height: 82px;
 		}
 
-		.header-link {
-			flex: 1;
-			height: 50px;
+		.header-logo-wrapper {
+			height: 100px;
 			display: flex;
-			justify-content: center;
 			align-items: center;
-			text-transform: capitalize;
-			@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-light-gray);
+			justify-content: space-between;
+			width: 100%;
 			@include transition(all 0.4s ease-in-out 0s);
 			@include breakpoint(md) {
-				height: 82px;
-			}
-
-			&:hover {
-				background-color: $color-light-gray;
-				color: $color-dark-gray;
-			}
-			&.shrink:hover {
-				background-color: $color-dark-gray;
-				color: $color-light-gray;
+				width: 150px;
+				justify-content: flex-start;
 			}
 			&.shrink {
-				color: $color-dark-gray;
 				height: 50px;
 			}
+
+			.header-logo {
+				@include font($font-size-x-large, $font-weight-regular, $font-style-regular, $color-light-gray);
+				@include transition(all 0.4s ease-in-out 0s);
+				font-variant: small-caps;
+				height: 100%;
+				display: flex;
+				flex: 1;
+				justify-content: center;
+				align-items: center;
+				@include breakpoint(0, $breakpoint-sm) {
+					font-size: $font-size-large;
+					padding: 0 $gutter-sm;
+				}
+				@include breakpoint(md) {
+					padding-left: $gutter-md;
+					justify-content: flex-start;
+				}
+				@include breakpoint(xl) {
+					padding-left: 0;
+				}
+				&.shrink {
+					color: $color-dark-gray;
+				}
+				&:last-child {
+					cursor: pointer;
+					@include breakpoint(md) {
+						display: none;
+						overflow: hidden;
+					}
+				}
+			}
+			.header-icon-wrapper {
+				height: 100%;
+				width: 150px;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				padding-left: $gutter-md;
+				@include breakpoint(md) {
+					display: none;
+				}
+
+				.header-icon {
+					color: $color-medium-gray;
+					height: $font-size-x-large;
+					width: $font-size-x-large;
+					@include transition(color 0.2s ease-in 0s);
+					&:hover {
+						cursor: pointer;
+						color: $color-light-gray;
+					}
+					&.shrink:hover {
+						color: $color-dark-gray;
+					}
+				}
+			}
+			.header-dropdown-wrapper {
+				display: flex;
+				@include breakpoint(md) {
+					display: none;
+				}
+			}
 		}
+
+		.header-nav {
+			display: inline-block;
+			width: 100%;
+			max-height: 0;
+			overflow: hidden;
+			border-top: none;
+			padding: 0;
+			@include transition(all 0.2s ease-in-out 0s);
+			&.collapse {
+				max-height: 50px * 4 + 24px * 2 + 1px;
+				padding: $gutter-lg 0;
+				border-top: 1px solid lighten($color-dark-gray, 15%);
+				@include breakpoint(md) {
+					padding: 0;
+					border-top: none;
+				}
+			}
+			&.shrink {
+				padding: $gutter-md 0;
+				border-color: darken($color-light-gray, 10%);
+				@include breakpoint(md) {
+					padding: 0;
+					border-top: none;
+				}
+			}
+			@include breakpoint(md) {
+				display: flex;
+				width: auto;
+				justify-content: center;
+				flex: 1;
+				flex-direction: row;
+				max-height: 100px;
+			}
+
+			.header-link {
+				height: 50px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				text-transform: capitalize;
+				@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-light-gray, 1.1);
+				@include transition(all 0.4s ease-in-out 0s);
+				@include breakpoint(md) {
+					width: 100px;
+					height: 100px;
+				}
+
+				&:hover {
+					background-color: $color-light-gray;
+					color: $color-dark-gray;
+				}
+				&.shrink:hover {
+					background-color: $color-dark-gray;
+					color: $color-light-gray;
+				}
+				&.shrink {
+					color: $color-dark-gray;
+					height: 50px;
+				}
+			}
+		}
+
+		.header-dropdown-wrapper {
+			width: 150px;
+			height: 100px;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+			padding-right: $gutter-md;
+			display: none;
+			@include breakpoint(md) {
+				display: flex;
+			}
+			@include breakpoint(xl) {
+				padding-right: 0;
+			}
+			&.shrink {
+				height: 50px;
+			}
+			// &:hover {
+			// 	cursor: pointer;
+			// 	span {
+			// 		color: $color-light-gray;
+			// 		&.shrink {
+			// 			color: $color-dark-gray;
+			// 		}
+			// 	}
+			// 	.header-dropdown-img-wrapper > img {
+			// 		transform: scale(1.2);
+			// 	}
+			// }
+
+			& > span {
+				flex: 1;
+				text-align: right;
+				margin-right: $gutter-xs;
+				text-transform: uppercase;
+				// letter-spacing: 2px;
+				@include transition(all 0.4s ease-in-out 0s);
+				@include breakpoint(xs) {
+					display: none;
+				}
+			}
+			.header-dropdown-img-wrapper {
+				width: 75px;
+				height: 75px;
+				border-radius: 50%;
+				overflow: hidden;
+				position: relative;
+				@include transition(all 0.4s ease-in-out 0s);
+				&:hover {
+					cursor: pointer;
+					& > img {
+						transform: scale(1.2);
+					}
+				}
+				&.shrink {
+					height: 45px;
+					width: 45px;
+				}
+				@include breakpoint(xs) {
+					height: 45px;
+					width: 45px;
+				}
+
+				.header-thumbnail {
+					display: block;
+					@include transition(transform 0.4s ease-in-out 0s);
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+				.header-dropdown-img-overlay {
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					top: 0;
+					z-index: 1;
+					background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.1), rgba($color-dark-gray, 0.3));
+				}
+			}
+		}
+
+		// & > span {}
 	}
 }
