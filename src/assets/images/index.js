@@ -6,6 +6,7 @@ export let bgImgJeshootsCom = require("./bg-img-jeshoots-com-compressed.jpg");
 export let bgImgLukasBlazek = require("./bg-img-lukas-blazek.jpg");
 export let bgImgThoughtCatalog = require("./bg-img-thought-catalog.jpg");
 export let bgImgBenchAccounting = require("./bg-img-bench-accounting.jpg");
+export let bgImgCorinneKutz = require("./bg-img-corinne-kutz.jpg");
 
 export let iconCaution = require("./icon-caution.svg");
 export let iconRedux = require("./icon-redux.svg");

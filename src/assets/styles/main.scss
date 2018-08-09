@@ -8,6 +8,7 @@
 @import "./base/typography";
 
 @import "./layout/grid";
+@import "./layout/header";
 @import "./layout/footer";
 
 @import "./base/reset";
@@ -15,20 +16,22 @@
 @import "./components/buttons";
 @import "./components/input";
 @import "./components/links";
-@import "./components/navigation";
 @import "./components/separator";
 @import "./components/carousel";
 @import "./components/modal";
 @import "./components/loader";
 @import "./components/dropdown";
 
-@import "./pages/home";
-@import "./pages/newsList";
-@import "./pages/newsView";
-@import "./pages/newsEditor";
+@import "./pages/articles/articleList";
+@import "./pages/articles/articleView";
+@import "./pages/articles/articleEditor";
 @import "./pages/commentList";
-@import "./pages/User/userList";
-@import "./pages/User/userForm";
-@import "./pages/User/userView";
-@import "./pages/User/userEditing";
-@import "./pages/noMatch";
+@import "./pages/users/userList";
+@import "./pages/users/userForm";
+@import "./pages/users/userDetail";
+@import "./pages/users/userEditing";
+@import "./pages/home";
+@import "./pages/notFound";
+@import "./pages/about";
+@import "./pages/contact";
+@import "./pages/license";

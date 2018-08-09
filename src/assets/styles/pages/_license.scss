@@ -1,0 +1,33 @@
+.license-content {
+	background-color: $color-light-gray;
+
+	.container {
+		display: flex;
+		align-items: center;
+		max-width: $breakpoint-md;
+		padding-top: 10rem;
+		min-height: 100vh;
+
+		.row {
+			@include breakpoint(md) {
+				padding: 0;
+			}
+			.column {
+				margin: $gutter-xxl 0;
+
+				h1 {
+					margin-bottom: $gutter-xxl;
+					text-transform: uppercase;
+					text-align: center;
+				}
+				p {
+					br {
+						display: block;
+						content: "";
+						margin-bottom: $gutter-md;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,2 +1,1 @@
-// export { em, RootStyles } from "./styles";
-// export { RootImages } from "./images";
+export { _renderRoutes } from "./routes";

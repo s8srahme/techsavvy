@@ -256,7 +256,9 @@ module.exports = {
 			});
 	},
 	getUser: (req, res, next) => {
-		User.findById(req.params.id, "_id name email image_url followers following", (err, user) => {
+		const id = req.params.id === "self" ? req.userData.userId : req.params.id;
+
+		User.findById(id, "_id name email image_url followers following", (err, user) => {
 			if (err) res.status(500).json({ error: err });
 			else if (!user) res.status(404).json({ message: "User not found" });
 			else

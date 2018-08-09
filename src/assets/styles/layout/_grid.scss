@@ -26,14 +26,20 @@ $gutter-xxxl: 6.4rem;
 			@include breakpoint(md) {
 				flex: 1;
 
+				&._20 {
+					flex: 2;
+				}
 				&._25 {
 					flex: 2.5;
+				}
+				&._35 {
+					flex: 3.5;
 				}
 				&._55 {
 					flex: 5.5;
 				}
-				&._20 {
-					flex: 2;
+				&._65 {
+					flex: 6.5;
 				}
 			}
 		}

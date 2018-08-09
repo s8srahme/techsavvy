@@ -1,29 +1,35 @@
-import { Header } from "./Header";
-import { NoMatch } from "./NoMatch";
-import { NewsList } from "./NewsList";
-import { NewsView } from "./NewsView";
-import { NewsEditor } from "./NewsEditor";
-import { Footer } from "./Footer";
-import { CommentList } from "./CommentList";
-import { Modal } from "./Modal";
-import { UserForm } from "./User/UserForm";
-import { UserView } from "./User/UserView";
-import { UserEditing } from "./User/UserEditing";
-import { Loader } from "./Loader";
-import { Dropdown } from "./Dropdown";
+import Header from "./layout/Header";
+import { Footer } from "./layout/Footer";
+import { Modal } from "./common/Modal";
+import { Loader } from "./common/Loader";
+import { Dropdown } from "./common/Dropdown";
+import { ArticleList } from "./pages/articles/ArticleList";
+import { ArticleDetail } from "./pages/articles/ArticleDetail";
+import { ArticleEditor } from "./pages/articles/ArticleEditor";
+import { CommentList } from "./pages/comments/CommentList";
+import { CommentDetail } from "./pages/comments/CommentDetail";
+import { CommentEditing } from "./pages/comments/CommentEditing";
+import { UserForm } from "./pages/users/UserForm";
+import { UserDetail } from "./pages/users/UserDetail";
+import { UserEditing } from "./pages/users/UserEditing";
+import { Contact } from "./pages/Contact";
+import { NotFound } from "./pages/NotFound";
 
 export {
 	Header,
-	NoMatch,
-	NewsList,
-	NewsView,
-	NewsEditor,
 	Footer,
+	NotFound,
+	Contact,
+	ArticleList,
+	ArticleDetail,
+	ArticleEditor,
 	CommentList,
-	Modal,
+	CommentDetail,
+	CommentEditing,
 	UserForm,
-	Loader,
-	UserView,
+	UserDetail,
 	UserEditing,
+	Modal,
+	Loader,
 	Dropdown
 };

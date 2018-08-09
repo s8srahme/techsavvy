@@ -13,17 +13,8 @@ import {
 	iconPostbox
 } from "../assets";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
-import { NewsList, Loader } from "../components";
-import { slugify, truncate } from "../utils";
-
-const breakpoint = {
-	xs: 320,
-	sm: 480,
-	md_2: 600,
-	md: 768,
-	lg: 1024,
-	xl: 1280
-};
+import { ArticleList, Loader } from "../components";
+import { slugify, truncate, exportBreakpoint } from "../utils";
 
 export default class HomeScreen extends Component {
 	constructor(props) {
@@ -32,9 +23,9 @@ export default class HomeScreen extends Component {
 			slideCount: 0,
 			translateValue: 0,
 			offsetTop: 0,
-			isContactLoading: false,
+			isNewsletterLoading: false,
 			errorInputIndex: -1,
-			contactEmail: "",
+			newsletterEmail: "",
 			windowHeight: window.innerHeight,
 			windowWidth: window.innerWidth
 		};
@@ -311,16 +302,16 @@ export default class HomeScreen extends Component {
 				}
 			];
 		return (
-			<main className="wrapper" ref={el => (this.instance = el)}>
+			<div className="wrapper" ref={el => (this.instance = el)}>
 				{this._renderLandingContent()}
-				{this._renderContactContent(socials)}
-				<NewsList data={news} />
+				{this._renderNewsletterContent(socials)}
+				<ArticleList data={news} />
 				{this._renderFeatureContent(features)}
 				{this._renderAboutContent(about)}
-				{this._renderWorksContent(works)}
+				{this._renderWorkContent(works)}
 				{this._renderTeamContent(team)}
 				{this._renderClientContent(testimonials, clients)}
-			</main>
+			</div>
 		);
 	};
 
@@ -336,7 +327,7 @@ export default class HomeScreen extends Component {
 			<div className="container">
 				<section className="row">
 					<article className="landing-message-wrapper column">
-						<figcaption className="landing-message">Open content publishing for tech enthusiasts</figcaption>
+						<figcaption className="landing-message">Open content publishing for all industries</figcaption>
 						<span className="separator" />
 						<h4>Document your insights and grow an audience around the things you are passionate about.</h4>
 						<button className="btn">Explore</button>
@@ -347,51 +338,24 @@ export default class HomeScreen extends Component {
 		</figure>
 	);
 
-	// _renderLandingContent = () => (
-	// 	<figure
-	// 		className="landing-content"
-	// 		style={{
-	// 			backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, .4), rgba(0, 0, 0, 0.8)),
-	// 		url(${bgImgBusLane})`,
-	// 			paddingTop: `${this.state.offsetTop > 0 ? "10rem" : "5rem"}`
-	// 		}}
-	// 	>
-	// 		{/* <div className="landing-img-wrapper">
-	// 			<img src={iconRedux} alt="landing graphic" id="landing-graphic" />
-	// 		</div> */}
-	// 		<div className="landing-message-wrapper">
-	// 			<figcaption className="landing-message">Open content publishing for tech enthusiasts</figcaption>
-	// 			<h3>Document your insights and grow an audience around the things you are passionate about.</h3>
-	// 			<button className="btn inverse">scroll down</button>
-	// 		</div>
-	// 	</figure>
-	// );
-
 	_handleFormSubmit = event => {
 		event.preventDefault();
-		const { contactEmail } = this.state;
+		const { newsletterEmail } = this.state;
 
-		this.setState({ isContactLoading: true }, () => console.log(contactEmail));
+		this.setState({ isNewsletterLoading: true }, () => console.log(newsletterEmail));
 	};
 
-	_renderContactContent = socials => (
-		<div className="contact-content">
+	_renderNewsletterContent = socials => (
+		<div className="newsletter-content">
 			<section className="container">
-				<figure className="row contact-img-wrapper">
-					<img src={iconPostbox} alt="contact infographic" className="contact-graphic" />
+				<figure className="row newsletter-img-wrapper">
+					<img src={iconPostbox} alt="newsletter infographic" className="newsletter-graphic" />
 					<figcaption>Subscribe</figcaption>
 				</figure>
-				<form
-					// action=""
-					name="contact-form"
-					id="contact-form"
-					className="row"
-					onSubmit={this._handleFormSubmit}
-				>
+				<form name="newsletter-form" id="newsletter-form" className="row" onSubmit={this._handleFormSubmit}>
 					<fieldset>
 						<legend>Sign up for our newsletter and get notified about the next update.</legend>
-						<div className="contact-input-wrapper">
-							{/* <label for="name">Email</label> */}
+						<div className="newsletter-input-wrapper">
 							<input
 								type="email"
 								name="email"
@@ -400,13 +364,13 @@ export default class HomeScreen extends Component {
 								placeholder="Put your email address here"
 								autoComplete="off"
 								required
-								value={this.state.contactEmail}
-								onChange={event => this.setState({ contactEmail: event.target.value })}
+								value={this.state.newsletterEmail}
+								onChange={event => this.setState({ newsletterEmail: event.target.value })}
 							/>
 							{this.state.errorInputIndex === 0 && <span>Please enter a valid email address</span>}
 						</div>
-						<div className="contact-input-wrapper">
-							{this.state.isContactLoading ? <Loader /> : <input type="submit" className="btn" value="sign me up" />}
+						<div className="newsletter-input-wrapper">
+							{this.state.isNewsletterLoading ? <Loader /> : <input type="submit" className="btn" value="sign me up" />}
 						</div>
 					</fieldset>
 				</form>
@@ -416,13 +380,13 @@ export default class HomeScreen extends Component {
 
 	_renderAboutContent = data =>
 		data.map((item, index) => (
-			<div key={index} className="about-content">
+			<div key={index} className="extended-feature-content">
 				<div className="container">
 					<section className="row">
-						<figure className="column about-img-wrapper">
-							<img src={item.icon} alt="about infographic" className="about-graphic" />
+						<figure className="column extended-feature-img-wrapper">
+							<img src={item.icon} alt="extended feature infographic" className="extended-feature-graphic" />
 						</figure>
-						<article className="column about-info-wrapper">
+						<article className="column extended-feature-info-wrapper">
 							<h1>{item.title}</h1>
 							<p>{item.description}</p>
 							<div className="btn-wrapper">
@@ -500,9 +464,12 @@ export default class HomeScreen extends Component {
 								let { windowWidth } = this.state,
 									description = "";
 
-								if (windowWidth >= breakpoint.md) {
+								if (windowWidth >= exportBreakpoint("tablet").max) {
 									description = truncate(obj.description, 350, " ");
-								} else if (windowWidth < breakpoint.md && windowWidth >= breakpoint.sm) {
+								} else if (
+									windowWidth < exportBreakpoint("tablet").max &&
+									windowWidth >= exportBreakpoint("mobile").max
+								) {
 									description = truncate(obj.description, 200, " ");
 								} else {
 									description = truncate(obj.description, 150, " ");
@@ -523,7 +490,7 @@ export default class HomeScreen extends Component {
 		</div>
 	);
 
-	_renderWorksContent = works => (
+	_renderWorkContent = works => (
 		<div className="work-content">
 			<div className="container">
 				<header className="row work-heading-wrapper">

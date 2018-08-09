@@ -41,6 +41,10 @@
 						width: $font-size-regular;
 						margin: 0 $gutter-xs;
 					}
+					b {
+						font-weight: $font-weight-bold;
+						margin-left: $gutter-xs;
+					}
 				}
 			}
 			.column._20 {
@@ -54,6 +58,7 @@
 				ul {
 					display: flex;
 					flex-direction: column;
+					justify-content: center;
 					@include breakpoint($breakpoint-sm, $breakpoint-md) {
 						flex-direction: row;
 					}

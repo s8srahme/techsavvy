@@ -193,17 +193,17 @@
 		}
 	}
 
-	.contact-content {
+	.newsletter-content {
 		background-color: $color-light-gray;
 
 		.container {
 			padding: $gutter-xxxl 0;
 
-			.contact-img-wrapper {
+			.newsletter-img-wrapper {
 				flex-direction: column;
 				align-items: center;
 
-				.contact-graphic {
+				.newsletter-graphic {
 					height: auto;
 					width: 100%;
 					max-width: 150px;
@@ -214,7 +214,7 @@
 					@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1, 2px);
 				}
 			}
-			#contact-form {
+			#newsletter-form {
 				display: flex;
 				justify-content: center;
 				margin-top: 0;
@@ -227,7 +227,7 @@
 						text-align: center;
 					}
 
-					.contact-input-wrapper {
+					.newsletter-input-wrapper {
 						max-width: $breakpoint-sm;
 						padding-top: $gutter-xl;
 						margin: 0 auto;
@@ -260,7 +260,7 @@
 		}
 	}
 
-	.about-content {
+	.extended-feature-content {
 		background-color: darken($color-light-gray, 5%);
 		&:nth-child(2n) {
 			background-color: $color-light-gray;
@@ -289,7 +289,7 @@
 					}
 				}
 
-				.about-info-wrapper {
+				.extended-feature-info-wrapper {
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
@@ -327,12 +327,12 @@
 						}
 					}
 				}
-				.about-img-wrapper {
+				.extended-feature-img-wrapper {
 					display: flex;
 					justify-content: center;
 					align-items: center;
 
-					.about-graphic {
+					.extended-feature-graphic {
 						display: block;
 						height: auto;
 						width: 100%;
