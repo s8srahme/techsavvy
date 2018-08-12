@@ -4,6 +4,7 @@ import { bgImgEmptyStreet } from "../../assets/images";
 
 export class UserEditingScreen extends Component {
 	componentWillMount = () => {
+		// console.log(this.props.match);
 		window.scrollTo(0, 0);
 	};
 

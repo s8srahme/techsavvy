@@ -11,21 +11,36 @@ export class UserForm extends React.Component {
 			confirmPassword: "",
 			registerEmail: "",
 			loginEmail: "",
-			username: "",
+			names: "",
 			errorInputIndex: -1,
 			errorInputMessage: "",
-			isLoginLoading: false,
-			isRegisterLoading: false
+			isLoadingLogin: false,
+			isLoadingRegister: false
 		};
 	}
 
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
 			if (this.props.isLoadingLogin && !nextProps.isLoadingLogin)
-				this.setState({ isLoginLoading: false, loginPassword: "", loginEmail: "" }, () => {
+				this.setState({ isLoadingLogin: false, loginPassword: "", loginEmail: "" }, () => {
 					nextProps.onClose();
 					this.props.getOne({ id: "self" });
 				});
+			if (this.props.isLoadingRegister && !nextProps.isLoadingRegister)
+				if (!nextProps.registerError) {
+					this.setState(
+						{ isLoadingRegister: false, registerPassword: "", confirmPassword: "", names: "", registerEmail: "" },
+						() => {
+							this._handleTabClick(0);
+						}
+					);
+				} else if (nextProps.registerError.response.status === 409) {
+					this.setState({
+						isLoadingLogin: false,
+						errorInputIndex: 0,
+						errorInputMessage: "Email address is already registered"
+					});
+				}
 		}
 	};
 
@@ -34,31 +49,52 @@ export class UserForm extends React.Component {
 	};
 
 	_validatePassword = password => {
-		// const illegalChars = /[\W_]/;
+		const illegalChars = /[\W_]/;
 
-		// if (password.length < 7) {
-		// 	this.setState({ errorInputIndex: 2, errorInputMessage: "Password must contain a minimum of 8 characters" });
-		// 	return false;
-		// } else if (illegalChars.test(password)) {
-		// 	this.setState({ errorInputIndex: 2, errorInputMessage: "Password must contain only letters and numbers" });
-		// 	return false;
-		// }
-		// this.setState({ errorInputIndex: -1, errorInputMessage: "" });
+		if (password.length < 7) {
+			this.setState({ errorInputIndex: 2, errorInputMessage: "Password must contain a minimum of 8 characters" });
+			return false;
+		} else if (illegalChars.test(password)) {
+			this.setState({ errorInputIndex: 2, errorInputMessage: "Password must contain only letters and numbers" });
+			return false;
+		}
+		this.setState({ errorInputIndex: -1, errorInputMessage: "" });
 		return true;
+	};
+
+	_validateNames = names => {
+		const regex = /^[a-zA-Z .'-]{1,30}$/;
+		if (names.split(" ").length > 2) {
+			this.setState({
+				errorInputIndex: 0,
+				errorInputMessage: "First and last names cannot be longer than 2 words"
+			});
+			return false;
+		} else if (!regex.test(names)) {
+			this.setState({
+				errorInputIndex: 0,
+				errorInputMessage:
+					"First and last names can only contain letters, dots, dashes, apostrophes and cannot be longer than 30 characters combined"
+			});
+			return false;
+		} else return true;
 	};
 
 	_handleFormSubmit = event => {
 		event.preventDefault();
-		const { registerPassword, loginPassword, confirmPassword, loginEmail } = this.state;
+		const { registerEmail, registerPassword, confirmPassword, names, loginPassword, loginEmail } = this.state;
 
 		if (confirmPassword) {
 			if (registerPassword !== confirmPassword) {
 				this.setState({ errorInputIndex: 3, errorInputMessage: "Password does not match" });
-			} else if (this._validatePassword(registerPassword)) {
-				this.setState({ isRegisterLoading: true }, () => console.log(this.state));
+			} else if (this._validateNames(names) && this._validatePassword(registerPassword)) {
+				this.setState({ isLoadingRegister: true }, () => {
+					// console.log(this.state);
+					this.props.register({ password: registerPassword, email: registerEmail, name: names });
+				});
 			}
 		} else if (this._validatePassword(loginPassword)) {
-			this.setState({ isLoginLoading: true }, () => {
+			this.setState({ isLoadingLogin: true }, () => {
 				// console.log(this.state);
 				this.props.login({ password: loginPassword, email: loginEmail });
 			});
@@ -68,7 +104,7 @@ export class UserForm extends React.Component {
 	};
 
 	_renderRegisterForm = () => {
-		const { isRegisterLoading, registerPassword, confirmPassword, registerEmail, username } = this.state;
+		const { isLoadingRegister, registerPassword, confirmPassword, registerEmail, names } = this.state;
 		return (
 			<form name="user-register-form" id="user-register-form" className="row" onSubmit={this._handleFormSubmit}>
 				<fieldset>
@@ -76,16 +112,16 @@ export class UserForm extends React.Component {
 					<div className="user-form-input-wrapper">
 						<input
 							type="text"
-							name="username"
-							id="username"
+							name="names"
+							id="names"
 							className="txt-input"
-							placeholder="Your username"
+							placeholder="first &amp; last names"
 							autoComplete="off"
 							required
-							value={username}
-							onChange={event => this.setState({ username: event.target.value })}
+							value={names}
+							onChange={event => this.setState({ names: event.target.value })}
 						/>
-						{this.state.errorInputIndex === 0 && <span>Please enter a valid username</span>}
+						{this.state.errorInputIndex === 0 && <span>{this.state.errorInputMessage}</span>}
 					</div>
 					<div className="user-form-input-wrapper">
 						<input
@@ -130,7 +166,7 @@ export class UserForm extends React.Component {
 						{this.state.errorInputIndex === 3 && <span>{this.state.errorInputMessage}</span>}
 					</div>
 					<div className="user-form-input-wrapper">
-						{isRegisterLoading ? <Loader /> : <input type="submit" className="btn" value="get started" />}
+						{isLoadingRegister ? <Loader /> : <input type="submit" className="btn" value="get started" />}
 					</div>
 				</fieldset>
 			</form>
@@ -138,7 +174,7 @@ export class UserForm extends React.Component {
 	};
 
 	_renderLoginForm = () => {
-		const { loginPassword, loginEmail, isLoginLoading } = this.state;
+		const { loginPassword, loginEmail, isLoadingLogin } = this.state;
 		return (
 			<form name="user-login-form" id="user-login-form" className="row" onSubmit={this._handleFormSubmit}>
 				<fieldset>
@@ -172,7 +208,7 @@ export class UserForm extends React.Component {
 						{this.state.errorInputIndex === 2 && <label htmlFor="password">{this.state.errorInputMessage}</label>}
 					</div>
 					<div className="user-form-input-wrapper">
-						{isLoginLoading ? <Loader /> : <input type="submit" className="btn" value="continue" />}
+						{isLoadingLogin ? <Loader /> : <input type="submit" className="btn" value="continue" />}
 					</div>
 				</fieldset>
 			</form>

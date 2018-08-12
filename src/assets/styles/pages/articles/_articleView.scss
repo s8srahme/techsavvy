@@ -1,6 +1,15 @@
 .wrapper {
 	// margin-top: 10rem;
 
+	.news-loader-content {
+		background-color: $color-light-gray;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		max-width: 100%;
+		min-height: 100vh;
+		padding-top: 10rem;
+	}
 	.news-masthead {
 		position: relative;
 		height: 70vh;

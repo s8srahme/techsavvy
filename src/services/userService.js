@@ -6,8 +6,8 @@ export default (url, instance) => {
 		create: toCreate => instance.post(`${url}/signup`, toCreate),
 		check: toCheck => instance.post(`${url}/login`, toCheck),
 		delete: ({ id }) => instance.delete(`${url}/${id}`),
-		follow: ({ id }) => instance.put(`${url}/${id}/follow`),
-		unfollow: ({ id }) => instance.put(`${url}/${id}/unfollow`),
+		follow: ({ followerId, followingId }) => instance.post(`${url}/${followingId}/follow`, { follower_id: followerId }),
+		unfollow: ({ id }) => instance.post(`${url}/${id}/unfollow`),
 		getAllArticles: ({ id }) => instance.get(`${url}/${id}/articles`)
 	};
 };

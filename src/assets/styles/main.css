@@ -941,6 +941,15 @@ html {
         .news-list-wrapper .news-list-content .container .news-cards-wrapper .row .column .news-card:hover > .news-card-img-wrapper > img {
           transform: scale(1.2); }
 
+.wrapper .news-loader-content {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  min-height: 100vh;
+  padding-top: 10rem; }
+
 .wrapper .news-masthead {
   position: relative;
   height: 70vh;
@@ -1422,12 +1431,25 @@ html {
         .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup h1 {
           text-align: center;
           text-transform: capitalize; }
-        .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup h4 {
-          color: #a8aaaf;
-          font-weight: 700;
+        .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup h3 {
           text-align: center;
-          text-transform: capitalize;
-          letter-spacing: normal; }
+          letter-spacing: normal;
+          color: #a8aaaf; }
+        .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup .user-location-info-wrapper {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center; }
+          .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup .user-location-info-wrapper .user-location-icon {
+            color: #a8aaaf;
+            height: 1.6rem;
+            width: 1.6rem;
+            margin-right: 0.4rem; }
+          .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup .user-location-info-wrapper h4 {
+            color: #a8aaaf;
+            text-align: center;
+            text-transform: capitalize;
+            letter-spacing: normal; }
       .wrapper .user-view-content .container .row .user-heading-wrapper .user-img-wrapper {
         width: 200px;
         height: 200px;
@@ -1461,6 +1483,7 @@ html {
       .wrapper .user-view-content .container .row .btn-wrapper p {
         color: #a8aaaf;
         text-align: center; }
+      .wrapper .user-view-content .container .row .btn-wrapper .loader-wrapper,
       .wrapper .user-view-content .container .row .btn-wrapper .btn {
         margin-top: 1.6rem; }
     .wrapper .user-view-content .container .row.user-stats {

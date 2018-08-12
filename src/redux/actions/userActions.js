@@ -24,7 +24,7 @@ const getAll = () => {
 	};
 };
 
-const getOne = ({ id }, cb = () => {}) => {
+const getOne = ({ id }) => {
 	const request = () => {
 		return { type: userConstants.GET_ONE_REQUEST };
 	};
@@ -44,7 +44,57 @@ const getOne = ({ id }, cb = () => {}) => {
 			},
 			error => {
 				dispatch(failure(error));
-				if (error.response.status === 401) cb();
+				console.error(error);
+			}
+		);
+	};
+};
+
+const follow = ({ followingId, followerId }) => {
+	const request = () => {
+		return { type: userConstants.FOLLOW_REQUEST };
+	};
+	const success = payload => {
+		return { type: userConstants.FOLLOW_SUCCESS, payload };
+	};
+	const failure = error => {
+		return { type: userConstants.FOLLOW_FAILURE, error };
+	};
+
+	return dispatch => {
+		dispatch(request());
+		services.users.follow({ followingId, followerId }).then(
+			res => {
+				dispatch(success(res));
+			},
+			error => {
+				dispatch(failure(error));
+				console.error(error);
+			}
+		);
+	};
+};
+
+const unfollow = ({ id }) => {
+	const request = () => {
+		return { type: userConstants.UNFOLLOW_REQUEST };
+	};
+	const success = payload => {
+		return { type: userConstants.UNFOLLOW_SUCCESS, payload };
+	};
+	const failure = error => {
+		return { type: userConstants.UNFOLLOW_FAILURE, error };
+	};
+
+	return dispatch => {
+		dispatch(request());
+		services.users.unfollow({ id }).then(
+			res => {
+				// console.log(res);
+				dispatch(success(res));
+			},
+			error => {
+				dispatch(failure(error));
 				console.error(error);
 			}
 		);
@@ -53,5 +103,7 @@ const getOne = ({ id }, cb = () => {}) => {
 
 export const userActions = {
 	getAll,
-	getOne
+	getOne,
+	follow,
+	unfollow
 };

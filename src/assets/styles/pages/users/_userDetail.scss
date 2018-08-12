@@ -27,12 +27,31 @@
 								text-align: center;
 								text-transform: capitalize;
 							}
-							h4 {
-								color: $color-medium-gray;
-								font-weight: $font-weight-bold;
+							h3 {
 								text-align: center;
-								text-transform: capitalize;
 								letter-spacing: normal;
+								color: $color-medium-gray;
+							}
+							.user-location-info-wrapper {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								justify-content: center;
+								// margin-top: $gutter-xs;
+
+								.user-location-icon {
+									color: $color-medium-gray;
+									height: $font-size-regular;
+									width: $font-size-regular;
+									margin-right: $gutter-xs;
+								}
+								h4 {
+									// font-weight: $font-weight-bold;
+									color: $color-medium-gray;
+									text-align: center;
+									text-transform: capitalize;
+									letter-spacing: normal;
+								}
 							}
 						}
 						// p {
@@ -82,6 +101,7 @@
 						color: $color-medium-gray;
 						text-align: center;
 					}
+					.loader-wrapper,
 					.btn {
 						margin-top: $gutter-md;
 					}

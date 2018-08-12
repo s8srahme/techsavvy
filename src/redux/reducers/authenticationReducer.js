@@ -1,47 +1,101 @@
-import { userConstants } from "../constants";
+import { authenticationConstants } from "../constants";
 
 const initialState = {
 	user: {},
-	hasLoggedIn: false,
+	isLoadingUser: false,
+	hasErroredUser: false,
+	userError: {},
+
+	loginData: {},
+	isAuthenticated: false,
 	isLoadingLogin: false,
-	isLoadingSignup: false,
 	hasErroredLogin: false,
-	hasErroredSignup: false
+	loginError: null,
+
+	registerData: {},
+	isLoadingRegister: false,
+	hasErroredRegister: false,
+	registerError: null
 };
 
 let user = JSON.parse(localStorage.getItem("user"));
 if (user) {
-	initialState.hasLoggedIn = true;
-	initialState.user = user;
+	initialState.isAuthenticated = true;
+	initialState.loginData = user;
 }
 
 export const authenticationReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case userConstants.LOGIN_REQUEST:
+		case authenticationConstants.LOGIN_REQUEST:
 			return {
 				...state,
 				isLoadingLogin: true
 			};
-		case userConstants.LOGIN_SUCCESS:
+		case authenticationConstants.LOGIN_SUCCESS:
 			return {
 				...state,
-				hasLoggedIn: true,
+				isAuthenticated: true,
 				isLoadingLogin: false,
-				user: action.payload
+				loginData: action.payload,
+				loginError: null
 			};
-		case userConstants.LOGIN_FAILURE:
+		case authenticationConstants.LOGIN_FAILURE:
 			return {
 				...state,
 				isLoadingLogin: false,
-				hasErroredLogin: true
+				hasErroredLogin: true,
+				loginError: action.error
 			};
 
-		case userConstants.LOGOUT_SUCCESS:
+		case authenticationConstants.REGISTER_REQUEST:
 			return {
 				...state,
-				hasLoggedIn: false,
-				user: {}
+				isLoadingRegister: true
 			};
+		case authenticationConstants.REGISTER_SUCCESS:
+			return {
+				...state,
+				isLoadingRegister: false,
+				registerData: action.payload.createdUser,
+				registerError: null
+			};
+		case authenticationConstants.REGISTER_FAILURE:
+			return {
+				...state,
+				isLoadingRegister: false,
+				hasErroredRegister: true,
+				registerError: action.error
+			};
+
+		case authenticationConstants.LOGOUT_SUCCESS:
+			return {
+				...state,
+				isAuthenticated: false,
+				loginData: {}
+			};
+
+		case authenticationConstants.GET_SELF_REQUEST:
+			return {
+				...state,
+				isLoadingUser: true
+			};
+		case authenticationConstants.GET_SELF_SUCCESS:
+			return {
+				...state,
+				user: action.payload.user,
+				isLoadingUser: false,
+				userError: {}
+			};
+		case authenticationConstants.GET_SELF_FAILURE:
+			return {
+				...state,
+				hasErroredUser: true,
+				isLoadingUser: false,
+				userError: action.error
+			};
+
+		case "CLEAR_SELF":
+			return initialState;
 
 		default:
 			return state;

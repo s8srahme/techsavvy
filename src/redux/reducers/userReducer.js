@@ -4,12 +4,19 @@ const initialState = {
 	users: [],
 	isLoadingUsers: false,
 	hasErroredUsers: false,
-	errorUsers: {},
+	usersError: {},
 
 	user: {},
 	isLoadingUser: false,
 	hasErroredUser: false,
-	errorUser: {}
+	userError: null,
+
+	onFollowData: {},
+	isLoadingFollowData: false,
+	onFollowError: {},
+
+	onUnfollowData: {},
+	onUnfollowError: {}
 };
 
 export const userReducer = (state = initialState, { type, payload, error }) => {
@@ -30,7 +37,7 @@ export const userReducer = (state = initialState, { type, payload, error }) => {
 				...state,
 				hasErroredUsers: true,
 				isLoadingUsers: false,
-				errorUsers: error
+				usersError: error
 			};
 
 		case userConstants.GET_ONE_REQUEST:
@@ -42,18 +49,59 @@ export const userReducer = (state = initialState, { type, payload, error }) => {
 			return {
 				...state,
 				user: payload.user,
-				isLoadingUser: false
+				isLoadingUser: false,
+				userError: null
 			};
 		case userConstants.GET_ONE_FAILURE:
 			return {
 				...state,
 				hasErroredUser: true,
 				isLoadingUser: false,
-				errorUser: error
+				userError: error
 			};
 
 		case "CLEAR_ONE":
 			return initialState;
+
+		case userConstants.FOLLOW_REQUEST:
+			return {
+				...state,
+				isLoadingFollowData: true
+			};
+		case userConstants.FOLLOW_SUCCESS:
+			return {
+				...state,
+				onFollowData: payload,
+				onUnfollowData: {},
+				isLoadingFollowData: false,
+				onFollowError: {}
+			};
+		case userConstants.FOLLOW_FAILURE:
+			return {
+				...state,
+				isLoadingFollowData: false,
+				onFollowError: error
+			};
+
+		case userConstants.UNFOLLOW_REQUEST:
+			return {
+				...state,
+				isLoadingFollowData: true
+			};
+		case userConstants.UNFOLLOW_SUCCESS:
+			return {
+				...state,
+				onUnfollowData: payload,
+				isLoadingFollowData: false,
+				onFollowData: {},
+				onUnfollowError: {}
+			};
+		case userConstants.UNFOLLOW_FAILURE:
+			return {
+				...state,
+				isLoadingFollowData: false,
+				onUnfollowError: error
+			};
 
 		default:
 			return state;

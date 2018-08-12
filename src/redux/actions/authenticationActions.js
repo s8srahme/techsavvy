@@ -1,15 +1,40 @@
-import { userConstants } from "../constants";
+import { authenticationConstants } from "../constants";
 import services from "services";
+
+const register = ({ email, password, name }) => {
+	const request = () => {
+		return { type: authenticationConstants.REGISTER_REQUEST };
+	};
+	const success = payload => {
+		return { type: authenticationConstants.REGISTER_SUCCESS, payload };
+	};
+	const failure = error => {
+		return { type: authenticationConstants.REGISTER_FAILURE, error };
+	};
+
+	return dispatch => {
+		dispatch(request());
+		services.users.create({ email, password, name }).then(
+			user => {
+				dispatch(success(user.data));
+			},
+			error => {
+				console.error("err:", error);
+				dispatch(failure(error));
+			}
+		);
+	};
+};
 
 const login = ({ email, password }) => {
 	const request = () => {
-		return { type: userConstants.LOGIN_REQUEST };
+		return { type: authenticationConstants.LOGIN_REQUEST };
 	};
 	const success = payload => {
-		return { type: userConstants.LOGIN_SUCCESS, payload };
+		return { type: authenticationConstants.LOGIN_SUCCESS, payload };
 	};
 	const failure = error => {
-		return { type: userConstants.LOGIN_FAILURE, error };
+		return { type: authenticationConstants.LOGIN_FAILURE, error };
 	};
 
 	return dispatch => {
@@ -24,7 +49,7 @@ const login = ({ email, password }) => {
 			},
 			error => {
 				console.error("err:", error);
-				dispatch(failure());
+				dispatch(failure(error));
 			}
 		);
 	};
@@ -32,7 +57,7 @@ const login = ({ email, password }) => {
 
 export const logout = () => {
 	const success = () => {
-		return { type: userConstants.LOGOUT_SUCCESS };
+		return { type: authenticationConstants.LOGOUT_SUCCESS };
 	};
 
 	return dispatch => {
@@ -41,7 +66,35 @@ export const logout = () => {
 	};
 };
 
+const getOne = ({ id }, cb = () => {}) => {
+	const request = () => {
+		return { type: authenticationConstants.GET_SELF_REQUEST };
+	};
+	const success = payload => {
+		return { type: authenticationConstants.GET_SELF_SUCCESS, payload };
+	};
+	const failure = error => {
+		return { type: authenticationConstants.GET_SELF_FAILURE, error };
+	};
+
+	return dispatch => {
+		dispatch(request());
+		services.users.getOne({ id }).then(
+			({ data }) => {
+				dispatch(success(data));
+			},
+			error => {
+				dispatch(failure(error));
+				if (error.response.status === 401) cb();
+				console.error(error);
+			}
+		);
+	};
+};
+
 export const authenticationActions = {
+	register,
 	login,
-	logout
+	logout,
+	getOne
 };

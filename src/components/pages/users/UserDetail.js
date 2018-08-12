@@ -1,39 +1,64 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {
-	iconMale
-	// iconFemale
+	iconMale,
+	// iconFemale,
+	bgImgEmptyStreet
 } from "assets";
+import { Loader } from "components";
+import { MapPin } from "react-feather";
 
 export class UserDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isAdmin: false
+			isFollowing: false,
+			stats: []
 		};
 	}
 
-	componentWillMount = () => {
-		const { data } = this.props;
-		this.setState({ isAdmin: data.admin });
+	componentWillReceiveProps = nextProps => {
+		if (this.props !== nextProps) {
+			const { selfData, userData, onFollowData, onUnfollowData } = nextProps;
+			if (Object.keys(userData).length) {
+				let hasOnFollowData = Object.keys(onFollowData).length,
+					hasOnUnfollowData = Object.keys(onUnfollowData).length;
+				this.setState({
+					isFollowing: hasOnFollowData ? true : hasOnUnfollowData ? false : userData.followers.includes(selfData._id),
+					stats: [
+						{ label: "Stories", value: userData.counts["articles"] },
+						{
+							label: "Followers",
+							value: hasOnFollowData ? userData.followers.length + 1 : userData.followers.length
+						},
+						{
+							label: "Following",
+							value: userData.following.length
+						}
+					]
+				});
+			}
+		}
 	};
 
 	render = () => {
-		const { data } = this.props,
-			{ isAdmin } = this.state,
-			stats = [
-				{ label: "Stories", value: 18 },
-				{ label: "Followers", value: 512 },
-				{ label: "Following", value: 1008 }
-			];
-		return (
+		const { userData, isLoadingUser, selfData, onFollow, onUnfollow, isLoadingFollowData } = this.props,
+			{ isFollowing, stats } = this.state;
+
+		return isLoadingUser ? (
+			<div className="wrapper">
+				<div className="news-loader-content">
+					<Loader />
+				</div>
+			</div>
+		) : (
 			<div className="wrapper">
 				<div className="news-masthead">
 					<figure
 						className="news-featured-image"
 						style={{
 							backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
-			url("${data.featured_image_url}")`
+			url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
 						}}
 					/>
 				</div>
@@ -43,7 +68,7 @@ export class UserDetail extends Component {
 							<figure className="column user-heading-wrapper">
 								<div className="user-img-wrapper">
 									<img
-										src={data.image_url ? data.image_url : iconMale}
+										src={userData.image_url ? userData.image_url : iconMale}
 										alt="user infographic"
 										className="user-thumbnail"
 									/>
@@ -51,10 +76,15 @@ export class UserDetail extends Component {
 								</div>
 								<figcaption className="user-info-wrapper">
 									<hgroup>
-										<h1>{data.name}</h1>
-										<h4>{data.location}</h4>
+										<h1>{userData.name}</h1>
+										<h3>{"@" + userData.username}</h3>
+										{userData.location && (
+											<div className="user-location-info-wrapper">
+												<MapPin className="user-location-icon" />
+												<h4>{userData.location}</h4>
+											</div>
+										)}
 									</hgroup>
-									{/* <p>{data.bio}</p> */}
 								</figcaption>
 							</figure>
 						</header>
@@ -68,14 +98,23 @@ export class UserDetail extends Component {
 						</ul>
 						<footer className="row">
 							<div className="column btn-wrapper">
-								<p>{data.bio}</p>
-								{!isAdmin ? (
-									<Link to={`/user/${data._id}/edit`} className="btn">
+								<p>{userData.bio || `${userData.username} hasn’t added any bio information yet.`}</p>
+								{userData.is_owner ? (
+									<Link to={`/user/${userData._id}/edit`} className="btn">
 										edit
 									</Link>
+								) : isLoadingFollowData ? (
+									<Loader />
 								) : (
-									<button className="btn" onClick={() => {}}>
-										follow
+									<button
+										className="btn"
+										onClick={
+											isFollowing
+												? () => onUnfollow({ id: userData._id })
+												: () => onFollow({ followingId: userData._id, followerId: selfData._id })
+										}
+									>
+										{isFollowing ? "unfollow" : "follow"}
 									</button>
 								)}
 							</div>

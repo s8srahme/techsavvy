@@ -8,6 +8,7 @@ const User = require("./../models/user");
 const Article = require("./../models/article");
 
 const querify = require("./../helpers/queryString");
+const getRandomIntInclusive = require("./../helpers/randomInteger");
 
 module.exports = {
 	addUser: (req, res, next) => {
@@ -47,10 +48,42 @@ module.exports = {
 									}
 								);
 							}
+
+							let username = req.body.name.replace(/\s+/g, "").toLowerCase();
+							let result = await (async () => {
+								const handlePromise = user => {
+									if (user.length >= 1) {
+										console.log({ message: "Username exists" });
+										username = req.body.name.replace(/\s+/g, "").toLowerCase() + getRandomIntInclusive(1, 99);
+										return false;
+									} else {
+										return true;
+									}
+								};
+
+								for (;;) {
+									let result = await User.find({ username })
+										.exec()
+										.then(handlePromise)
+										.catch(err => {
+											console.log(err);
+											return { status: 500, error: err };
+										});
+									if (result) return result;
+								}
+							})();
+
+							if (typeof result === "object")
+								return res
+									.status(result.status)
+									.json(result.message ? { message: result.message } : { error: result.error });
+
 							const user = new User({
 								_id: new mongoose.Types.ObjectId(),
 								email: req.body.email,
 								password: hash,
+								name: req.body.name,
+								username,
 								image_url
 							});
 							user
@@ -62,6 +95,7 @@ module.exports = {
 										createdUser: {
 											_id: result._id,
 											name: result.name,
+											username: result.username,
 											email: result.email,
 											image_url: result.image_url
 										},
@@ -256,19 +290,35 @@ module.exports = {
 			});
 	},
 	getUser: (req, res, next) => {
-		const id = req.params.id === "self" ? req.userData.userId : req.params.id;
+		const id = req.params.id === "self" ? req.userData.userId : req.params.id,
+			is_owner = req.params.id === req.userData.userId;
 
-		User.findById(id, "_id name email image_url followers following", (err, user) => {
+		User.findById(id, "_id name username email image_url followers following", (err, user) => {
 			if (err) res.status(500).json({ error: err });
 			else if (!user) res.status(404).json({ message: "User not found" });
-			else
-				res.status(200).json({
-					user,
-					request: {
-						type: "GET",
-						url: "http://localhost:5000/api/users"
-					}
-				});
+			else {
+				Article.count({ author_id: id })
+					.exec()
+					.then(count => {
+						// let userCopy = Object.assign({}, user);
+						// console.log(userCopy);
+						let userObject = user.toObject();
+						userObject["is_owner"] = is_owner;
+						userObject.counts = { articles: count, followers: user.followers.length, following: user.following.length };
+
+						return res.status(200).json({
+							user: userObject,
+							request: {
+								type: "GET",
+								url: "http://localhost:5000/api/users"
+							}
+						});
+					})
+					.catch(error => {
+						console.log(error);
+						return res.status(500).json({ error: error });
+					});
+			}
 		});
 	},
 	followUser: (req, res, next) => {
@@ -336,7 +386,7 @@ module.exports = {
 	},
 	unfollowUser: (req, res, next) => {
 		const following_id = req.params.following_id,
-			follower_id = req.body.follower_id;
+			follower_id = req.userData.userId;
 
 		if (following_id === follower_id) return res.status(409).json({ message: "Not allowed" });
 		User.find()

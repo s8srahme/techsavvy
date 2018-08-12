@@ -28,18 +28,21 @@ class App extends Component {
 	};
 }
 
-const mapStateToProps = ({ users }) => ({
-		user: users.user,
-		hasErrored: users.hasErroredUser,
-		isLoading: users.isLoadingUser,
-		error: users.errorUser
+const mapStateToProps = ({ authentication }) => ({
+		user: authentication.user,
+		isLoading: authentication.isLoadingUser,
+		hasErrored: authentication.hasErroredUser,
+		error: authentication.userError
 	}),
 	mapDispatchToProps = dispatch =>
 		bindActionCreators(
 			{
-				getOne: actions.users.getOne,
+				getOne: actions.authentication.getOne,
 				logout: actions.authentication.logout,
-				handleClear: () => dispatch => dispatch({ type: "CLEAR_ONE" })
+				handleClear: () => dispatch => {
+					dispatch({ type: "CLEAR_ONE" });
+					dispatch({ type: "CLEAR_SELF" });
+				}
 			},
 			dispatch
 		);

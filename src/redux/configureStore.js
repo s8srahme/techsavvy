@@ -11,8 +11,8 @@ const loggerMiddleware = createLogger({
 		const user = JSON.parse(localStorage.getItem("user"));
 		if (user && user.token) {
 			instance.defaults.headers.common["Authorization"] = "Bearer " + user.token;
-		} else if (store.getState().authentication.user) {
-			instance.defaults.headers.common["Authorization"] = "Bearer " + store.getState().authentication.user.token;
+		} else if (store.getState().authentication.userLogin) {
+			instance.defaults.headers.common["Authorization"] = "Bearer " + store.getState().authentication.userLogin.token;
 		}
 		next(action);
 	},

@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	name: String,
-	// bio: String,
-	// username: { type: String, required: true, unique: true },
+	bio: String,
+	featured_image_url: String,
+	username: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
-	admin: Boolean,
+	// is_owner: Boolean,
 	location: String,
 	image_url: String,
 	created_at: { type: Date, default: Date.now, required: true },
@@ -29,16 +30,16 @@ const userSchema = new mongoose.Schema({
 			ref: "User"
 		}
 	]
-	// meta: {
-	// 	age: Number,
-	// 	website: String
-	// },
 	// articles: [
 	// 	{
 	// 		type: mongoose.Schema.Types.ObjectId,
 	// 		ref: "Article"
 	// 	}
-	// ]
+	// ],
+	// meta: {
+	// 	age: Number,
+	// 	website: String
+	// },
 });
 
 userSchema.methods.follow = function(following_id) {
