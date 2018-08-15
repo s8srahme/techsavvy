@@ -11,6 +11,10 @@ const initialState = {
 	hasErroredUser: false,
 	userError: null,
 
+	onUpdateData: {},
+	isLoadingUpdateData: false,
+	onUpdateError: null,
+
 	onFollowData: {},
 	isLoadingFollowData: false,
 	onFollowError: {},
@@ -58,6 +62,25 @@ export const userReducer = (state = initialState, { type, payload, error }) => {
 				hasErroredUser: true,
 				isLoadingUser: false,
 				userError: error
+			};
+
+		case userConstants.UPDATE_REQUEST:
+			return {
+				...state,
+				isLoadingUpdateData: true
+			};
+		case userConstants.UPDATE_SUCCESS:
+			return {
+				...state,
+				onUpdateData: payload,
+				isLoadingUpdateData: false,
+				onUpdateError: null
+			};
+		case userConstants.UPDATE_FAILURE:
+			return {
+				...state,
+				isLoadingUpdateData: false,
+				onUpdateError: error
 			};
 
 		case "CLEAR_ONE":

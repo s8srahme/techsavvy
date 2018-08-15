@@ -29,7 +29,7 @@ class UserDetailScreen extends Component {
 		// 	counts: { articles: 18, followers: 512, following: 1008 }
 		// };
 		const {
-			selfData,
+			authenticationData,
 			userData,
 			isLoadingUser,
 			userError,
@@ -45,7 +45,7 @@ class UserDetailScreen extends Component {
 		}
 		return (
 			<UserDetail
-				selfData={selfData}
+				authenticationData={authenticationData}
 				userData={userData}
 				isLoadingUser={isLoadingUser}
 				userError={userError}
@@ -60,7 +60,7 @@ class UserDetailScreen extends Component {
 }
 
 const mapStateToProps = ({ users, authentication }) => ({
-		selfData: authentication.user,
+		authenticationData: authentication.user,
 
 		userData: users.user,
 		hasErroredUser: users.hasErroredUser,

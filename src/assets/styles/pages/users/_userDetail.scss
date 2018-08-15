@@ -26,6 +26,9 @@
 							h1 {
 								text-align: center;
 								text-transform: capitalize;
+								&.separator:after {
+									margin: 1.6rem auto;
+								}
 							}
 							h3 {
 								text-align: center;

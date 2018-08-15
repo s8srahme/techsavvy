@@ -25,28 +25,22 @@ module.exports = {
 							});
 						} else {
 							let image_url = "";
+							console.log("avatar:", req.file);
 							if (req.file) {
-								await cloudinary.uploader.upload(
-									req.file.path,
-									result => {
-										// console.log(result);
-										if (result.url) {
-											image_url = result.url;
-											fs.unlink(req.file.path, err => {
-												if (err) console.log(err);
-												else console.log("Image deleted");
-											});
-											console.log("File uploaded");
-										} else {
-											console.log("Error uploading file");
-											image_url = "http://localhost:5000/" + req.file.path;
-										}
-									},
-									{
-										// resource_type: "image",
-										// eager: [{ effect: "sepia" }]
+								await cloudinary.uploader.upload(req.file.path, result => {
+									if (!result) {
+										console.log("Error uploading file");
+										image_url = "http://localhost:5000/" + req.file.path;
+										return;
 									}
-								);
+
+									image_url = result.url;
+									fs.unlink(req.file.path, err => {
+										if (err) console.log(err);
+										else console.log("Image deleted");
+									});
+									console.log("File uploaded");
+								});
 							}
 
 							let username = req.body.name.replace(/\s+/g, "").toLowerCase();
@@ -142,18 +136,96 @@ module.exports = {
 				});
 			});
 	},
-	updateUser: (req, res, next) => {
+	updateUser: async (req, res, next) => {
 		const id = req.params.id;
 		const updateOps = {};
-		for (const ops of req.body) {
-			updateOps[ops.propName] = ops.value;
+		for (const propName in req.body) {
+			if (propName !== "oldPassword" && propName !== "newPassword" && propName !== "email" && propName !== "photos")
+				updateOps[propName] = req.body[propName];
 		}
+
+		if (req.body.oldPassword && req.body.newPassword) {
+			let error = false;
+			await User.find({ email: req.body.email })
+				.exec()
+				.then(async user => {
+					if (user.length < 1) {
+						error = true;
+						return res.status(401).json({ message: "Mail does not exist" });
+					}
+					try {
+						const match = await bcrypt.compare(req.body.oldPassword, user[0].password);
+						if (match) {
+							const hash = await bcrypt.hash(req.body.newPassword, 10);
+							updateOps.password = hash;
+						} else {
+							error = true;
+							return res.status(401).json({
+								message: "Passwords do not match"
+							});
+						}
+					} catch (err) {
+						error = true;
+						return res.status(500).json({
+							message: "Update failed",
+							error: err
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+					error = true;
+					return res.status(500).json({
+						message: "Update failed",
+						error: err
+					});
+				});
+			if (error) return;
+		}
+
+		if (req.files.length) {
+			// console.log("files:", req.files);
+			let image_url = "",
+				path = req.files[0].path;
+
+			await cloudinary.uploader.upload(
+				path,
+				result => {
+					if (result) {
+						image_url = result.url;
+						fs.unlink(path, err => {
+							if (err) console.log(err);
+							else console.log("Image deleted");
+						});
+						console.log("File uploaded");
+					} else {
+						console.log("Error uploading file");
+						image_url = "http://localhost:5000/" + path;
+					}
+				},
+				{
+					resource_type: "image",
+					effect: "sepia"
+				}
+			);
+
+			updateOps.image_url = image_url;
+		}
+
+		console.log("updateOps:", updateOps);
 		User.update({ _id: id }, { $set: updateOps })
 			.exec()
 			.then(result => {
-				res.status(200).json(result);
+				res.status(200).json({
+					message: "User updated",
+					request: {
+						type: "GET",
+						url: "http://localhost:5000/api/users/" + id
+					}
+				});
 			})
 			.catch(err => {
+				console.log(err);
 				res.status(500).json({
 					error: err
 				});
@@ -293,7 +365,7 @@ module.exports = {
 		const id = req.params.id === "self" ? req.userData.userId : req.params.id,
 			is_owner = req.params.id === req.userData.userId;
 
-		User.findById(id, "_id name username email image_url followers following", (err, user) => {
+		User.findById(id, "_id name username email location bio image_url followers following", (err, user) => {
 			if (err) res.status(500).json({ error: err });
 			else if (!user) res.status(404).json({ message: "User not found" });
 			else {

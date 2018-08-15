@@ -50,6 +50,31 @@ const getOne = ({ id }) => {
 	};
 };
 
+const update = (id, updateData) => {
+	const request = () => {
+		return { type: userConstants.UPDATE_REQUEST };
+	};
+	const success = payload => {
+		return { type: userConstants.UPDATE_SUCCESS, payload };
+	};
+	const failure = error => {
+		return { type: userConstants.UPDATE_FAILURE, error };
+	};
+
+	return dispatch => {
+		dispatch(request());
+		services.users.update(id, updateData).then(
+			({ data }) => {
+				dispatch(success(data));
+			},
+			error => {
+				dispatch(failure(error));
+				console.error(error);
+			}
+		);
+	};
+};
+
 const follow = ({ followingId, followerId }) => {
 	const request = () => {
 		return { type: userConstants.FOLLOW_REQUEST };
@@ -104,6 +129,7 @@ const unfollow = ({ id }) => {
 export const userActions = {
 	getAll,
 	getOne,
+	update,
 	follow,
 	unfollow
 };

@@ -1398,7 +1398,8 @@ html {
             margin-bottom: 0;
             padding-top: 3.2rem;
             display: flex;
-            justify-content: center; }
+            align-items: center;
+            flex-direction: column; }
           .user-form-content .container #user-login-form fieldset .user-form-input-wrapper span,
           .user-form-content .container #user-login-form fieldset .user-form-input-wrapper label,
           .user-form-content .container #user-register-form fieldset .user-form-input-wrapper span,
@@ -1431,6 +1432,8 @@ html {
         .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup h1 {
           text-align: center;
           text-transform: capitalize; }
+          .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup h1.separator:after {
+            margin: 1.6rem auto; }
         .wrapper .user-view-content .container .row .user-heading-wrapper .user-info-wrapper hgroup h3 {
           text-align: center;
           letter-spacing: normal;
@@ -1579,6 +1582,8 @@ html {
               margin-left: 1.6rem; } }
       .wrapper .user-editing-content .container #user-form fieldset .user-form-input-wrapper {
         margin-bottom: 1.6rem; }
+        .wrapper .user-editing-content .container #user-form fieldset .user-form-input-wrapper .txt-input[name="location"]::placeholder {
+          text-transform: none; }
         .wrapper .user-editing-content .container #user-form fieldset .user-form-input-wrapper span,
         .wrapper .user-editing-content .container #user-form fieldset .user-form-input-wrapper label {
           display: block;
@@ -1588,9 +1593,15 @@ html {
       margin-bottom: 6.4rem;
       width: 100%;
       display: flex;
-      justify-content: flex-end; }
+      justify-content: space-between;
+      align-items: center; }
+      .wrapper .user-editing-content .container #user-form .user-form-btn-wrapper span,
+      .wrapper .user-editing-content .container #user-form .user-form-btn-wrapper label {
+        display: block;
+        margin-bottom: 1.6rem;
+        color: #ed5565; }
       .wrapper .user-editing-content .container #user-form .user-form-btn-wrapper .user-form-loader-wrapper {
-        margin: 0 3.2rem 1.6rem; }
+        margin: 0 0 1.6rem; }
       .wrapper .user-editing-content .container #user-form .user-form-btn-wrapper .btn {
         margin-bottom: 1.6rem; }
         @media (max-width: 319px) {

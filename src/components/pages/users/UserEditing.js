@@ -1,6 +1,7 @@
 import React from "react";
 import { Camera } from "react-feather";
 import { Loader } from "../..";
+import { bgImgEmptyStreet } from "assets/images";
 
 export class UserEditing extends React.Component {
 	constructor(props) {
@@ -19,15 +20,43 @@ export class UserEditing extends React.Component {
 			bio: "",
 			errorInputIndex: -1,
 			errorInputMessage: "",
-			isLoading: false,
+			isLoadingUser: false,
+			isLoadingUpdateData: false,
 			selectedFile: null,
 			userImage: null
 		};
 	}
 
-	componentWillMount = () => {
-		const { data } = this.props;
-		if (data.image_url) this.setState({ userImage: data.image_url });
+	componentWillReceiveProps = nextProps => {
+		if (this.props !== nextProps) {
+			const { userData, isLoadingUpdateData } = nextProps;
+			if (this.props.isLoadingUpdateData && !isLoadingUpdateData) {
+				if (nextProps.onUpdateError) {
+					this.setState({
+						isLoadingUpdateData: false,
+						errorInputIndex: 6,
+						errorInputMessage: nextProps.onUpdateError.response.data.message || "There was a problem updating the user"
+					});
+				} else {
+					this.setState({ isLoadingUpdateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {
+						this.props.history.goBack();
+						this.props.onGetOneAuthentication();
+					});
+				}
+			} else if (!this.state.isLoadingUpdateData && Object.keys(userData).length) {
+				let stateData = {},
+					names = userData.name.split(" ");
+
+				stateData.isLoadingUser = false;
+				stateData.userImage = userData.image_url;
+				stateData.firstName = names[0];
+				stateData.lastName = names.length > 1 ? names[1] : "";
+				stateData["bio"] = userData.bio ? userData.bio : "";
+				stateData["location"] = userData.location ? userData.location : "";
+
+				this.setState(prevState => stateData);
+			}
+		}
 	};
 
 	_validatePasswords = (oldPassword, newPassword) => {
@@ -50,17 +79,41 @@ export class UserEditing extends React.Component {
 		return true;
 	};
 
+	_validateNames = (firstName, lastName) => {
+		const regex = /^[a-zA-Z.'-]{1,15}$/;
+		if (!regex.test(firstName)) {
+			this.setState({
+				errorInputIndex: 0,
+				errorInputMessage:
+					"First name can only contain letters, dots, dashes, apostrophes and cannot be longer than 15 characters"
+			});
+			return false;
+		} else if (!regex.test(lastName)) {
+			this.setState({
+				errorInputIndex: 1,
+				errorInputMessage:
+					"Last name can only contain letters, dots, dashes, apostrophes and cannot be longer than 15 characters"
+			});
+			return false;
+		} else return true;
+	};
+
 	_handleFormSubmit = event => {
 		event.preventDefault();
-		const { oldPassword, newPassword, bio } = this.state;
+		const { oldPassword, newPassword, bio, firstName, lastName, location, selectedFile } = this.state;
+		const { userData } = this.props;
 
+		if (firstName && lastName) {
+			if (!this._validateNames(firstName, lastName)) return;
+		}
 		if (bio && (bio.length < 50 || bio.length > 300)) {
 			this.setState({
 				errorInputIndex: 3,
 				errorInputMessage: "Bio description should be between 50 and 300 characters"
 			});
 			return;
-		} else if (oldPassword && newPassword) {
+		}
+		if (oldPassword && newPassword) {
 			if (oldPassword === newPassword) {
 				this.setState({
 					errorInputIndex: 5,
@@ -70,9 +123,22 @@ export class UserEditing extends React.Component {
 			} else if (!this._validatePasswords(oldPassword, newPassword)) return;
 		}
 
-		this.setState({ errorInputIndex: -1, errorInputMessage: "", isLoading: true }, () => console.log(this.state));
-
-		// this.props.history.push(`/blog/${post.slug}`);
+		this.setState({ errorInputIndex: -1, errorInputMessage: "", isLoadingUpdateData: true }, () => {
+			// console.log(this.state);
+			let updateData = {
+				...(newPassword && { newPassword, oldPassword }),
+				...(bio && { bio }),
+				name: firstName + " " + lastName,
+				...(location && { location }),
+				...(selectedFile && { photos: selectedFile }),
+				email: userData.email
+			};
+			let formData = new FormData();
+			for (let key in updateData) formData.append(key, updateData[key]);
+			for (let pair of formData.entries()) console.log(`${pair[0]}: ${pair[1]}`);
+			// console.log(updateData.photos, ": photos");
+			this.props.onUpdate(userData._id, formData);
+		});
 	};
 
 	_handleFileChange = event => {
@@ -91,7 +157,7 @@ export class UserEditing extends React.Component {
 
 	_renderForm = () => {
 		const {
-			isLoading,
+			isLoadingUpdateData,
 			oldPassword,
 			newPassword,
 			isOldPasswordRequired,
@@ -116,11 +182,11 @@ export class UserEditing extends React.Component {
 								className="txt-input"
 								placeholder="first name"
 								autoComplete="off"
-								// required
+								required
 								value={firstName}
 								onChange={event => this.setState({ firstName: event.target.value })}
 							/>
-							{/* {this.state.errorInputIndex === 0 && <span>Please enter your first name</span>} */}
+							{this.state.errorInputIndex === 0 && <span>{this.state.errorInputMessage}</span>}
 						</div>
 						<div className="user-form-input-wrapper">
 							<input
@@ -130,11 +196,11 @@ export class UserEditing extends React.Component {
 								className="txt-input"
 								placeholder="last name"
 								autoComplete="off"
-								// required
+								required
 								value={lastName}
 								onChange={event => this.setState({ lastName: event.target.value })}
 							/>
-							{/* {this.state.errorInputIndex === 1 && <span>Please enter your last name</span>} */}
+							{this.state.errorInputIndex === 1 && <span>{this.state.errorInputMessage}</span>}
 						</div>
 					</div>
 					<div className="user-form-input-wrapper">
@@ -143,7 +209,7 @@ export class UserEditing extends React.Component {
 							name="location"
 							id="location"
 							className="txt-input"
-							placeholder="location"
+							placeholder="Location (e.g. Brooklyn, NY)"
 							autoComplete="off"
 							// required
 							value={location}
@@ -208,28 +274,35 @@ export class UserEditing extends React.Component {
 					</div>
 				</fieldset>
 				<div className="user-form-btn-wrapper">
-					{isLoading ? (
+					{isLoadingUpdateData ? (
 						<div className="user-form-loader-wrapper">
 							<Loader />
 						</div>
 					) : (
 						<input type="submit" className="btn" value="save" />
 					)}
+					{this.state.errorInputIndex === 6 && <span>{this.state.errorInputMessage}</span>}
 				</div>
 			</form>
 		);
 	};
 
 	render = () => {
-		const { data } = this.props;
-		return (
+		const { userData, isLoadingUser } = this.props;
+		return isLoadingUser ? (
+			<div className="wrapper">
+				<div className="news-loader-content">
+					<Loader />
+				</div>
+			</div>
+		) : (
 			<div className="wrapper">
 				<div className="news-masthead">
 					<figure
 						className="news-featured-image"
 						style={{
 							backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
-			url("${data.featured_image_url}")`
+			url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
 						}}
 					/>
 				</div>

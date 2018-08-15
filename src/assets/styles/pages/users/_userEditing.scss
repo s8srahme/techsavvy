@@ -98,6 +98,11 @@
 					.user-form-input-wrapper {
 						margin-bottom: $gutter-md;
 
+						.txt-input[name="location"] {
+							&::placeholder {
+								text-transform: none;
+							}
+						}
 						span,
 						label {
 							display: block;
@@ -110,10 +115,17 @@
 					margin-bottom: $gutter-xxxl;
 					width: 100%;
 					display: flex;
-					justify-content: flex-end;
+					justify-content: space-between;
+					align-items: center;
 
+					span,
+					label {
+						display: block;
+						margin-bottom: $gutter-md;
+						color: $color-grapefruit;
+					}
 					.user-form-loader-wrapper {
-						margin: 0 $gutter-xl $gutter-md;
+						margin: 0 0 $gutter-md;
 					}
 					.btn {
 						margin-bottom: $gutter-md;

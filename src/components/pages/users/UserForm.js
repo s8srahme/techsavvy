@@ -21,12 +21,20 @@ export class UserForm extends React.Component {
 
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
-			if (this.props.isLoadingLogin && !nextProps.isLoadingLogin)
-				this.setState({ isLoadingLogin: false, loginPassword: "", loginEmail: "" }, () => {
-					nextProps.onClose();
-					this.props.getOne({ id: "self" });
-				});
-			if (this.props.isLoadingRegister && !nextProps.isLoadingRegister)
+			if (this.props.isLoadingLogin && !nextProps.isLoadingLogin) {
+				if (nextProps.loginError) {
+					this.setState({
+						isLoadingLogin: false,
+						errorInputIndex: 4,
+						errorInputMessage: nextProps.loginError.response.data.message || "There was a problem finding the user"
+					});
+				} else {
+					this.setState({ isLoadingLogin: false, loginPassword: "", loginEmail: "" }, () => {
+						nextProps.onClose();
+						this.props.getOne({ id: "self" });
+					});
+				}
+			} else if (this.props.isLoadingRegister && !nextProps.isLoadingRegister) {
 				if (!nextProps.registerError) {
 					this.setState(
 						{ isLoadingRegister: false, registerPassword: "", confirmPassword: "", names: "", registerEmail: "" },
@@ -34,18 +42,21 @@ export class UserForm extends React.Component {
 							this._handleTabClick(0);
 						}
 					);
-				} else if (nextProps.registerError.response.status === 409) {
+				} else {
 					this.setState({
-						isLoadingLogin: false,
-						errorInputIndex: 0,
-						errorInputMessage: "Email address is already registered"
+						isLoadingRegister: false,
+						errorInputIndex: 4,
+						errorInputMessage:
+							nextProps.registerError.response.data.message ||
+							"There was a problem adding the information to the database"
 					});
 				}
+			}
 		}
 	};
 
 	_handleTabClick = index => {
-		this.setState({ activeTabIndex: index });
+		this.setState({ activeTabIndex: index, errorInputIndex: -1, errorInputMessage: "" });
 	};
 
 	_validatePassword = password => {
@@ -82,9 +93,17 @@ export class UserForm extends React.Component {
 
 	_handleFormSubmit = event => {
 		event.preventDefault();
-		const { registerEmail, registerPassword, confirmPassword, names, loginPassword, loginEmail } = this.state;
+		const {
+			activeTabIndex,
+			registerEmail,
+			registerPassword,
+			confirmPassword,
+			names,
+			loginPassword,
+			loginEmail
+		} = this.state;
 
-		if (confirmPassword) {
+		if (activeTabIndex === 1 && confirmPassword) {
 			if (registerPassword !== confirmPassword) {
 				this.setState({ errorInputIndex: 3, errorInputMessage: "Password does not match" });
 			} else if (this._validateNames(names) && this._validatePassword(registerPassword)) {
@@ -167,6 +186,7 @@ export class UserForm extends React.Component {
 					</div>
 					<div className="user-form-input-wrapper">
 						{isLoadingRegister ? <Loader /> : <input type="submit" className="btn" value="get started" />}
+						{this.state.errorInputIndex === 4 && <span>{this.state.errorInputMessage}</span>}
 					</div>
 				</fieldset>
 			</form>
@@ -209,6 +229,7 @@ export class UserForm extends React.Component {
 					</div>
 					<div className="user-form-input-wrapper">
 						{isLoadingLogin ? <Loader /> : <input type="submit" className="btn" value="continue" />}
+						{this.state.errorInputIndex === 4 && <span>{this.state.errorInputMessage}</span>}
 					</div>
 				</fieldset>
 			</form>

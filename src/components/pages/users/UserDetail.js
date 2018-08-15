@@ -19,12 +19,16 @@ export class UserDetail extends Component {
 
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
-			const { selfData, userData, onFollowData, onUnfollowData } = nextProps;
+			const { authenticationData, userData, onFollowData, onUnfollowData } = nextProps;
 			if (Object.keys(userData).length) {
 				let hasOnFollowData = Object.keys(onFollowData).length,
 					hasOnUnfollowData = Object.keys(onUnfollowData).length;
 				this.setState({
-					isFollowing: hasOnFollowData ? true : hasOnUnfollowData ? false : userData.followers.includes(selfData._id),
+					isFollowing: hasOnFollowData
+						? true
+						: hasOnUnfollowData
+							? false
+							: userData.followers.includes(authenticationData._id),
 					stats: [
 						{ label: "Stories", value: userData.counts["articles"] },
 						{
@@ -42,7 +46,7 @@ export class UserDetail extends Component {
 	};
 
 	render = () => {
-		const { userData, isLoadingUser, selfData, onFollow, onUnfollow, isLoadingFollowData } = this.props,
+		const { userData, isLoadingUser, authenticationData, onFollow, onUnfollow, isLoadingFollowData } = this.props,
 			{ isFollowing, stats } = this.state;
 
 		return isLoadingUser ? (
@@ -76,7 +80,7 @@ export class UserDetail extends Component {
 								</div>
 								<figcaption className="user-info-wrapper">
 									<hgroup>
-										<h1>{userData.name}</h1>
+										<h1 className="separator">{userData.name}</h1>
 										<h3>{"@" + userData.username}</h3>
 										{userData.location && (
 											<div className="user-location-info-wrapper">
@@ -111,7 +115,7 @@ export class UserDetail extends Component {
 										onClick={
 											isFollowing
 												? () => onUnfollow({ id: userData._id })
-												: () => onFollow({ followingId: userData._id, followerId: selfData._id })
+												: () => onFollow({ followingId: userData._id, followerId: authenticationData._id })
 										}
 									>
 										{isFollowing ? "unfollow" : "follow"}

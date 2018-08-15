@@ -1,7 +1,7 @@
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-		destination: (req, file, cb) => cb(null, "../../../uploads/"),
+		destination: (req, file, cb) => cb(null, "uploads/"),
 		filename: (req, file, cb) =>
 			cb(
 				null,
@@ -13,12 +13,22 @@ const storage = multer.diskStorage({
 		if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") cb(null, true);
 		else cb(new Error("Invalid mimetype"), false);
 	},
-	upload = multer({
+	uploadFile = multer({
 		storage,
 		limits: {
 			fileSize: 1024 * 1024 * 5
 		},
 		fileFilter
-	}).single("image");
+	}).single("avatar"),
+	uploadFiles = multer({
+		storage,
+		limits: {
+			fileSize: 1024 * 1024 * 5
+		},
+		fileFilter
+	}).array("photos", 12);
 
-module.exports = upload;
+module.exports = {
+	uploadFile,
+	uploadFiles
+};

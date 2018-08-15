@@ -2,7 +2,7 @@ export default (url, instance) => {
 	return {
 		getOne: ({ id }) => instance.get(`${url}/${id}`),
 		getAll: () => instance.get(url),
-		update: toUpdate => instance.put(`${url}/${toUpdate.id}`, toUpdate),
+		update: (id, toUpdate) => instance.patch(`${url}/${id}`, toUpdate),
 		create: toCreate => instance.post(`${url}/signup`, toCreate),
 		check: toCheck => instance.post(`${url}/login`, toCheck),
 		delete: ({ id }) => instance.delete(`${url}/${id}`),
