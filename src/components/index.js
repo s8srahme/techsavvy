@@ -6,6 +6,7 @@ import { Dropdown } from "./common/Dropdown";
 import { ArticleList } from "./pages/articles/ArticleList";
 import { ArticleDetail } from "./pages/articles/ArticleDetail";
 import { ArticleEditor } from "./pages/articles/ArticleEditor";
+import { ArticleForm } from "./pages/articles/ArticleForm";
 import { CommentList } from "./pages/comments/CommentList";
 import { CommentDetail } from "./pages/comments/CommentDetail";
 import { CommentEditing } from "./pages/comments/CommentEditing";
@@ -23,6 +24,7 @@ export {
 	ArticleList,
 	ArticleDetail,
 	ArticleEditor,
+	ArticleForm,
 	CommentList,
 	CommentDetail,
 	CommentEditing,

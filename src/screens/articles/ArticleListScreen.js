@@ -7,7 +7,7 @@ import { slugify } from "../../utils";
 class ArticleListScreen extends Component {
 	componentWillMount = () => {
 		window.scrollTo(0, 0);
-		this.props.fetchList();
+		this.props.fetchAll();
 	};
 
 	render = () => {
@@ -72,14 +72,15 @@ class ArticleListScreen extends Component {
 
 const mapStateToProps = state => {
 		return {
-			data: state.articles.list,
-			hasErrored: state.articles.hasErroredList,
-			isLoading: state.articles.isLoadingList
+			articles: state.articles.articles,
+			hasErroredArticles: state.articles.hasErroredArticles,
+			isLoadingArticles: state.articles.isLoadingArticles,
+			articlesError: state.articles.articlesError
 		};
 	},
 	mapDispatchToProps = dispatch => {
 		return {
-			fetchList: () => dispatch(actions.articles.fetchList())
+			fetchAll: () => dispatch(actions.articles.fetchAll())
 		};
 	},
 	ConnectedComponent = connect(

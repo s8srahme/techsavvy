@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export const extractId = str => {
+	let params = str.split("-");
+	return params[params.length - 1];
+};
+
 export const truncate = (string, maxLength, separator) => {
 	if (string.length > maxLength) {
 		let trimmedString = string.substr(0, maxLength);

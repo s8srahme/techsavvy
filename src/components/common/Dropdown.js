@@ -8,8 +8,8 @@ export const Dropdown = ({ items, shouldDropdownShrink }) => (
 				const Icon = item["icon"];
 				return (
 					<li key={i} className="dropdown-item" onClick={item.onClick}>
-						<Icon className="dropdown-item-icon" />
 						<span>{item.title}</span>
+						<Icon className="dropdown-item-icon" />
 					</li>
 				);
 			})}

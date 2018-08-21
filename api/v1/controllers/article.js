@@ -12,7 +12,7 @@ exports.articles_get_all = (req, res, next) => {
 	const { page, limit, sort, filter } = querify(req);
 	Article.find(
 		filter,
-		"_id text title description author_id featured_image_url claps created_at",
+		"_id text title description category author_id featured_image_url claps created_at",
 		{
 			skip: limit * (page - 1),
 			limit,
@@ -39,6 +39,7 @@ exports.articles_get_all = (req, res, next) => {
 										_id: doc._id,
 										text: doc.text,
 										title: doc.title,
+										category: doc.category,
 										description: doc.description,
 										author_id: doc.author_id,
 										featured_image_url: doc.featured_image_url,
@@ -65,7 +66,7 @@ exports.articles_get_all = (req, res, next) => {
 exports.articles_get_article = (req, res, next) => {
 	const id = req.params.articleId;
 	Article.findById(id)
-		.select("_id text title description author_id featured_image_url claps created_at")
+		.select("_id text title description category author_id featured_image_url claps created_at")
 		.populate("author_id", "name email")
 		.exec()
 		.then(article => {
@@ -84,7 +85,7 @@ exports.articles_get_article = (req, res, next) => {
 };
 exports.articles_create_article = (req, res, next) => {
 	// console.log(req.file);
-	let { text, title, claps, description, author_id } = req.body;
+	let { title, description, author_id, category } = req.body;
 	let featured_image_url = "";
 
 	User.findById(author_id)
@@ -93,39 +94,31 @@ exports.articles_create_article = (req, res, next) => {
 				return res.status(404).json({ message: "User not found" });
 			}
 
-			if (req.file) {
-				await cloudinary.uploader.upload(
-					req.file.path,
-					result => {
-						// console.log(result);
-						if (result.url) {
-							featured_image_url = result.url;
-							fs.unlink(req.file.path, err => {
-								if (err) console.log(err);
-								else console.log("Image deleted");
-							});
-							console.log("File uploaded");
-						} else {
-							console.log("Error uploading file");
-							featured_image_url = "http://localhost:5000/" + req.file.path;
-						}
-					},
-					{
-						// resource_type: "image",
-						// eager: [{ effect: "sepia" }]
+			if (req.files.length) {
+				await cloudinary.uploader.upload(req.files[0].path, result => {
+					// console.log(result);
+					if (result.url) {
+						featured_image_url = result.url;
+						fs.unlink(req.files[0].path, err => {
+							if (err) console.log(err);
+							else console.log("Image deleted");
+						});
+						console.log("File uploaded");
+					} else {
+						console.log("Error uploading file");
+						featured_image_url = "http://localhost:5000/" + req.file.path;
 					}
-				);
+				});
 			}
 
 			const article = new Article({
 				_id: new mongoose.Types.ObjectId(),
-				text,
 				title,
-				claps,
 				description,
 				author_id,
 				// author_id: mongoose.Types.ObjectId(author_id),
 				featured_image_url,
+				category,
 				created_at: new Date().toString()
 			});
 			article.save((err, article) => {
@@ -138,7 +131,7 @@ exports.articles_create_article = (req, res, next) => {
 						message: "Created article successfully",
 						createdArticle: {
 							_id: article._id,
-							text: article.text,
+							category: article.category,
 							title: article.title,
 							description: article.description,
 							author_id: article.author_id,
@@ -186,12 +179,36 @@ exports.articles_delete_article = (req, res, next) => {
 			});
 		});
 };
-exports.articles_update_article = (req, res, next) => {
+exports.articles_update_article = async (req, res, next) => {
 	const id = req.params.articleId;
 	const updateOps = {};
-	for (const ops of req.body) {
-		updateOps[ops.propName] = ops.value;
+	let featured_image_url = "";
+	// for (const ops of req.body) {
+	// 	updateOps[ops.propName] = ops.value;
+	// }
+
+	if (req.files.length) {
+		await cloudinary.uploader.upload(req.files[0].path, result => {
+			// console.log(result);
+			if (result.url) {
+				featured_image_url = result.url;
+				fs.unlink(req.files[0].path, err => {
+					if (err) console.log(err);
+					else console.log("Image deleted");
+				});
+				console.log("File uploaded");
+			} else {
+				console.log("Error uploading file");
+				featured_image_url = "http://localhost:5000/" + req.file.path;
+			}
+		});
 	}
+
+	if (featured_image_url) updateOps.featured_image_url = featured_image_url;
+	for (const propName in req.body) {
+		if (propName !== "photos") updateOps[propName] = req.body[propName];
+	}
+
 	Article.update({ _id: id }, { $set: updateOps })
 		.exec()
 		.then(result => {

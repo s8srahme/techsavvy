@@ -1,36 +1,93 @@
-import { FETCHING_LIST, FETCHING_LIST_SUCCESS, FETCHING_LIST_FAILURE } from "../constants";
+import {
+	FETCH_ARTICLES,
+	FETCH_ARTICLES_SUCCESS,
+	FETCH_ARTICLES_FAILURE,
+	FETCH_ARTICLE,
+	FETCH_ARTICLE_SUCCESS,
+	FETCH_ARTICLE_FAILURE,
+	UPDATE_ARTICLE,
+	UPDATE_ARTICLE_SUCCESS,
+	UPDATE_ARTICLE_FAILURE,
+	CREATE_ARTICLE,
+	CREATE_ARTICLE_SUCCESS,
+	CREATE_ARTICLE_FAILURE
+} from "../constants";
 import services from "services";
 
-export const getList = () => {
+const get = type => {
 	return {
-		type: FETCHING_LIST
+		type
+	};
+};
+const getSuccess = (type, payload) => {
+	return {
+		type,
+		payload
+	};
+};
+const getFailure = (type, error) => {
+	return {
+		type,
+		error
 	};
 };
 
-export const getListSuccess = data => {
-	return {
-		type: FETCHING_LIST_SUCCESS,
-		payload: data
-	};
-};
-
-export const getListFailure = () => {
-	return {
-		type: FETCHING_LIST_FAILURE
-	};
-};
-
-export const fetchList = () => {
+export const fetchAll = () => {
 	return dispatch => {
-		dispatch(getList());
+		dispatch(get(FETCH_ARTICLES));
 		services.articles
 			.getAll()
-			.then(data => {
-				dispatch(getListSuccess(data));
+			.then(res => {
+				dispatch(getSuccess(FETCH_ARTICLES_SUCCESS, res));
 			})
 			.catch(err => {
 				console.log("err:", err);
-				dispatch(getListFailure());
+				dispatch(getFailure(FETCH_ARTICLES_FAILURE, err));
+			});
+	};
+};
+
+export const fetchOne = id => {
+	return dispatch => {
+		dispatch(get(FETCH_ARTICLE));
+		services.articles
+			.getOne(id)
+			.then(res => {
+				dispatch(getSuccess(FETCH_ARTICLE_SUCCESS, res.data));
+			})
+			.catch(err => {
+				console.log("err:", err);
+				dispatch(getFailure(FETCH_ARTICLE_FAILURE, err));
+			});
+	};
+};
+
+export const update = (id, updateData) => {
+	return dispatch => {
+		dispatch(get(UPDATE_ARTICLE));
+		services.articles
+			.update(id, updateData)
+			.then(res => {
+				dispatch(getSuccess(UPDATE_ARTICLE_SUCCESS, res.data));
+			})
+			.catch(err => {
+				console.log("err:", err);
+				dispatch(getFailure(UPDATE_ARTICLE_FAILURE, err));
+			});
+	};
+};
+
+export const create = createData => {
+	return dispatch => {
+		dispatch(get(CREATE_ARTICLE));
+		services.articles
+			.create(createData)
+			.then(res => {
+				dispatch(getSuccess(CREATE_ARTICLE_SUCCESS, res));
+			})
+			.catch(err => {
+				console.log("err:", err);
+				dispatch(getFailure(CREATE_ARTICLE_FAILURE, err));
 			});
 	};
 };

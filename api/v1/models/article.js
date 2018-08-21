@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 
 const articleSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
-	text: String,
+	// text: String,
 	title: { type: String, required: true },
 	description: { type: String, required: true },
 	featured_image_url: String,
 	claps: { type: Number, default: 0 },
+	category: { type: String, required: true },
 	author_id: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",

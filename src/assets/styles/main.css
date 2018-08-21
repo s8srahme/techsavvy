@@ -633,11 +633,11 @@ html {
   .radio-btn:checked {
     outline-color: #131315; }
 
-.link, .wrapper .news-view-content .container .row .column div p a, .wrapper .news-view-content .container .row .column div blockquote a, .news-editor-content .container .row #news-editor-form .news-editor-form-description a {
+.link, .wrapper .news-view-content .container .row .column #news-view-description p a, .wrapper .news-view-content .container .row .column #news-view-description blockquote a, .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description a {
   position: relative;
   font-weight: 700;
   color: black; }
-  .link:before, .wrapper .news-view-content .container .row .column div p a:before, .wrapper .news-view-content .container .row .column div blockquote a:before, .news-editor-content .container .row #news-editor-form .news-editor-form-description a:before {
+  .link:before, .wrapper .news-view-content .container .row .column #news-view-description p a:before, .wrapper .news-view-content .container .row .column #news-view-description blockquote a:before, .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description a:before {
     content: "";
     position: absolute;
     left: 0;
@@ -646,7 +646,7 @@ html {
     height: 2px;
     background-color: #131315;
     transition: width 0.3s ease-in-out 0s; }
-  .link:hover:before, .wrapper .news-view-content .container .row .column div p a:hover:before, .wrapper .news-view-content .container .row .column div blockquote a:hover:before, .news-editor-content .container .row #news-editor-form .news-editor-form-description a:hover:before {
+  .link:hover:before, .wrapper .news-view-content .container .row .column #news-view-description p a:hover:before, .wrapper .news-view-content .container .row .column #news-view-description blockquote a:hover:before, .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description a:hover:before {
     width: 100%; }
 
 .separator:after {
@@ -774,6 +774,7 @@ html {
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: flex-end;
       padding: 1.2rem 1.6rem;
       width: 148px; }
       .dropdown-list-wrapper .dropdown-list .dropdown-item:hover {
@@ -783,7 +784,7 @@ html {
         color: #131315;
         height: 2.4rem;
         width: 2.4rem;
-        margin-right: 1.2rem; }
+        margin-left: 1.2rem; }
       .dropdown-list-wrapper .dropdown-list .dropdown-item span {
         font-family: "Dosis", sans-serif;
         font-size: 1.6rem;
@@ -999,6 +1000,8 @@ html {
 
 .wrapper .news-view-content {
   background-color: #ffffff; }
+  .wrapper .news-view-content.clear {
+    padding-top: 10rem; }
   .wrapper .news-view-content .container {
     max-width: 768px;
     padding: 6.4rem 0; }
@@ -1013,29 +1016,57 @@ html {
         padding: 1.2rem 0;
         letter-spacing: normal;
         font-weight: 700; }
-      .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta {
+      .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper {
         display: flex;
         align-items: center;
-        flex-direction: row; }
-        .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta span {
-          text-transform: capitalize; }
-          .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta span:nth-child(2) {
-            font-size: 1.6rem;
-            margin: 0 0.4rem; }
-        .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta time {
-          font-family: "Dosis", sans-serif;
-          font-size: 1.2rem;
-          font-weight: 400;
-          font-style: normal;
-          color: #a8aaaf;
-          line-height: 1;
-          text-transform: lowercase; }
-    .wrapper .news-view-content .container .row .column div h2 {
+        flex-direction: row;
+        padding-top: 0.4rem; }
+        .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta {
+          display: flex;
+          align-items: center;
+          flex-direction: row; }
+          .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta span {
+            text-transform: capitalize; }
+            .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta span:nth-child(2) {
+              font-size: 1.6rem;
+              margin: 0 0.4rem; }
+          .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta time {
+            font-family: "Dosis", sans-serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            font-style: normal;
+            color: #a8aaaf;
+            line-height: 1;
+            text-transform: lowercase; }
+        .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta-dropdown-wrapper {
+          position: relative; }
+          .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta-dropdown-wrapper .news-meta-dropdown-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-start;
+            margin-left: 1.2rem; }
+            .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta-dropdown-wrapper .news-meta-dropdown-btn:hover {
+              cursor: pointer; }
+              .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta-dropdown-wrapper .news-meta-dropdown-btn:hover .comment-card-dropdown-icon {
+                color: #131315; }
+            .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta-dropdown-wrapper .news-meta-dropdown-btn .news-meta-dropdown-icon {
+              color: #a8aaaf;
+              height: 3.2rem;
+              width: 3.2rem; }
+          .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta-dropdown-wrapper .dropdown-list-wrapper {
+            top: 34px;
+            right: 0; }
+            .wrapper .news-view-content .container .row .column .news-info-wrapper .news-meta-wrapper .news-meta-dropdown-wrapper .dropdown-list-wrapper .arrow-up {
+              padding-left: 0;
+              justify-content: flex-end;
+              padding-right: 11px; }
+    .wrapper .news-view-content .container .row .column #news-view-description h2 {
       margin-bottom: 1.6rem; }
-    .wrapper .news-view-content .container .row .column div p + h2,
-    .wrapper .news-view-content .container .row .column div blockquote + h2 {
+    .wrapper .news-view-content .container .row .column #news-view-description p + h2,
+    .wrapper .news-view-content .container .row .column #news-view-description blockquote + h2 {
       margin: 3.2rem 0 1.6rem; }
-    .wrapper .news-view-content .container .row .column div p {
+    .wrapper .news-view-content .container .row .column #news-view-description p {
       margin-bottom: 1.6rem;
       font-family: "Dosis", sans-serif;
       font-size: 2.4rem;
@@ -1044,9 +1075,9 @@ html {
       color: #131315;
       line-height: 1.3;
       letter-spacing: 1.5px; }
-      .wrapper .news-view-content .container .row .column div p:last-child {
+      .wrapper .news-view-content .container .row .column #news-view-description p:last-child {
         margin-bottom: 0; }
-    .wrapper .news-view-content .container .row .column div blockquote {
+    .wrapper .news-view-content .container .row .column #news-view-description blockquote {
       font-family: "Dosis", sans-serif;
       font-size: 2.4rem;
       font-weight: 300;
@@ -1056,12 +1087,24 @@ html {
       border-left: 3px solid #131315;
       padding: 1.2rem 1.6rem;
       margin-bottom: 1.6rem; }
-    .wrapper .news-view-content .container .row .column div img {
+    .wrapper .news-view-content .container .row .column #news-view-description ul {
+      list-style-type: disc !important;
+      margin-left: 2.4rem; }
+      .wrapper .news-view-content .container .row .column #news-view-description ul li {
+        margin-bottom: 1.6rem;
+        font-family: "Dosis", sans-serif;
+        font-size: 2.4rem;
+        font-weight: 400;
+        font-style: normal;
+        color: #131315;
+        line-height: 1.3;
+        letter-spacing: 1.5px; }
+    .wrapper .news-view-content .container .row .column #news-view-description img {
       display: block;
       width: 100%;
       padding-top: 1.2rem;
       margin-bottom: 2.8rem; }
-      .wrapper .news-view-content .container .row .column div img:last-child {
+      .wrapper .news-view-content .container .row .column #news-view-description img:last-child {
         margin-bottom: 0; }
 
 .news-editor-content {
@@ -1098,7 +1141,7 @@ html {
             right: 0;
             top: 0;
             z-index: 1;
-            background-image: linear-gradient(to bottom, rgba(19, 19, 21, 0.1), rgba(19, 19, 21, 0.8)); }
+            background-image: linear-gradient(to bottom, rgba(19, 19, 21, 0.1), rgba(19, 19, 21, 0.3)); }
         .news-editor-content .container .row .news-editor-heading-wrapper .news-editor-heading-title-wrapper {
           display: flex;
           flex: 1;
@@ -1121,70 +1164,86 @@ html {
         flex-direction: column;
         position: relative;
         width: 100%; }
-        .news-editor-content .container .row #news-editor-form .news-editor-form-title {
-          font-family: "Dosis", sans-serif;
-          font-size: 4.8rem;
-          font-weight: 700;
-          font-style: normal;
-          color: #131315;
-          line-height: 1;
-          min-height: 80px;
-          margin-bottom: 1.6rem;
-          padding: 1.6rem; }
-          .news-editor-content .container .row #news-editor-form .news-editor-form-title.hidden {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            height: auto;
-            visibility: hidden;
-            position: absolute;
-            top: 0; }
-          .news-editor-content .container .row #news-editor-form .news-editor-form-title::placeholder {
+        .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper {
+          margin-bottom: 1.6rem; }
+          .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper span {
+            display: block;
+            margin: 1.2rem 0;
+            color: #ed5565; }
+          .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-title {
             font-family: "Dosis", sans-serif;
             font-size: 4.8rem;
             font-weight: 700;
             font-style: normal;
-            color: #a8aaaf;
+            color: #131315;
             line-height: 1;
-            letter-spacing: normal; }
-        .news-editor-content .container .row #news-editor-form .news-editor-form-description {
-          font-family: "Dosis", sans-serif;
-          font-size: 2.4rem;
-          font-weight: 400;
-          font-style: normal;
-          color: #131315;
-          line-height: 1.3;
-          letter-spacing: 2px;
-          min-height: 300px;
-          height: auto;
-          margin-bottom: 1.6rem;
-          padding: 1.6rem; }
-          .news-editor-content .container .row #news-editor-form .news-editor-form-description h2 {
-            margin-bottom: 1.6rem; }
-          .news-editor-content .container .row #news-editor-form .news-editor-form-description p + h2,
-          .news-editor-content .container .row #news-editor-form .news-editor-form-description blockquote + h2 {
-            margin: 3.2rem 0 1.6rem; }
-          .news-editor-content .container .row #news-editor-form .news-editor-form-description p {
-            margin-bottom: 1.6rem;
+            min-height: 80px;
+            padding: 1.6rem; }
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-title.hidden {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+              height: auto;
+              visibility: hidden;
+              position: absolute;
+              top: 0; }
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-title::placeholder {
+              font-family: "Dosis", sans-serif;
+              font-size: 4.8rem;
+              font-weight: 700;
+              font-style: normal;
+              color: #a8aaaf;
+              line-height: 1;
+              letter-spacing: normal; }
+          .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description {
             font-family: "Dosis", sans-serif;
             font-size: 2.4rem;
             font-weight: 400;
             font-style: normal;
             color: #131315;
             line-height: 1.3;
-            letter-spacing: 2px; }
-            .news-editor-content .container .row #news-editor-form .news-editor-form-description p:last-child {
-              margin-bottom: 0; }
-          .news-editor-content .container .row #news-editor-form .news-editor-form-description blockquote {
-            font-family: "Dosis", sans-serif;
-            font-size: 2.4rem;
-            font-weight: 400;
-            font-style: italic;
-            color: #131315;
-            line-height: 1.3;
             letter-spacing: 2px;
-            border-left: 3px solid #131315;
-            padding: 1.2rem 1.6rem;
-            margin-bottom: 1.6rem; }
+            min-height: 300px;
+            height: auto;
+            padding: 1.6rem; }
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description h2 {
+              margin-bottom: 1.6rem; }
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description p + h2,
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description blockquote + h2 {
+              margin: 3.2rem 0 1.6rem; }
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description p {
+              margin-bottom: 1.6rem;
+              font-family: "Dosis", sans-serif;
+              font-size: 2.4rem;
+              font-weight: 400;
+              font-style: normal;
+              color: #131315;
+              line-height: 1.3;
+              letter-spacing: 2px; }
+              .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description p:last-child {
+                margin-bottom: 0; }
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description blockquote {
+              font-family: "Dosis", sans-serif;
+              font-size: 2.4rem;
+              font-weight: 400;
+              font-style: italic;
+              color: #131315;
+              line-height: 1.3;
+              letter-spacing: 2px;
+              border-left: 3px solid #131315;
+              padding: 1.2rem 1.6rem;
+              margin-bottom: 1.6rem; }
+            .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description ul {
+              list-style-type: disc !important;
+              margin-left: 2.4rem; }
+              .news-editor-content .container .row #news-editor-form .news-editor-form-input-wrapper .news-editor-form-description ul li {
+                margin-bottom: 1.6rem;
+                font-family: "Dosis", sans-serif;
+                font-size: 2.4rem;
+                font-weight: 400;
+                font-style: normal;
+                color: #131315;
+                line-height: 1.3;
+                letter-spacing: 1.5px; }
         .news-editor-content .container .row #news-editor-form .news-editor-tags-wrapper {
           margin-bottom: 2.4rem; }
           .news-editor-content .container .row #news-editor-form .news-editor-tags-wrapper h4 {
@@ -1203,14 +1262,28 @@ html {
         .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper {
           display: flex;
           flex-direction: row;
-          align-items: center; }
+          align-items: center;
+          justify-content: space-between; }
           @media (max-width: 479px) {
-            .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper .btn {
-              flex: 1;
-              justify-content: center;
-              padding: 0; } }
-          .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper .btn:last-child {
-            margin-left: 1.2rem; }
+            .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper {
+              flex-direction: column; } }
+          .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper span {
+            display: block;
+            margin: 1.2rem 0;
+            color: #ed5565; }
+          .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper .news-editor-inputs {
+            display: flex;
+            flex-direction: row;
+            align-items: center; }
+            @media (max-width: 479px) {
+              .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper .news-editor-inputs {
+                width: 100%; }
+                .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper .news-editor-inputs .btn {
+                  flex: 1;
+                  justify-content: center;
+                  padding: 0; } }
+            .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper .news-editor-inputs .btn:last-child {
+              margin-left: 1.2rem; }
 
 .comment-content {
   background-color: #f2f2f2; }

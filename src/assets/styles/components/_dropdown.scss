@@ -46,6 +46,7 @@
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+			justify-content: flex-end;
 			padding: $gutter-sm $gutter-md;
 			width: 150px - 2px;
 			&:hover {
@@ -57,7 +58,7 @@
 				color: $color-dark-gray;
 				height: $font-size-large;
 				width: $font-size-large;
-				margin-right: $gutter-sm;
+				margin-left: $gutter-sm;
 			}
 			span {
 				@include font($font-size-regular, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3);

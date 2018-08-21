@@ -7,10 +7,11 @@ import "../../../../node_modules/medium-editor/dist/css/themes/beagle.css";
 
 const tags = [{ name: "tech" }, { name: "ENTERTAINMENT" }, { name: "Sports" }, { name: "others" }];
 
-export class ArticleEditor extends Component {
+export class ArticleForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			editor: null,
 			title: "",
 			description: "",
 			// isDescriptionEmpty: true,
@@ -21,7 +22,7 @@ export class ArticleEditor extends Component {
 			activeTagIndex: 0,
 			errorInputIndex: -1,
 			errorInputMessage: "",
-			isFetchingCreateData: false
+			isFetchingUpdateData: false
 		};
 	}
 
@@ -34,30 +35,81 @@ export class ArticleEditor extends Component {
 	// 	editor.unsubscribe("editableInput", this._handleEditableInput);
 	// };
 
-	componentWillReceiveProps = nextProps => {
+	componentWillReceiveProps = async nextProps => {
 		if (this.props !== nextProps) {
-			const { authenticationData, isLoadingAuthentication, isFetchingCreateData, onCreateError } = nextProps;
+			const {
+				onFetchOne,
 
-			if (Object.keys(authenticationData).length || (this.props.isLoadingAuthentication && !isLoadingAuthentication)) {
-				setTimeout(() => {
-					const editor = this._createEditorInstance();
-					editor.subscribe("editableInput", this._handleEditableInput);
-				}, 300);
-			}
-			if (this.props.isFetchingCreateData && !isFetchingCreateData) {
-				if (onCreateError) {
+				authenticationData,
+				isLoadingAuthentication,
+
+				isFetchingUpdateData,
+				onUpdateError,
+				// onUpdateData,
+
+				articleData
+				// hasErroredArticle,
+				// articleError,
+				// isFetchingArticle
+			} = nextProps;
+
+			if (this.props.isFetchingUpdateData && !isFetchingUpdateData) {
+				if (onUpdateError) {
 					this.setState({
-						isFetchingCreateData: false,
+						isFetchingUpdateData: false,
 						errorInputIndex: 2,
 						errorInputMessage:
-							onCreateError.response.data.message || "There was a problem adding the information to the database"
+							onUpdateError.response.data.message || "There was a problem adding the information to the database"
 					});
 				} else {
-					this.setState({ isFetchingCreateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {
+					this.setState({ isFetchingUpdateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {
+						onFetchOne();
 						this._handleFormCancel();
 					});
 				}
+			} else if (
+				!this.state.isFetchingUpdateData &&
+				(Object.keys(authenticationData).length || (this.props.isLoadingAuthentication && !isLoadingAuthentication))
+			) {
+				// await this._sleep(() => {
+				setTimeout(() => {
+					const editor = this._createEditorInstance();
+					editor.subscribe("editableInput", this._handleEditableInput);
+					this.setState({ editor }, () => this._setContent(articleData));
+				}, 300);
 			}
+
+			// this._setContent(articleData);
+		}
+	};
+
+	// _sleep = (fn, ms) => {
+	// 	return new Promise(resolve => {
+	// 		setTimeout(() => resolve(fn()), ms);
+	// 	});
+	// };
+
+	_setContent = articleData => {
+		if (this.state.editor && Object.keys(articleData).length) {
+			let activeTagIndex = 0;
+			tags.forEach((currentValue, index) => {
+				if (currentValue.name.toLowerCase() === articleData.category.toLowerCase()) activeTagIndex = index;
+			});
+
+			this.setState(
+				{
+					title: articleData.title,
+					description: articleData.description,
+					featuredImage: articleData.featured_image_url,
+					activeTagIndex
+				},
+				() => {
+					// console.log(this.state);
+					this._handleTitleResize();
+					// document.getElementById("title").innerHTML = this.state.title;
+					this.state.editor.setContent(this.state.description, 0);
+				}
+			);
 		}
 	};
 
@@ -129,15 +181,18 @@ export class ArticleEditor extends Component {
 
 	_handleFormSubmit = event => {
 		event.preventDefault();
-		const { authenticationData, onCreate } = this.props;
+		const { authenticationData, onUpdate, articleData } = this.props;
 		let createData = {},
 			{ title, description, selectedFile, activeTagIndex } = this.state;
 
 		if (!title || title.length < 15 || title.length > 100) {
-			this.setState({
-				errorInputIndex: 0,
-				errorInputMessage: "Title should be between 15 and 100 characters"
-			});
+			this.setState(
+				{
+					errorInputIndex: 0,
+					errorInputMessage: "Title should be between 15 and 100 characters"
+				},
+				() => this.titleInput.focus()
+			);
 			return;
 		} else if (!description || description.length < 50) {
 			this.setState({
@@ -151,7 +206,7 @@ export class ArticleEditor extends Component {
 			{
 				errorInputIndex: -1,
 				errorInputMessage: "",
-				isFetchingCreateData: true
+				isFetchingUpdateData: true
 			},
 			() => {
 				createData.author_id = authenticationData._id;
@@ -164,7 +219,7 @@ export class ArticleEditor extends Component {
 				for (let key in createData) formData.append(key, createData[key]);
 				// for (var pair of formData.entries()) console.log(pair[0] + ": " + pair[1]);
 
-				onCreate(formData);
+				onUpdate(articleData._id, formData);
 			}
 		);
 	};
@@ -194,13 +249,15 @@ export class ArticleEditor extends Component {
 	render = () => {
 		const {
 			isLoadingAuthentication,
-			authenticationData
+			authenticationData,
+
+			isFetchingArticle
 
 			// onCreateData,
 			// isFetchingCreateData,
 			// onCreateError
 		} = this.props;
-		let { featuredImage, isFetchingCreateData } = this.state,
+		let { featuredImage, isFetchingUpdateData } = this.state,
 			props = {};
 		if (featuredImage) {
 			props = {
@@ -210,7 +267,8 @@ url("${this.state.featuredImage}")`
 				}
 			};
 		}
-		return isLoadingAuthentication ? (
+
+		return isLoadingAuthentication || isFetchingArticle ? (
 			<div className="wrapper">
 				<div className="news-loader-content">
 					<Loader />
@@ -260,11 +318,14 @@ url("${this.state.featuredImage}")`
 							<form id="news-editor-form" className="column" onSubmit={this._handleFormSubmit} autoComplete="off">
 								<div className="news-editor-form-input-wrapper">
 									<textarea
+										ref={input => {
+											this.titleInput = input;
+										}}
 										className={`txt-area news-editor-form-title ${this.state.shouldTitleResize && "resize"}`}
 										id="title"
 										name="title"
-										// value={this.state.title}
-										defaultValue={this.state.title}
+										value={this.state.title}
+										// defaultValue={this.state.title}
 										placeholder="Title"
 										style={{ height: this.state.titleHeight + "px" }}
 										// autoFocus
@@ -317,7 +378,7 @@ url("${this.state.featuredImage}")`
 									</ul>
 								</div>
 								<div className="news-editor-inputs-wrapper">
-									{isFetchingCreateData ? (
+									{isFetchingUpdateData ? (
 										<Loader />
 									) : (
 										<div className="news-editor-inputs">

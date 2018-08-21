@@ -7,8 +7,10 @@ module.exports = router => {
 	router.route("/articles").get(checkAuth, ArticlesController.articles_get_all);
 	router.route("/articles/:articleId").get(checkAuth, ArticlesController.articles_get_article);
 	router.route("/articles/:articleId").delete(checkAuth, ArticlesController.articles_delete_article);
-	router.route("/articles/:articleId").patch(checkAuth, ArticlesController.articles_update_article);
-	router.route("/articles").post(checkAuth, validatePhoto.uploadFile, ArticlesController.articles_create_article);
+	router
+		.route("/articles/:articleId")
+		.patch(checkAuth, validatePhoto.uploadFiles, ArticlesController.articles_update_article);
+	router.route("/articles").post(checkAuth, validatePhoto.uploadFiles, ArticlesController.articles_create_article);
 	router.route("/articles/:articleId/comments").get(checkAuth, ArticlesController.articles_get_all_comments);
 	// router.route("/articles/:articleId/comments").post(checkAuth, ArticlesController.articles_create_comment);
 	// router

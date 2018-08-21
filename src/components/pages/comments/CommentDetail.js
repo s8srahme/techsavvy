@@ -77,7 +77,7 @@ export class CommentDetail extends Component {
 								// 	</li>
 								// </ul>
 								<Dropdown
-									shouldDropdownShrink={this.state.offsetTop > 0}
+									shouldDropdownShrink={false}
 									items={[
 										{ icon: Edit2, title: "Edit", onClick: () => this._handleEditClickIn() },
 										{ icon: Delete, title: "Delete", onClick: () => {} }

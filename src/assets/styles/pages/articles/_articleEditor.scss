@@ -39,7 +39,7 @@
 						right: 0;
 						top: 0;
 						z-index: 1;
-						background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.1), rgba($color-dark-gray, 0.8));
+						background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.1), rgba($color-dark-gray, 0.3));
 					}
 				}
 				.news-editor-heading-title-wrapper {
@@ -66,67 +66,90 @@
 				position: relative;
 				width: 100%;
 
-				.news-editor-form-title {
-					@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-dark-gray, 1);
-					min-height: 80px;
+				.news-editor-form-input-wrapper {
 					margin-bottom: $gutter-md;
-					padding: $gutter-md;
 
-					// &.resize {
-					// 	padding: $gutter-sm;
-					// 	line-height: 1;
-					// }
-
-					&.hidden {
-						// display: block;
-						white-space: pre-wrap;
-						word-wrap: break-word;
-						height: auto;
-						visibility: hidden;
-						position: absolute;
-						top: 0;
+					span {
+						display: block;
+						margin: $gutter-sm 0;
+						color: $color-grapefruit;
 					}
+					.news-editor-form-title {
+						@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-dark-gray, 1);
+						min-height: 80px;
+						padding: $gutter-md;
 
-					&::placeholder {
-						@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-medium-gray, 1);
-						letter-spacing: normal;
-					}
-				}
-				.news-editor-form-description {
-					@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3, 2px);
-					min-height: 300px;
-					height: auto;
-					margin-bottom: $gutter-md;
-					padding: $gutter-md;
+						// &.resize {
+						// 	padding: $gutter-sm;
+						// 	line-height: 1;
+						// }
 
-					// &.placeholder {
-					// 	@include font($font-size-large, $font-weight-light, $font-style-regular, $color-medium-gray, 1.3, 2px);
-					// }
+						&.hidden {
+							// display: block;
+							white-space: pre-wrap;
+							word-wrap: break-word;
+							height: auto;
+							visibility: hidden;
+							position: absolute;
+							top: 0;
+						}
 
-					h2 {
-						margin-bottom: $gutter-md;
-					}
-					p + h2,
-					blockquote + h2 {
-						margin: $gutter-xl 0 $gutter-md;
-					}
-					p {
-						// text-align: justify;
-						margin-bottom: $gutter-md;
-						@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3, 2px);
-
-						&:last-child {
-							margin-bottom: 0;
+						&::placeholder {
+							@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-medium-gray, 1);
+							letter-spacing: normal;
 						}
 					}
-					a {
-						@extend .link;
-					}
-					blockquote {
-						@include font($font-size-large, $font-weight-regular, $font-style-italic, $color-dark-gray, 1.3, 2px);
-						border-left: 3px solid $color-dark-gray;
-						padding: $gutter-sm $gutter-md;
-						margin-bottom: $gutter-md;
+					.news-editor-form-description {
+						@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3, 2px);
+						min-height: 300px;
+						height: auto;
+						padding: $gutter-md;
+
+						// &.placeholder {
+						// 	@include font($font-size-large, $font-weight-light, $font-style-regular, $color-medium-gray, 1.3, 2px);
+						// }
+
+						h2 {
+							margin-bottom: $gutter-md;
+						}
+						p + h2,
+						blockquote + h2 {
+							margin: $gutter-xl 0 $gutter-md;
+						}
+						p {
+							// text-align: justify;
+							margin-bottom: $gutter-md;
+							@include font($font-size-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1.3, 2px);
+
+							&:last-child {
+								margin-bottom: 0;
+							}
+						}
+						a {
+							@extend .link;
+						}
+						blockquote {
+							@include font($font-size-large, $font-weight-regular, $font-style-italic, $color-dark-gray, 1.3, 2px);
+							border-left: 3px solid $color-dark-gray;
+							padding: $gutter-sm $gutter-md;
+							margin-bottom: $gutter-md;
+						}
+						ul {
+							list-style-type: disc !important;
+							margin-left: $gutter-lg;
+
+							li {
+								margin-bottom: $gutter-md;
+								@include font(
+									$font-size-large,
+									$font-weight-regular,
+									$font-style-regular,
+									$color-dark-gray,
+									1.3,
+									1.5px
+								);
+							}
+						}
 					}
 				}
 				.news-editor-tags-wrapper {
@@ -152,15 +175,33 @@
 					display: flex;
 					flex-direction: row;
 					align-items: center;
+					justify-content: space-between;
+					@include breakpoint(xs) {
+						flex-direction: column;
+					}
 
-					.btn {
+					span {
+						display: block;
+						margin: $gutter-sm 0;
+						color: $color-grapefruit;
+					}
+					.news-editor-inputs {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
 						@include breakpoint(xs) {
-							flex: 1;
-							justify-content: center;
-							padding: 0;
+							width: 100%;
+							.btn {
+								flex: 1;
+								justify-content: center;
+								padding: 0;
+							}
 						}
-						&:last-child {
-							margin-left: $gutter-sm;
+
+						.btn {
+							&:last-child {
+								margin-left: $gutter-sm;
+							}
 						}
 					}
 				}
