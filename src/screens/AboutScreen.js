@@ -25,11 +25,15 @@ export class AboutScreen extends Component {
 								ranging between business, startups, culture, technology, politics, and life learning. Think of it as a
 								free and open platform, where anyone can publish content with an easy to use editor, follow your
 								favourite writers, interact with them through clapping on their articles, and even leave meaningful
-								responses.<br />Not really a unique project? Of course, it isn't. I, aka <b>NanoSoldierSeven</b>,
-								developed it as a pet project while I was trying to find a sure and fun way to learn today’s tech and
-								better understand my motivation towards it. Not only have I enjoyed making it, I figured that the effort
-								behind it would come in handy at building stronger professional relationships using modern development
-								stack.<br />There are more exciting features coming up soon. So stay in touch.
+								responses.
+								<br />
+								Not really a unique project? Of course, it isn't. I, aka <b>NanoSoldierSeven</b>, developed it as a pet
+								project while I was trying to find a sure and fun way to learn today’s software tech and better
+								understand my motivation towards it. Not only have I enjoyed making it, I figured that the effort behind
+								it would come in handy at building stronger professional relationships using modern development stacks,
+								such as MERN.
+								<br />
+								There are more exciting features coming up soon. So stay in touch.
 							</p>
 						</div>
 					</article>

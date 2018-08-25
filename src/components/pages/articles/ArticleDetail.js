@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Loader } from "components";
 import { ChevronDown, Edit2, Delete } from "react-feather";
+import { slugify } from "../../../utils";
 import { Dropdown } from "../..";
 import moment from "moment";
 
@@ -8,9 +9,19 @@ export class ArticleDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isDropdownActive: false
+			isDropdownActive: false,
+			isFetchingArticle: true
 		};
 	}
+
+	componentWillReceiveProps = nextProps => {
+		if (this.props !== nextProps) {
+			const { isFetchingArticle } = nextProps;
+			if (this.props.isFetchingArticle && !isFetchingArticle) {
+				this.setState({ isFetchingArticle: false });
+			}
+		}
+	};
 
 	_handleDropdownClick = index => {
 		this.setState({ isDropdownActive: !this.state.isDropdownActive });
@@ -18,16 +29,16 @@ export class ArticleDetail extends Component {
 
 	render = () => {
 		const {
-			// authenticationData,
+			authenticationData,
 			isLoadingAuthentication,
 
-			articleData,
+			articleData
 			// hasErroredArticle,
 			// articleError,
-			isFetchingArticle
+			// isFetchingArticle
 		} = this.props;
 
-		return isLoadingAuthentication || isFetchingArticle ? (
+		return isLoadingAuthentication || this.state.isFetchingArticle ? (
 			<div className="wrapper">
 				<div className="news-loader-content">
 					<Loader />
@@ -61,20 +72,30 @@ export class ArticleDetail extends Component {
 											<span>{"\u00b7"}</span>
 											<time>{moment(articleData.created_at).fromNow()}</time>
 										</div>
-										<div className="news-meta-dropdown-wrapper">
-											<div className="news-meta-dropdown-btn" onClick={this._handleDropdownClick}>
-												<ChevronDown className="news-meta-dropdown-icon" />
+										{articleData.author_id._id === authenticationData._id && (
+											<div className="news-meta-dropdown-wrapper">
+												<div className="news-meta-dropdown-btn" onClick={this._handleDropdownClick}>
+													<ChevronDown className="news-meta-dropdown-icon" />
+												</div>
+												{this.state.isDropdownActive && (
+													<Dropdown
+														shouldDropdownShrink={false}
+														items={[
+															{
+																icon: Edit2,
+																title: "Edit",
+																onClick: () => {
+																	this.props.history.push(
+																		`/blog/${slugify(articleData.title)}-${articleData._id}/edit`
+																	);
+																}
+															},
+															{ icon: Delete, title: "Delete", onClick: () => {} }
+														]}
+													/>
+												)}
 											</div>
-											{this.state.isDropdownActive && (
-												<Dropdown
-													shouldDropdownShrink={false}
-													items={[
-														{ icon: Edit2, title: "Edit", onClick: () => this.props.history.push(`/blog/new-story`) },
-														{ icon: Delete, title: "Delete", onClick: () => {} }
-													]}
-												/>
-											)}
-										</div>
+										)}
 									</div>
 								</header>
 								<div id="news-view-description" dangerouslySetInnerHTML={{ __html: articleData.description }} />

@@ -58,3 +58,16 @@ export const createRequestInstance = () => {
 
 	return instance;
 };
+
+export const extractContent = (html, allowSpaces = true) => {
+	let span = document.createElement("span");
+	span.innerHTML = html;
+	if (allowSpaces) {
+		let children = span.querySelectorAll("*");
+		for (let i = 0; i < children.length; i++) {
+			if (children[i].textContent) children[i].textContent += " ";
+			else children[i].innerText += " ";
+		}
+	}
+	return [span.textContent || span.innerText].toString().replace(/ +/g, " ");
+};

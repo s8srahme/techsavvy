@@ -22,7 +22,8 @@ export class ArticleForm extends Component {
 			activeTagIndex: 0,
 			errorInputIndex: -1,
 			errorInputMessage: "",
-			isFetchingUpdateData: false
+			isFetchingUpdateData: false,
+			isFetchingArticle: true
 		};
 	}
 
@@ -47,13 +48,28 @@ export class ArticleForm extends Component {
 				onUpdateError,
 				// onUpdateData,
 
-				articleData
+				articleData,
 				// hasErroredArticle,
 				// articleError,
-				// isFetchingArticle
+				isFetchingArticle
 			} = nextProps;
 
-			if (this.props.isFetchingUpdateData && !isFetchingUpdateData) {
+			if (this.props.isFetchingArticle && !isFetchingArticle) {
+				this.setState({ isFetchingArticle: false }, () => {
+					if (
+						!this.state.isFetchingArticle &&
+						!this.state.isFetchingUpdateData &&
+						(Object.keys(authenticationData).length || (this.props.isLoadingAuthentication && !isLoadingAuthentication))
+					) {
+						// await this._sleep(() => {
+						setTimeout(() => {
+							const editor = this._createEditorInstance();
+							editor.subscribe("editableInput", this._handleEditableInput);
+							this.setState({ editor }, () => this._setContent(articleData));
+						}, 300);
+					}
+				});
+			} else if (this.props.isFetchingUpdateData && !isFetchingUpdateData) {
 				if (onUpdateError) {
 					this.setState({
 						isFetchingUpdateData: false,
@@ -67,16 +83,6 @@ export class ArticleForm extends Component {
 						this._handleFormCancel();
 					});
 				}
-			} else if (
-				!this.state.isFetchingUpdateData &&
-				(Object.keys(authenticationData).length || (this.props.isLoadingAuthentication && !isLoadingAuthentication))
-			) {
-				// await this._sleep(() => {
-				setTimeout(() => {
-					const editor = this._createEditorInstance();
-					editor.subscribe("editableInput", this._handleEditableInput);
-					this.setState({ editor }, () => this._setContent(articleData));
-				}, 300);
 			}
 
 			// this._setContent(articleData);
@@ -249,9 +255,9 @@ export class ArticleForm extends Component {
 	render = () => {
 		const {
 			isLoadingAuthentication,
-			authenticationData,
+			authenticationData
 
-			isFetchingArticle
+			// isFetchingArticle
 
 			// onCreateData,
 			// isFetchingCreateData,
@@ -268,7 +274,7 @@ url("${this.state.featuredImage}")`
 			};
 		}
 
-		return isLoadingAuthentication || isFetchingArticle ? (
+		return isLoadingAuthentication || this.state.isFetchingArticle ? (
 			<div className="wrapper">
 				<div className="news-loader-content">
 					<Loader />

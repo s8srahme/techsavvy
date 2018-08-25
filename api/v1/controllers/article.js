@@ -10,15 +10,13 @@ const querify = require("./../helpers/queryString");
 
 exports.articles_get_all = (req, res, next) => {
 	const { page, limit, sort, filter } = querify(req);
-	Article.find(
-		filter,
-		"_id text title description category author_id featured_image_url claps created_at",
-		{
-			skip: limit * (page - 1),
-			limit,
-			sort
-		},
-		(err, docs) => {
+	Article.find(filter, "_id text title description category author_id featured_image_url claps created_at", {
+		skip: limit * (page - 1),
+		limit,
+		sort
+	})
+		.populate("author_id", "name")
+		.exec((err, docs) => {
 			if (err) res.status(500).json({ error: err });
 			else if (docs.length === 0) res.status(404).json({ message: "No entries found" });
 			else {
@@ -60,8 +58,7 @@ exports.articles_get_all = (req, res, next) => {
 						return res.status(500).json({ error: err });
 					});
 			}
-		}
-	);
+		});
 };
 exports.articles_get_article = (req, res, next) => {
 	const id = req.params.articleId;

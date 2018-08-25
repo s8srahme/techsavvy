@@ -2,6 +2,9 @@ import {
 	FETCH_ARTICLES,
 	FETCH_ARTICLES_SUCCESS,
 	FETCH_ARTICLES_FAILURE,
+	FETCH_MORE_ARTICLES,
+	FETCH_MORE_ARTICLES_SUCCESS,
+	FETCH_MORE_ARTICLES_FAILURE,
 	FETCH_ARTICLE,
 	FETCH_ARTICLE_SUCCESS,
 	FETCH_ARTICLE_FAILURE,
@@ -32,17 +35,17 @@ const getFailure = (type, error) => {
 	};
 };
 
-export const fetchAll = () => {
+export const fetchAll = (seed, page, limit) => {
 	return dispatch => {
-		dispatch(get(FETCH_ARTICLES));
+		dispatch(get(seed === page ? FETCH_ARTICLES : FETCH_MORE_ARTICLES));
 		services.articles
-			.getAll()
+			.getAll(seed, page, limit)
 			.then(res => {
-				dispatch(getSuccess(FETCH_ARTICLES_SUCCESS, res));
+				dispatch(getSuccess(seed === page ? FETCH_ARTICLES_SUCCESS : FETCH_MORE_ARTICLES_SUCCESS, res.data));
 			})
 			.catch(err => {
 				console.log("err:", err);
-				dispatch(getFailure(FETCH_ARTICLES_FAILURE, err));
+				dispatch(getFailure(seed === page ? FETCH_ARTICLES_FAILURE : FETCH_MORE_ARTICLES_FAILURE, err));
 			});
 	};
 };

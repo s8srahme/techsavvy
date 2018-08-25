@@ -7,10 +7,14 @@ import { extractId } from "../../utils";
 
 class ArticleDetailScreen extends Component {
 	componentWillMount = () => {
-		// let id = extractId(this.props.slug);
-		let id = extractId(this.props.match.params.slug);
-		this.props.onFetchOne(id);
-		window.scrollTo(0, 0);
+		const { isFetchingArticle } = this.props;
+
+		if (!isFetchingArticle) {
+			// let id = extractId(this.props.slug);
+			let id = extractId(this.props.match.params.slug);
+			this.props.onFetchOne(id);
+			window.scrollTo(0, 0);
+		}
 	};
 
 	render = () => {

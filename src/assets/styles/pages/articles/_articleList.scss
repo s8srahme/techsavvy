@@ -178,7 +178,7 @@
 								height: 275px;
 								overflow: hidden;
 								position: relative;
-								background-color: lighten($color-dark-gray, 80%);
+								background-color: $color-light-gray;
 
 								.news-thumbnail {
 									display: block;
@@ -197,7 +197,7 @@
 									background-image: linear-gradient(
 										to bottom,
 										rgba($color-dark-gray, 0.1),
-										rgba($color-dark-gray, 0.8)
+										rgba($color-dark-gray, 0.3)
 									);
 								}
 							}

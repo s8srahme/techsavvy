@@ -6,14 +6,12 @@ import { extractId } from "../../utils";
 
 class ArticleFormScreen extends Component {
 	componentWillMount = () => {
-		window.scrollTo(0, 0);
-	};
+		const { authenticationData, isFetchingArticle } = this.props;
 
-	componentWillMount = () => {
-		const { authenticationData } = this.props;
-		if (Object.keys(authenticationData).length) {
+		if (Object.keys(authenticationData).length && !isFetchingArticle) {
 			let id = extractId(this.props.match.params.slug);
 			this.props.onFetchOne(id);
+			window.scrollTo(0, 0);
 		}
 	};
 
