@@ -18,7 +18,7 @@ exports.articles_get_all = (req, res, next) => {
 		.populate("author_id", "name")
 		.exec((err, docs) => {
 			if (err) res.status(500).json({ error: err });
-			else if (docs.length === 0) res.status(404).json({ message: "No entries found" });
+			else if (docs.length === 0) res.status(200).json({ message: "No entries found" });
 			else {
 				Article.count(filter)
 					.exec()
@@ -55,7 +55,7 @@ exports.articles_get_all = (req, res, next) => {
 					})
 					.catch(err => {
 						console.log(err);
-						return res.status(500).json({ error: err });
+						res.status(500).json({ error: err });
 					});
 			}
 		});
@@ -279,17 +279,15 @@ exports.articles_get_all_comments = (req, res, next) => {
 	const { page, limit, sort } = querify(req);
 	const id = req.params.articleId;
 
-	Comment.find(
-		{ article_id: id },
-		"_id text author_id article_id created_at",
-		{
-			skip: limit * (page - 1),
-			limit,
-			sort
-		},
-		(err, docs) => {
+	Comment.find({ article_id: id }, "_id text author_id article_id created_at", {
+		skip: limit * (page - 1),
+		limit,
+		sort
+	})
+		.populate("author_id", "name image_url")
+		.exec((err, docs) => {
 			if (err) res.status(500).json({ error: err });
-			else if (docs.length === 0) res.status(404).json({ message: "No entries found" });
+			else if (docs.length === 0) res.status(200).json({ message: "No entries found" });
 			else {
 				Comment.count({ article_id: id })
 					.exec()
@@ -322,11 +320,10 @@ exports.articles_get_all_comments = (req, res, next) => {
 					})
 					.catch(err => {
 						console.log(err);
-						return res.status(500).json({ error: err });
+						res.status(500).json({ error: err });
 					});
 			}
-		}
-	);
+		});
 };
 // exports.articles_create_comment = (req, res, next) => {
 // 	const id = req.params.articleId;

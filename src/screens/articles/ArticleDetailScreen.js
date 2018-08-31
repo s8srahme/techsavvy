@@ -46,10 +46,11 @@ class ArticleDetailScreen extends Component {
 		// 	},
 		// 	// eslint-disable-next-line no-unused-vars
 		// 	slug = this.props.slug;
+		let id = extractId(this.props.match.params.slug);
 		return (
 			<div>
 				<ArticleDetail {...this.props} />
-				<CommentListScreen />
+				<CommentListScreen articleId={id} />
 			</div>
 		);
 	};

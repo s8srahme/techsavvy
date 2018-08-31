@@ -10,6 +10,6 @@ export default (url, instance) => {
 		delete: id => instance.delete(`${url}/${id}`),
 		clap: id => instance.post(`${url}/${id}/clap`),
 		unclap: id => instance.post(`${url}/${id}/unclap`),
-		getAllComments: id => instance.get(`${url}/${id}/comments`)
+		getAllComments: (id, seed, page, limit) => instance.get(`${url}/${id}/comments?page=${page}&limit=${limit}`)
 	};
 };

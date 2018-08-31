@@ -1,16 +1,23 @@
 import React, { Component } from "react";
+import { iconMale } from "../../../assets";
+import { Loader } from "components";
 
 export class CommentEditing extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			description: "",
-			isEditing: false
+			isEditing: false,
+			isLoadingSubmit: false,
+			errorInputIndex: -1,
+			errorInputMessage: ""
 		};
 	}
 
 	componentWillReceiveProps = nextProps => {
-		if (!nextProps.isEditingActive) this._handleEditClickOut();
+		if (this.props !== nextProps) {
+			if (!nextProps.isEditingActive) this._handleEditClickOut();
+		}
 	};
 
 	_handleChange = event => {
@@ -18,12 +25,38 @@ export class CommentEditing extends Component {
 	};
 
 	_handleSubmit = event => {
-		const { onEditClick } = this.props;
+		const { onEditClick, onCreate, articleId, authenticationData } = this.props;
+		const { description } = this.state;
 		// console.log("A response was submitted: " + this.state.description);
 		event.preventDefault();
-		this.setState({ description: "" }, () => {
-			this._handleEditClickOut();
-			onEditClick(-1);
+		this.setState({ isLoadingSubmit: true }, () => {
+			onCreate(
+				{ text: description, article_id: articleId, author_id: authenticationData._id },
+				{
+					onSuccessCb: () => {
+						this.setState(
+							{
+								isLoadingSubmit: false,
+								description: "",
+								errorInputIndex: -1,
+								errorInputMessage: ""
+							},
+							() => {
+								this._handleEditClickOut();
+								onEditClick(-1);
+							}
+						);
+					},
+					onFailureCb: err => {
+						this.setState({
+							isLoadingSubmit: false,
+							errorInputIndex: 0,
+							errorInputMessage:
+								err.response.data.message || "There was a problem adding the information to the database"
+						});
+					}
+				}
+			);
 		});
 	};
 
@@ -38,25 +71,32 @@ export class CommentEditing extends Component {
 			return {
 				isEditing:
 					// !prevState.isEditing
-					false
+					false,
+				errorInputIndex: -1,
+				errorInputMessage: "",
+				description: ""
 			};
 		});
 	};
 
 	render = () => {
-		const { data } = this.props,
-			{ isEditing } = this.state;
+		const { authenticationData } = this.props,
+			{ isEditing, isLoadingSubmit } = this.state;
 		return (
 			<div className="row">
 				<article className="column comment-card">
 					<header className="comment-card-heading-wrapper">
 						<div className="comment-card-img-wrapper">
-							<img src={data.thumbnail} alt="card infographic" className="comment-thumbnail" />
+							<img
+								src={authenticationData.image_url ? authenticationData.image_url : iconMale}
+								alt="card infographic"
+								className="comment-thumbnail"
+							/>
 							<div className="comment-card-img-overlay" />
 						</div>
 						{isEditing ? (
 							<div className="comment-card-title-wrapper">
-								<h3>{data.author}</h3>
+								<h3>{authenticationData.name}</h3>
 							</div>
 						) : (
 							<div className="comment-card-clickable-title-wrapper" onClick={this._handleEditClickIn}>
@@ -67,6 +107,7 @@ export class CommentEditing extends Component {
 					{isEditing && (
 						<form id="comment-form" onSubmit={this._handleSubmit}>
 							<textarea
+								required
 								className="txt-area"
 								id="message"
 								name="message"
@@ -75,8 +116,15 @@ export class CommentEditing extends Component {
 								placeholder="Remember, be nice!"
 							/>
 							<div className="comment-inputs-wrapper">
-								<input type="submit" className="btn" value="post" />
-								<input type="button" className="btn" value="cancel" onClick={this._handleEditClickOut} />
+								{isLoadingSubmit ? (
+									<Loader />
+								) : (
+									<div className="comment-inputs">
+										<input type="submit" className="btn" value="post" />
+										<input type="button" className="btn" value="cancel" onClick={this._handleEditClickOut} />
+									</div>
+								)}
+								{this.state.errorInputIndex === 0 && <span>{this.state.errorInputMessage}</span>}
 							</div>
 						</form>
 					)}

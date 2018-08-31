@@ -45,7 +45,7 @@ export class ArticleList extends Component {
 
 		return isFetchingArticles ? (
 			<div className="wrapper">
-				<div className={`news-loader-content ${!hasHeaderTabs && "darken"}`}>
+				<div className={`news-loader-content ${!hasHeaderTabs && "darken pull"}`}>
 					<Loader />
 				</div>
 			</div>

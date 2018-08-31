@@ -8,15 +8,13 @@ const querify = require("./../helpers/queryString");
 
 exports.comments_get_all = (req, res, next) => {
 	const { page, limit, sort, filter } = querify(req);
-	Comment.find(
-		filter,
-		"_id text author_id article_id created_at",
-		{
-			skip: limit * (page - 1),
-			limit,
-			sort
-		},
-		(err, docs) => {
+	Comment.find(filter, "_id text author_id article_id created_at", {
+		skip: limit * (page - 1),
+		limit,
+		sort
+	})
+		.populate("author_id", "name image_url")
+		.exec((err, docs) => {
 			if (err) res.status(500).json({ error: err });
 			else if (docs.length === 0) res.status(404).json({ message: "No entries found" });
 			else {
@@ -51,11 +49,10 @@ exports.comments_get_all = (req, res, next) => {
 					})
 					.catch(err => {
 						console.log(err);
-						return res.status(500).json({ error: err });
+						res.status(500).json({ error: err });
 					});
 			}
-		}
-	);
+		});
 };
 exports.comments_get_comment = (req, res, next) => {
 	const id = req.params.commentId;
@@ -85,7 +82,7 @@ exports.comments_create_comment = async (req, res, next) => {
 				return res.status(404).json({ message: "Article not found" });
 			}
 			User.findById(author_id)
-				.then(user => {
+				.then(async user => {
 					if (!user) {
 						return res.status(404).json({ message: "User not found" });
 					}
@@ -96,9 +93,10 @@ exports.comments_create_comment = async (req, res, next) => {
 						article_id,
 						created_at: new Date().toString()
 					});
-					return comment.save();
+					let result = await comment.save();
+					return { user, result };
 				})
-				.then(result => {
+				.then(({ user, result }) => {
 					if (!result) res.status(404).json({ message: "No valid entry found for provided ID" });
 					else {
 						res.status(201).json({
@@ -106,7 +104,7 @@ exports.comments_create_comment = async (req, res, next) => {
 							createdComment: {
 								_id: result._id,
 								text: result.text,
-								author_id: result.author_id,
+								author_id: { _id: result.author_id, name: user.name, image_url: user.image_url },
 								article_id: result.article_id,
 								created_at: result.created_at,
 								request: {
@@ -135,16 +133,16 @@ exports.comments_delete_comment = (req, res, next) => {
 		.exec()
 		.then(result => {
 			res.status(204).json({
-				message: "Comment deleted",
-				request: {
-					type: "POST",
-					url: "http://localhost:5000/api/comments",
-					body: {
-						author_id: "String",
-						article_id: "String",
-						text: "String"
-					}
-				}
+				// message: "Comment deleted",
+				// request: {
+				// 	type: "POST",
+				// 	url: "http://localhost:5000/api/comments",
+				// 	body: {
+				// 		author_id: "String",
+				// 		article_id: "String",
+				// 		text: "String"
+				// 	}
+				// }
 			});
 		})
 		.catch(err => {

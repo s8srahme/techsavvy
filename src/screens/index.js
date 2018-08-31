@@ -3,7 +3,7 @@ import ArticleDetailScreen from "./articles/ArticleDetailScreen";
 import ArticleEditorScreen from "./articles/ArticleEditorScreen";
 import ArticleFormScreen from "./articles/ArticleFormScreen";
 import { NotFoundScreen } from "./NotFoundScreen";
-import { CommentListScreen } from "./CommentListScreen";
+import CommentListScreen from "./CommentListScreen";
 import HomeScreen from "./HomeScreen";
 import UserFormScreen from "./users/UserFormScreen";
 import UserDetailScreen from "./users/UserDetailScreen";

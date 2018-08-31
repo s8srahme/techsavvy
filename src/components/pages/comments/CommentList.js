@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { CommentEditing, CommentDetail } from "../..";
+import { CommentEditing, CommentDetail, Loader } from "../..";
 
 export class CommentList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			activeDropdownIndex: -1,
-			activeEditingIndex: -1
+			activeEditingIndex: -1,
+			isFetchingComments: true
+			// comments: {}
 		};
 	}
 
@@ -18,15 +20,63 @@ export class CommentList extends Component {
 		this.setState({ activeEditingIndex: index });
 	};
 
+	componentWillReceiveProps = nextProps => {
+		if (this.props !== nextProps) {
+			if (this.state.isFetchingComments && this.props.isFetchingComments && !nextProps.isFetchingComments) {
+				this.setState({
+					isFetchingComments: false
+					//  comments: nextProps.comments
+				});
+			}
+			//  else if (
+			// 	(this.props.isFetchingCreateData && !nextProps.isFetchingCreateData) ||
+			// 	(this.props.isFetchingMoreComments && !nextProps.isFetchingMoreComments) ||
+			// 	(this.props.isFetchingDeleteData && !nextProps.isFetchingDeleteData)
+			// ) {
+			// 	this.setState({ comments: nextProps.comments });
+			// }
+		}
+	};
+
+	// shouldComponentUpdate = (nextProps, nextState) => {
+	// 	if (
+	// 		this.props.isFetchingCreateData !== nextProps.isFetchingCreateData ||
+	// 		JSON.stringify(this.state.comments) !== JSON.stringify(nextState.comments)
+	// 	)
+	// 		return true;
+	// 	return false;
+	// };
+
 	render = () => {
-		const { comments } = this.props,
+		const {
+				onUpdate,
+				onCreate,
+				onDelete,
+				comments,
+				// hasErroredComments,
+				// isFetchingComments,
+				// commentsError,
+				onFetchMore,
+				isFetchingMoreComments,
+				isLoadingAuthentication,
+				authenticationData,
+				articleId
+			} = this.props,
 			{ activeDropdownIndex, activeEditingIndex } = this.state;
-		return (
+		let commentsData = Object.keys(comments).length && comments.data ? comments.data.comments : [];
+
+		return this.state.isFetchingComments || isLoadingAuthentication ? (
+			<div className="wrapper">
+				<div className={"news-loader-content darken pull"}>
+					<Loader />
+				</div>
+			</div>
+		) : (
 			<section
 				className="comment-content"
-				onClick={() => {
-					if (activeDropdownIndex !== -1) this._handleDropdownClick(-1);
-				}}
+				// onClick={() => {
+				// 	if (activeDropdownIndex !== -1) this._handleDropdownClick(-1);
+				// }}
 			>
 				<div className="container">
 					<div className="row">
@@ -36,22 +86,39 @@ export class CommentList extends Component {
 						</hgroup>
 					</div>
 					<CommentEditing
+						articleId={articleId}
+						onCreate={onCreate}
 						index={0}
-						data={comments[0]}
+						authenticationData={authenticationData}
 						onEditClick={this._handleEditClick}
 						isEditingActive={0 === activeEditingIndex ? true : false}
 					/>
-					{comments.map((comment, i) => (
+					{commentsData.map((comment, i) => (
 						<CommentDetail
+							articleId={articleId}
 							key={i}
 							index={i + 1}
-							data={comment}
+							authenticationData={authenticationData}
+							commentData={comment}
 							onDropdownClick={this._handleDropdownClick}
 							isDropdownActive={i + 1 === activeDropdownIndex ? true : false}
 							onEditClick={this._handleEditClick}
 							isEditingActive={i + 1 === activeEditingIndex ? true : false}
+							onDelete={onDelete}
+							onUpdate={onUpdate}
 						/>
 					))}
+					{commentsData.length && comments.meta.page !== comments.meta.pages ? (
+						<div className="row comment-btn-wrapper">
+							{isFetchingMoreComments ? (
+								<Loader />
+							) : (
+								<button className="btn" onClick={onFetchMore}>
+									show more
+								</button>
+							)}
+						</div>
+					) : null}
 				</div>
 			</section>
 		);

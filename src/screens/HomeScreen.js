@@ -15,7 +15,7 @@ import {
 import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
 import { Loader } from "../components";
 import { ArticleListScreen } from "screens";
-import { slugify, truncate, exportBreakpoint } from "../utils";
+import { truncate, exportBreakpoint } from "../utils";
 
 export default class HomeScreen extends Component {
 	constructor(props) {

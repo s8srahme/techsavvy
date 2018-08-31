@@ -9,6 +9,9 @@
 			@include breakpoint(md) {
 				padding: 0;
 			}
+			&.comment-btn-wrapper {
+				justify-content: center;
+			}
 
 			.comment-heading-wrapper {
 				h2 {
@@ -21,7 +24,6 @@
 					line-height: 1.3;
 				}
 			}
-
 			.comment-card {
 				padding: $gutter-lg;
 				background-color: $color-light-gray;
@@ -63,7 +65,7 @@
 							right: 0;
 							top: 0;
 							z-index: 1;
-							background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.1), rgba($color-dark-gray, 0.8));
+							background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.1), rgba($color-dark-gray, 0.3));
 						}
 					}
 					.comment-card-title-wrapper {
@@ -102,7 +104,6 @@
 							}
 						}
 					}
-
 					.comment-card-dropdown-wrapper {
 						// justify-self: flex-end;
 						position: relative;
@@ -157,21 +158,41 @@
 						margin: $gutter-sm 0;
 						letter-spacing: 2px;
 						line-height: 1.5;
+						&::placeholder {
+							line-height: 1.5;
+						}
 					}
 					.comment-inputs-wrapper {
 						display: flex;
 						flex-direction: row;
 						align-items: center;
+						justify-content: space-between;
+						@include breakpoint(xs) {
+							flex-direction: column;
+						}
 
-						.btn {
+						span {
+							display: block;
+							margin: $gutter-sm 0;
+							color: $color-grapefruit;
+						}
+						.comment-inputs {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
 							@include breakpoint(xs) {
-								flex: 1;
-								justify-content: center;
-								padding: 0;
-								// font-size: $font-size-small;
+								width: 100%;
+								.btn {
+									flex: 1;
+									justify-content: center;
+									padding: 0;
+								}
 							}
-							&:last-child {
-								margin-left: $gutter-sm;
+
+							.btn {
+								&:last-child {
+									margin-left: $gutter-sm;
+								}
 							}
 						}
 					}
@@ -179,6 +200,11 @@
 				p {
 					margin-top: $gutter-sm;
 					// letter-spacing: normal;
+				}
+				& > span {
+					display: block;
+					margin-top: $gutter-sm;
+					color: $color-grapefruit;
 				}
 			}
 		}
