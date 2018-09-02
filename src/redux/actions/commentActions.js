@@ -68,17 +68,31 @@ export const fetchOne = id => {
 	};
 };
 
-export const update = (id, updateData) => {
+export const update = (id, updateData, cbs) => {
 	return dispatch => {
 		dispatch(get(UPDATE_COMMENT));
 		services.comments
 			.update(id, updateData)
 			.then(res => {
-				dispatch(getSuccess(UPDATE_COMMENT_SUCCESS, res.data));
+				dispatch(
+					getSuccess(UPDATE_COMMENT_SUCCESS, {
+						...res,
+						...{
+							data: {
+								updatedComment: {
+									_id: id,
+									text: updateData.text
+								}
+							}
+						}
+					})
+				);
+				cbs.onSuccessCb();
 			})
 			.catch(err => {
 				console.log("err:", err);
 				dispatch(getFailure(UPDATE_COMMENT_FAILURE, err));
+				cbs.onFailureCb(err);
 			});
 	};
 };

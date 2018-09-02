@@ -64,6 +64,7 @@ class CommentListScreen extends Component {
 	render = () => {
 		const {
 			onUpdate,
+			isFetchingUpdateData,
 			onCreate,
 			// isFetchingCreateData,
 			onDelete,
@@ -104,6 +105,7 @@ class CommentListScreen extends Component {
 				isFetchingMoreComments={this.state.isFetchingMoreComments}
 				commentsError={commentsError}
 				onUpdate={onUpdate}
+				isFetchingUpdateData={isFetchingUpdateData}
 				onCreate={onCreate}
 				// isFetchingCreateData={isFetchingCreateData}
 				onDelete={onDelete}
@@ -143,7 +145,7 @@ const mapStateToProps = state => {
 	mapDispatchToProps = dispatch => {
 		return {
 			onFetchAll: (id, seed, page, limit) => dispatch(actions.comments.fetchAll(id, seed, page, limit)),
-			onUpdate: (id, updateData) => dispatch(actions.comments.update(id, updateData)),
+			onUpdate: (id, updateData, cbs) => dispatch(actions.comments.update(id, updateData, cbs)),
 			onDelete: (id, cbs) => dispatch(actions.comments.remove(id, cbs)),
 			onCreate: (createData, cbs) => dispatch(actions.comments.create(createData, cbs))
 		};

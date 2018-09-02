@@ -50,6 +50,7 @@ export class CommentList extends Component {
 	render = () => {
 		const {
 				onUpdate,
+				isFetchingUpdateData,
 				onCreate,
 				onDelete,
 				comments,
@@ -106,6 +107,7 @@ export class CommentList extends Component {
 							isEditingActive={i + 1 === activeEditingIndex ? true : false}
 							onDelete={onDelete}
 							onUpdate={onUpdate}
+							isFetchingUpdateData={isFetchingUpdateData}
 						/>
 					))}
 					{commentsData.length && comments.meta.page !== comments.meta.pages ? (

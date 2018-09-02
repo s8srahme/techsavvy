@@ -1307,6 +1307,7 @@ html {
       .comment-content .container .row {
         padding: 0; } }
     .comment-content .container .row.comment-btn-wrapper {
+      margin-top: 6.4rem;
       justify-content: center; }
     .comment-content .container .row .comment-heading-wrapper h2 {
       letter-spacing: normal;

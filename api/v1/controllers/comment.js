@@ -154,8 +154,11 @@ exports.comments_delete_comment = (req, res, next) => {
 exports.comments_update_comment = (req, res, next) => {
 	const id = req.params.commentId;
 	const updateOps = {};
-	for (const ops of req.body) {
-		updateOps[ops.propName] = ops.value;
+	// for (const ops of req.body) {
+	// 	updateOps[ops.propName] = ops.value;
+	// }
+	for (const propName in req.body) {
+		updateOps[propName] = req.body[propName];
 	}
 	Comment.update({ _id: id }, { $set: updateOps })
 		.exec()

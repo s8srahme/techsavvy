@@ -147,7 +147,32 @@ export const commentReducer = (state = initialState, action) => {
 				...state,
 				isFetchingUpdateData: false,
 				onUpdateData: action.payload,
-				onUpdateError: null
+				onUpdateError: null,
+				comments: {
+					meta: state.comments.meta,
+					data: {
+						comments: state.comments.data.comments.map((item, i) => {
+							if (item._id === action.payload.data.updatedComment._id) {
+								item.text = action.payload.data.updatedComment.text;
+							}
+							return item;
+						})
+						// comments: (async () => {
+						// 	// await state.comments.data.comments.forEach((item, i) => {
+						// 	// 	if (item._id === action.payload.data.updatedComment._id)
+						// 	// 		item.text = action.payload.data.updatedComment.text;
+						// 	// });
+						// 	await state.comments.data.comments.every((val, i) => {
+						// 		if (val._id === action.payload.data.updatedComment._id) {
+						// 			val.text = action.payload.data.updatedComment.text;
+						// 			return false; // break
+						// 		}
+						// 		return true;
+						// 	});
+						// 	return state.comments.data.comments;
+						// })()
+					}
+				}
 			};
 		case UPDATE_COMMENT_FAILURE:
 			return {

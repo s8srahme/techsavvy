@@ -26,7 +26,8 @@ export class CommentDetail extends Component {
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
 			if (!nextProps.isEditingActive) this._handleEditClickOut();
-			if (Object.keys(nextProps.commentData).length) this.setState({ description: nextProps.commentData.text });
+			if (Object.keys(nextProps.commentData).length && !nextProps.isFetchingUpdateData)
+				this.setState({ description: nextProps.commentData.text });
 		}
 	};
 
@@ -74,11 +75,39 @@ export class CommentDetail extends Component {
 	};
 
 	_handleSubmit = event => {
-		const { onEditClick } = this.props;
+		const { onEditClick, onUpdate, commentData } = this.props;
+		const { description } = this.state;
 		// console.log("A response was submitted: " + this.state.description);
 		event.preventDefault();
-		this._handleEditClickOut();
-		onEditClick(-1);
+		this.setState({ isLoadingSubmit: true }, () => {
+			onUpdate(
+				commentData._id,
+				{ text: description },
+				{
+					onSuccessCb: () => {
+						this.setState(
+							{
+								isLoadingSubmit: false,
+								description: "",
+								errorInputIndex: -1,
+								errorInputMessage: ""
+							},
+							() => {
+								this._handleEditClickOut();
+								onEditClick(-1);
+							}
+						);
+					},
+					onFailureCb: err => {
+						this.setState({
+							isLoadingSubmit: false,
+							errorInputIndex: 1,
+							errorInputMessage: err.response.data.message || "There was a problem updating the comment"
+						});
+					}
+				}
+			);
+		});
 	};
 
 	render = () => {
@@ -146,7 +175,7 @@ export class CommentDetail extends Component {
 						)}
 					</header>
 					{!isEditing ? (
-						<p>{description}</p>
+						<p>{commentData.text}</p>
 					) : (
 						<form
 							// action=""
