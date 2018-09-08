@@ -8,6 +8,7 @@ const cloudinary = require("cloudinary");
 
 const setRoutes = require("./v1/routes/");
 // setApiV2Routes = require("./v1/routes/");
+const templateRoutes = require("./v1/routes/template");
 require("dotenv").config();
 
 const app = express();
@@ -28,9 +29,9 @@ mongoose.connect(
 	{},
 	error => {
 		if (error) {
-			console.log("Unable to connect to the server. Error:", error);
+			console.log("Unable to connect to the mLab server. Error:", error);
 		} else {
-			console.log("Connected to server successfully");
+			console.log("Connected to mLab server successfully");
 		}
 	}
 );
@@ -66,7 +67,9 @@ app.use("../uploads", express.static("uploads"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(helmet());
+app.set("view engine", "ejs");
 
+app.use("/templates", templateRoutes.router);
 setRoutes(router);
 // setApiV2Routes(apiV2Router);
 app.use("/api/v1", router);

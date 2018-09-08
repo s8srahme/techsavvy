@@ -1,9 +1,13 @@
 const article = require("./article");
 const comment = require("./comment");
 const user = require("./user");
+const photo = require("./photo");
+const mail = require("./mail");
 
 module.exports = {
 	article,
 	comment,
-	user
+	user,
+	photo,
+	mail
 };

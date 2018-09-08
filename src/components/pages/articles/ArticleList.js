@@ -35,15 +35,17 @@ export class ArticleList extends Component {
 	render = () => {
 		let {
 			articles,
+			userArticles,
 			// hasErroredArticles,
 			isFetchingArticles,
+			isFetchingUserArticles,
 			// articlesError,
 			hasHeaderButton = false,
 			hasHeaderTabs = false
 		} = this.props;
-		if (this.state.activeTabIndex > 0) articles = {};
+		if (this.state.activeTabIndex === 1) articles = userArticles;
 
-		return isFetchingArticles ? (
+		return isFetchingArticles || isFetchingUserArticles ? (
 			<div className="wrapper">
 				<div className={`news-loader-content ${!hasHeaderTabs && "darken pull"}`}>
 					<Loader />
@@ -288,7 +290,8 @@ export class ArticleList extends Component {
 	};
 
 	_renderNewsContent = articles => {
-		const meta = this.props.articles.meta;
+		let { activeTabIndex } = this.state,
+			meta = activeTabIndex === 0 ? this.props.articles.meta : this.props.userArticles.meta;
 		return (
 			<div className="news-list-content">
 				<div className="container">
@@ -296,10 +299,18 @@ export class ArticleList extends Component {
 						<section className="news-cards-wrapper">
 							{meta.page !== meta.pages && (
 								<div className="row news-cards-btn-wrapper">
-									{this.props.isFetchingMoreArticles ? (
+									{activeTabIndex === 0 ? (
+										this.props.isFetchingMoreArticles ? (
+											<Loader />
+										) : (
+											<button className="btn" onClick={this.props.onFetchMore}>
+												show more
+											</button>
+										)
+									) : this.props.isFetchingMoreUserArticles ? (
 										<Loader />
 									) : (
-										<button className="btn" onClick={this.props.onFetchMore}>
+										<button className="btn" onClick={this.props.onFetchMoreUserArticles}>
 											show more
 										</button>
 									)}
@@ -310,7 +321,11 @@ export class ArticleList extends Component {
 					) : (
 						<article className="row news-info-wrapper">
 							<div className="column">
-								<p>You haven’t published any public stories yet.</p>
+								<p>
+									{activeTabIndex === 0
+										? "There are no published stories yet."
+										: "You haven’t published any stories yet."}
+								</p>
 							</div>
 						</article>
 					)}

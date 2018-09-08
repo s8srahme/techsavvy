@@ -8,6 +8,6 @@ export default (url, instance) => {
 		delete: ({ id }) => instance.delete(`${url}/${id}`),
 		follow: ({ followerId, followingId }) => instance.post(`${url}/${followingId}/follow`, { follower_id: followerId }),
 		unfollow: ({ id }) => instance.post(`${url}/${id}/unfollow`),
-		getAllArticles: ({ id }) => instance.get(`${url}/${id}/articles`)
+		getAllArticles: ({ id, seed, page, limit }) => instance.get(`${url}/${id}/articles?page=${page}&limit=${limit}`)
 	};
 };

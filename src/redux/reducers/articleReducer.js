@@ -5,6 +5,12 @@ import {
 	FETCH_MORE_ARTICLES,
 	FETCH_MORE_ARTICLES_SUCCESS,
 	FETCH_MORE_ARTICLES_FAILURE,
+	FETCH_USER_ARTICLES,
+	FETCH_USER_ARTICLES_SUCCESS,
+	FETCH_USER_ARTICLES_FAILURE,
+	FETCH_MORE_USER_ARTICLES,
+	FETCH_MORE_USER_ARTICLES_SUCCESS,
+	FETCH_MORE_USER_ARTICLES_FAILURE,
 	FETCH_ARTICLE,
 	FETCH_ARTICLE_SUCCESS,
 	FETCH_ARTICLE_FAILURE,
@@ -22,9 +28,18 @@ const initialState = {
 	hasErroredArticles: false,
 	articlesError: null,
 
+	userArticles: {},
+	isFetchingUserArticles: false,
+	hasErroredUserArticles: false,
+	userArticlesError: null,
+
 	isFetchingMoreArticles: false,
 	hasErroredMoreArticles: false,
 	moreArticlesError: null,
+
+	isFetchingMoreUserArticles: false,
+	hasErroredMoreUserArticles: false,
+	moreUserArticlesError: null,
 
 	article: {},
 	isFetchingArticle: false,
@@ -62,6 +77,26 @@ export const articleReducer = (state = initialState, action) => {
 				articlesError: action.error
 			};
 
+		case FETCH_USER_ARTICLES:
+			return {
+				...state,
+				isFetchingUserArticles: true
+			};
+		case FETCH_USER_ARTICLES_SUCCESS:
+			return {
+				...state,
+				isFetchingUserArticles: false,
+				userArticles: action.payload,
+				userArticlesError: null
+			};
+		case FETCH_USER_ARTICLES_FAILURE:
+			return {
+				...state,
+				isFetchingUserArticles: false,
+				hasErroredUserArticles: true,
+				userArticlesError: action.error
+			};
+
 		case FETCH_MORE_ARTICLES:
 			return {
 				...state,
@@ -83,6 +118,29 @@ export const articleReducer = (state = initialState, action) => {
 				isFetchingMoreArticles: false,
 				hasErroredMoreArticles: true,
 				moreArticlesError: action.error
+			};
+
+		case FETCH_MORE_USER_ARTICLES:
+			return {
+				...state,
+				isFetchingMoreUserArticles: true
+			};
+		case FETCH_MORE_USER_ARTICLES_SUCCESS:
+			return {
+				...state,
+				isFetchingMoreUserArticles: false,
+				userArticles: {
+					meta: action.payload.meta,
+					data: { articles: [...state.userArticles.data.articles, ...action.payload.data.articles] }
+				},
+				moreUserArticlesError: null
+			};
+		case FETCH_MORE_USER_ARTICLES_FAILURE:
+			return {
+				...state,
+				isFetchingMoreUserArticles: false,
+				hasErroredMoreUserArticles: true,
+				moreUserArticlesError: action.error
 			};
 
 		case FETCH_ARTICLE:

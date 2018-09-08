@@ -8,16 +8,28 @@ class ArticleListScreen extends Component {
 		super(props);
 		this.state = {
 			isFetchingMoreArticles: false,
+			isFetchingMoreUserArticles: false,
 			page: 1,
+			userPage: 1,
 			seed: 1,
+			userSeed: 1,
 			limit: 10,
-			offsetTop: 0
+			userLimit: 10,
+			offsetTop: 0,
+			userOffsetTop: 0
 		};
 	}
 
 	componentWillMount = () => {
-		const { isFetchingArticles, limit } = this.props;
-		// console.log(this.props, "WillMount");
+		const {
+			authenticationData,
+			isLoadingAuthentication,
+			isFetchingArticles,
+			isFetchingUserArticles,
+			limit,
+			hasHeaderTabs = true
+		} = this.props;
+		// console.log(this.props, "componentWillMount");
 
 		if (!isFetchingArticles) {
 			// this.setState(
@@ -32,14 +44,47 @@ class ArticleListScreen extends Component {
 			// 	}
 			// );
 		}
+		if (hasHeaderTabs && !isFetchingUserArticles && !isLoadingAuthentication) {
+			// window.scrollTo(0, 0);
+			this.props.fetchAllUserArticles(
+				authenticationData._id,
+				this.state.userSeed,
+				this.state.userPage,
+				this.state.userLimit
+			);
+		}
 	};
 
 	componentWillReceiveProps = nextProps => {
+		let { hasHeaderTabs = true } = this.props;
+		if (hasHeaderTabs && this.props.isLoadingAuthentication && !nextProps.isLoadingAuthentication) {
+			// window.scrollTo(0, 0);
+			this.props.fetchAllUserArticles(
+				nextProps.authenticationData._id,
+				this.state.userSeed,
+				this.state.userPage,
+				this.state.userLimit
+			);
+		}
 		if (this.state.isFetchingMoreArticles && this.props.isFetchingMoreArticles && !nextProps.isFetchingMoreArticles) {
 			this.setState({ isFetchingMoreArticles: false }, () => {
 				// console.log(this.state.offsetTop);
 				window.scrollTo({
 					top: this.state.offsetTop,
+					left: 0,
+					behavior: "instant"
+				});
+			});
+		}
+		if (
+			this.state.isFetchingMoreUserArticles &&
+			this.props.isFetchingMoreUserArticles &&
+			!nextProps.isFetchingMoreUserArticles
+		) {
+			this.setState({ isFetchingMoreUserArticles: false }, () => {
+				// console.log(this.state.userOffsetTop);
+				window.scrollTo({
+					top: this.state.userOffsetTop,
 					left: 0,
 					behavior: "instant"
 				});
@@ -62,12 +107,36 @@ class ArticleListScreen extends Component {
 		);
 	};
 
+	_handleFetchMoreUserArticles = event => {
+		event.preventDefault();
+		this.setState(
+			{
+				userPage: this.state.userPage + 1,
+				isFetchingMoreUserArticles: true,
+				userOffsetTop: window.pageYOffset
+			},
+			() => {
+				// console.log(this.state.userOffsetTop);
+				this.props.fetchAllUserArticles(
+					this.props.authenticationData._id,
+					this.state.userSeed,
+					this.state.userPage,
+					this.state.userLimit
+				);
+			}
+		);
+	};
+
 	render = () => {
 		const {
 			articles,
+			userArticles,
 			hasErroredArticles,
+			hasErroredUserArticles,
 			isFetchingArticles,
+			isFetchingUserArticles,
 			articlesError,
+			userArticlesError,
 			hasHeaderButton = true,
 			hasHeaderTabs = true,
 			onFetchMore = null
@@ -126,11 +195,17 @@ class ArticleListScreen extends Component {
 		return (
 			<ArticleList
 				onFetchMore={onFetchMore || this._handleFetchMore}
+				onFetchMoreUserArticles={this._handleFetchMoreUserArticles}
 				articles={articles}
+				userArticles={userArticles}
 				hasErroredArticles={hasErroredArticles}
+				hasErroredUserArticles={hasErroredUserArticles}
 				isFetchingArticles={isFetchingArticles}
+				isFetchingUserArticles={isFetchingUserArticles}
 				isFetchingMoreArticles={this.state.isFetchingMoreArticles}
+				isFetchingMoreUserArticles={this.state.isFetchingMoreUserArticles}
 				articlesError={articlesError}
+				userArticlesError={userArticlesError}
 				hasHeaderButton={hasHeaderButton}
 				hasHeaderTabs={hasHeaderTabs}
 			/>
@@ -140,19 +215,33 @@ class ArticleListScreen extends Component {
 
 const mapStateToProps = state => {
 		return {
+			authenticationData: state.authentication.user,
+			isLoadingAuthentication: state.authentication.isLoadingUser,
+
 			articles: state.articles.articles,
 			hasErroredArticles: state.articles.hasErroredArticles,
 			isFetchingArticles: state.articles.isFetchingArticles,
 			articlesError: state.articles.articlesError,
 
+			userArticles: state.articles.userArticles,
+			hasErroredUserArticles: state.articles.hasErroredUserArticles,
+			isFetchingUserArticles: state.articles.isFetchingUserArticles,
+			userArticlesError: state.articles.userArticlesError,
+
 			isFetchingMoreArticles: state.articles.isFetchingMoreArticles,
 			hasErroredMoreArticles: state.articles.hasErroredMoreArticles,
-			moreArticlesError: state.articles.moreArticlesError
+			moreArticlesError: state.articles.moreArticlesError,
+
+			isFetchingMoreUserArticles: state.articles.isFetchingMoreUserArticles,
+			hasErroredMoreUserArticles: state.articles.hasErroredMoreUserArticles,
+			moreUserArticlesError: state.articles.moreUserArticlesError
 		};
 	},
 	mapDispatchToProps = dispatch => {
 		return {
-			fetchAll: (seed, page, limit) => dispatch(actions.articles.fetchAll(seed, page, limit))
+			fetchAll: (seed, page, limit) => dispatch(actions.articles.fetchAll(seed, page, limit)),
+			fetchAllUserArticles: (id, seed, page, limit) =>
+				dispatch(actions.articles.fetchAllUserArticles(id, seed, page, limit))
 		};
 	},
 	ConnectedComponent = connect(

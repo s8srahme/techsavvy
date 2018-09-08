@@ -25,7 +25,7 @@ module.exports = {
 							});
 						} else {
 							let image_url = "";
-							console.log("avatar:", req.file);
+							// console.log("avatar:", req.file);
 							if (req.file) {
 								await cloudinary.uploader.upload(req.file.path, result => {
 									if (!result) {
@@ -320,6 +320,7 @@ module.exports = {
 			.limit(limit)
 			.skip(limit * (page - 1))
 			.sort(sort)
+			.populate("author_id", "name")
 			.exec((error, records) => {
 				if (error) res.status(500).json({ error: error });
 				else if (records.length === 0) res.status(404).json({ message: "No entries found" });
@@ -341,9 +342,11 @@ module.exports = {
 											_id: record._id,
 											title: record.title,
 											description: record.description,
+											category: record.category,
 											claps: record.claps,
 											author_id: record.author_id,
 											created_at: record.created_at,
+											featured_image_url: record.featured_image_url,
 											request: {
 												type: "GET",
 												url: "http://localhost:5000/api/articles/" + record._id

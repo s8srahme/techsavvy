@@ -10,7 +10,9 @@ const storage = multer.diskStorage({
 			)
 	}),
 	fileFilter = (req, file, cb) => {
-		if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") cb(null, true);
+		console.log(file.mimetype);
+		if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/svg+xml")
+			cb(null, true);
 		else cb(new Error("Invalid mimetype"), false);
 	},
 	uploadFile = multer({

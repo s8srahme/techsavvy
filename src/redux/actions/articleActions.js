@@ -5,6 +5,12 @@ import {
 	FETCH_MORE_ARTICLES,
 	FETCH_MORE_ARTICLES_SUCCESS,
 	FETCH_MORE_ARTICLES_FAILURE,
+	FETCH_USER_ARTICLES,
+	FETCH_USER_ARTICLES_SUCCESS,
+	FETCH_USER_ARTICLES_FAILURE,
+	FETCH_MORE_USER_ARTICLES,
+	FETCH_MORE_USER_ARTICLES_SUCCESS,
+	FETCH_MORE_USER_ARTICLES_FAILURE,
 	FETCH_ARTICLE,
 	FETCH_ARTICLE_SUCCESS,
 	FETCH_ARTICLE_FAILURE,
@@ -46,6 +52,21 @@ export const fetchAll = (seed, page, limit) => {
 			.catch(err => {
 				console.log("err:", err);
 				dispatch(getFailure(seed === page ? FETCH_ARTICLES_FAILURE : FETCH_MORE_ARTICLES_FAILURE, err));
+			});
+	};
+};
+
+export const fetchAllUserArticles = (id, seed, page, limit) => {
+	return dispatch => {
+		dispatch(get(seed === page ? FETCH_USER_ARTICLES : FETCH_MORE_USER_ARTICLES));
+		services.users
+			.getAllArticles({ id, seed, page, limit })
+			.then(res => {
+				dispatch(getSuccess(seed === page ? FETCH_USER_ARTICLES_SUCCESS : FETCH_MORE_USER_ARTICLES_SUCCESS, res.data));
+			})
+			.catch(err => {
+				console.log("err:", err);
+				dispatch(getFailure(seed === page ? FETCH_USER_ARTICLES_FAILURE : FETCH_MORE_USER_ARTICLES_FAILURE, err));
 			});
 	};
 };
