@@ -47,8 +47,16 @@ export default class HomeScreen extends Component {
 		);
 	};
 
+	componentWillMount = () => {
+		const state = this.props.location.state;
+		// console.log(state);
+		if (state && state.isModalOpen) {
+			this.setState({ offsetTop: state.offsetTop });
+		}
+	};
+
 	componentDidMount = () => {
-		window.scrollTo(0, 0);
+		window.scrollTo(0, this.state.offsetTop);
 		window.addEventListener("resize", this._handleResize);
 		window.addEventListener("scroll", this._handleScroll);
 	};
@@ -358,14 +366,19 @@ export default class HomeScreen extends Component {
 					<img src={iconPostbox} alt="newsletter infographic" className="newsletter-graphic" />
 					<figcaption>Subscribe</figcaption>
 				</figure>
-				<form name="newsletter-form" id="newsletter-form" className="row" onSubmit={this._handleFormSubmit}>
+				<form
+					name="newsletter-form"
+					// id="newsletter-form"
+					className="row"
+					onSubmit={this._handleFormSubmit}
+				>
 					<fieldset>
 						<legend>Sign up for our newsletter and get notified about the next update.</legend>
 						<div className="newsletter-input-wrapper">
 							<input
 								type="email"
 								name="email"
-								id="email"
+								// id="email"
 								className="txt-input"
 								placeholder="Put your email address here"
 								autoComplete="off"

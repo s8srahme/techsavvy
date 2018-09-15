@@ -24,21 +24,25 @@ class Header extends Component {
 		};
 	}
 
-	componentWillMount = () => {
-		const state = this.props.location.state;
-		if (state && state.isModalOpen) {
-			this.setState({ isModalOpen: state.isModalOpen });
-		}
-	};
+	// componentWillMount = () => {
+	// 	const state = this.props.location.state;
+	// 	if (state && state.isModalOpen) {
+	// 		this.setState({ isModalOpen: state.isModalOpen });
+	// 	}
+	// };
 
 	componentDidMount = () => {
 		window.addEventListener("scroll", this._handleScroll);
 	};
 
-	// componentWillReceiveProps = nextProps => {
-	// 	if (this.props !== nextProps) {
-	// 	}
-	// };
+	componentWillReceiveProps = nextProps => {
+		if (this.props !== nextProps) {
+			const state = nextProps.location.state;
+			if (state && state.isModalOpen) {
+				this.setState({ isModalOpen: state.isModalOpen });
+			}
+		}
+	};
 
 	componentWillUnmount = () => {
 		window.removeEventListener("scroll", this._handleScroll);
@@ -67,9 +71,16 @@ class Header extends Component {
 	};
 
 	_handleModalClickOut = () => {
-		this.setState({
-			isModalOpen: false
-		});
+		const state = this.props.location.state;
+		if (state && state.isModalOpen) {
+			this.props.history.replace({ pathname: "/", state: {} });
+		}
+		this.setState(
+			{
+				isModalOpen: false
+			}
+			// () => {}
+		);
 	};
 
 	_handleDropdownClick = () => {

@@ -50,13 +50,13 @@ class ArticleDetailScreen extends Component {
 		return (
 			<div>
 				<ArticleDetail {...this.props} />
-				<CommentListScreen articleId={id} />
+				{this.props.articleData.author_id && <CommentListScreen articleId={id} />}
 			</div>
 		);
 	};
 }
 
-const mapStateToProps = ({ articles, authentication }) => {
+const mapStateToProps = ({ comments, articles, authentication }) => {
 		return {
 			authenticationData: authentication.user,
 			isLoadingAuthentication: authentication.isLoadingUser,
@@ -64,12 +64,22 @@ const mapStateToProps = ({ articles, authentication }) => {
 			articleData: articles.article,
 			hasErroredArticle: articles.hasErroredArticle,
 			articleError: articles.articleError,
-			isFetchingArticle: articles.isFetchingArticle
+			isFetchingArticle: articles.isFetchingArticle,
+
+			onDeleteArticleData: articles.onDeleteData,
+			onDeleteArticleError: articles.onDeleteError,
+			isFetchingDeleteArticleData: articles.isFetchingDeleteData,
+
+			onDeleteAllCommentsData: comments.onDeleteAllData,
+			onDeleteAllCommentsError: comments.onDeleteAllError,
+			isFetchingDeleteAllCommentsData: comments.isFetchingDeleteAllData
 		};
 	},
 	mapDispatchToProps = dispatch => {
 		return {
-			onFetchOne: id => dispatch(actions.articles.fetchOne(id))
+			onFetchOne: id => dispatch(actions.articles.fetchOne(id)),
+			onDeleteArticle: (id, cb) => dispatch(actions.articles.remove(id, cb)),
+			onDeleteComments: id => dispatch(actions.comments.removeAll(id))
 		};
 	};
 

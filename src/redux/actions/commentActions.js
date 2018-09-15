@@ -14,6 +14,9 @@ import {
 	DELETE_COMMENT,
 	DELETE_COMMENT_SUCCESS,
 	DELETE_COMMENT_FAILURE,
+	DELETE_COMMENTS,
+	DELETE_COMMENTS_SUCCESS,
+	DELETE_COMMENTS_FAILURE,
 	CREATE_COMMENT,
 	CREATE_COMMENT_SUCCESS,
 	CREATE_COMMENT_FAILURE
@@ -122,6 +125,33 @@ export const remove = (id, cbs) => {
 				console.log("err:", err);
 				dispatch(getFailure(DELETE_COMMENT_FAILURE, err));
 				cbs.onFailureCb(err);
+			});
+	};
+};
+
+export const removeAll = id => {
+	return dispatch => {
+		dispatch(get(DELETE_COMMENTS));
+		services.comments
+			.delete(id)
+			.then(res => {
+				dispatch(
+					getSuccess(DELETE_COMMENTS_SUCCESS, {
+						...res,
+						...{
+							data: {
+								message: "Comments deleted",
+								deletedArticle: {
+									_id: id
+								}
+							}
+						}
+					})
+				);
+			})
+			.catch(err => {
+				console.log("err:", err);
+				dispatch(getFailure(DELETE_COMMENTS_FAILURE, err));
 			});
 	};
 };

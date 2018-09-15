@@ -15,6 +15,10 @@
 		&.darken {
 			background-color: darken($color-light-gray, 5%);
 		}
+
+		p {
+			text-align: center;
+		}
 	}
 	.news-masthead {
 		position: relative;

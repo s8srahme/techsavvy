@@ -19,7 +19,10 @@ import {
 	UPDATE_ARTICLE_FAILURE,
 	CREATE_ARTICLE,
 	CREATE_ARTICLE_SUCCESS,
-	CREATE_ARTICLE_FAILURE
+	CREATE_ARTICLE_FAILURE,
+	DELETE_ARTICLE,
+	DELETE_ARTICLE_SUCCESS,
+	DELETE_ARTICLE_FAILURE
 } from "../constants";
 
 const initialState = {
@@ -52,7 +55,11 @@ const initialState = {
 
 	onUpdateData: {},
 	isFetchingUpdateData: false,
-	onUpdateError: null
+	onUpdateError: null,
+
+	onDeleteData: {},
+	isFetchingDeleteData: false,
+	onDeleteError: null
 };
 
 export const articleReducer = (state = initialState, action) => {
@@ -60,7 +67,8 @@ export const articleReducer = (state = initialState, action) => {
 		case FETCH_ARTICLES:
 			return {
 				...state,
-				isFetchingArticles: true
+				isFetchingArticles: true,
+				articles: {}
 			};
 		case FETCH_ARTICLES_SUCCESS:
 			return {
@@ -80,7 +88,8 @@ export const articleReducer = (state = initialState, action) => {
 		case FETCH_USER_ARTICLES:
 			return {
 				...state,
-				isFetchingUserArticles: true
+				isFetchingUserArticles: true,
+				userArticles: {}
 			};
 		case FETCH_USER_ARTICLES_SUCCESS:
 			return {
@@ -108,7 +117,12 @@ export const articleReducer = (state = initialState, action) => {
 				isFetchingMoreArticles: false,
 				articles: {
 					meta: action.payload.meta,
-					data: { articles: [...state.articles.data.articles, ...action.payload.data.articles] }
+					data: {
+						articles: [
+							...(Object.keys(state.articles).length ? state.articles.data.articles : {}),
+							...action.payload.data.articles
+						]
+					}
 				},
 				moreArticlesError: null
 			};
@@ -131,7 +145,12 @@ export const articleReducer = (state = initialState, action) => {
 				isFetchingMoreUserArticles: false,
 				userArticles: {
 					meta: action.payload.meta,
-					data: { articles: [...state.userArticles.data.articles, ...action.payload.data.articles] }
+					data: {
+						articles: [
+							...(Object.keys(state.userArticles).length ? state.userArticles.data.articles : {}),
+							...action.payload.data.articles
+						]
+					}
 				},
 				moreUserArticlesError: null
 			};
@@ -201,6 +220,27 @@ export const articleReducer = (state = initialState, action) => {
 				...state,
 				isFetchingUpdateData: false,
 				onUpdateError: action.error
+			};
+
+		case DELETE_ARTICLE:
+			return {
+				...state,
+				onDeleteData: {},
+				isFetchingDeleteData: true
+			};
+		case DELETE_ARTICLE_SUCCESS:
+			return {
+				...state,
+				isFetchingDeleteData: false,
+				onDeleteData: action.payload,
+				onDeleteError: null
+				// article: {}
+			};
+		case DELETE_ARTICLE_FAILURE:
+			return {
+				...state,
+				isFetchingDeleteData: false,
+				onDeleteError: action.error
 			};
 
 		default:

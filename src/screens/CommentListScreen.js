@@ -75,7 +75,10 @@ class CommentListScreen extends Component {
 			hasErroredComments,
 			isFetchingComments,
 			commentsError,
-			articleId
+			articleId,
+			// onDeleteAllData,
+			// onDeleteAllError,
+			isFetchingDeleteAllData
 		} = this.props;
 		// const comments = [
 		// 	{
@@ -110,6 +113,9 @@ class CommentListScreen extends Component {
 				// isFetchingCreateData={isFetchingCreateData}
 				onDelete={onDelete}
 				// isFetchingDeleteData={isFetchingDeleteData}
+				// onDeleteAllData={onDeleteAllData}
+				// onDeleteAllError={onDeleteAllError}
+				isFetchingDeleteAllData={isFetchingDeleteAllData}
 			/>
 		);
 	};
@@ -139,7 +145,11 @@ const mapStateToProps = state => {
 
 			onDeleteData: state.comments.onDeleteData,
 			isFetchingDeleteData: state.comments.isFetchingDeleteData,
-			onDeleteError: state.comments.onDeleteError
+			onDeleteError: state.comments.onDeleteError,
+
+			onDeleteAllData: state.comments.onDeleteAllData,
+			onDeleteAllError: state.comments.onDeleteAllError,
+			isFetchingDeleteAllData: state.comments.isFetchingDeleteAllData
 		};
 	},
 	mapDispatchToProps = dispatch => {

@@ -23,8 +23,17 @@ export class ArticleDetail extends Component {
 		}
 	};
 
-	_handleDropdownClick = index => {
-		this.setState({ isDropdownActive: !this.state.isDropdownActive });
+	_handleDropdownClick = (event, cb = () => {}) => {
+		// console.log(cb);
+		this.setState({ isDropdownActive: !this.state.isDropdownActive }, () => cb());
+	};
+
+	_handleDeleteClick = event => {
+		const { articleData, onDeleteArticle, onDeleteComments } = this.props;
+		onDeleteComments(articleData._id);
+		onDeleteArticle(articleData._id, () => {
+			this._handleDropdownClick(event, () => this.props.history.push("/blog"));
+		});
 	};
 
 	render = () => {
@@ -32,16 +41,32 @@ export class ArticleDetail extends Component {
 			authenticationData,
 			isLoadingAuthentication,
 
-			articleData
+			articleData,
 			// hasErroredArticle,
-			// articleError,
-			// isFetchingArticle
+			articleError,
+			// isFetchingArticle,
+
+			// onDeleteArticle,
+			// onDeleteArticleData,
+			isFetchingDeleteArticleData,
+			// onDeleteArticleError,
+
+			// onDeleteComments,
+			// onDeleteAllCommentsData,
+			isFetchingDeleteAllCommentsData
+			// onDeleteAllCommentsError
 		} = this.props;
 
 		return isLoadingAuthentication || this.state.isFetchingArticle ? (
 			<div className="wrapper">
 				<div className="news-loader-content">
 					<Loader />
+				</div>
+			</div>
+		) : articleError || !articleData.author_id ? (
+			<div className="wrapper">
+				<div className="news-loader-content">
+					<p>We couldn’t find this article.</p>
 				</div>
 			</div>
 		) : (
@@ -74,7 +99,7 @@ export class ArticleDetail extends Component {
 										</div>
 										{articleData.author_id._id === authenticationData._id && (
 											<div className="news-meta-dropdown-wrapper">
-												<div className="news-meta-dropdown-btn" onClick={this._handleDropdownClick}>
+												<div className="news-meta-dropdown-btn" onClick={event => this._handleDropdownClick(event)}>
 													<ChevronDown className="news-meta-dropdown-icon" />
 												</div>
 												{this.state.isDropdownActive && (
@@ -84,13 +109,21 @@ export class ArticleDetail extends Component {
 															{
 																icon: Edit2,
 																title: "Edit",
-																onClick: () => {
+																isLoadingSelf: false,
+																isLoadingSibling: isFetchingDeleteArticleData || isFetchingDeleteAllCommentsData,
+																onClick: event => {
 																	this.props.history.push(
 																		`/blog/${slugify(articleData.title)}-${articleData._id}/edit`
 																	);
 																}
 															},
-															{ icon: Delete, title: "Delete", onClick: () => {} }
+															{
+																icon: Delete,
+																title: "Delete",
+																isLoadingSelf: isFetchingDeleteArticleData,
+																isLoadingSibling: false,
+																onClick: event => this._handleDeleteClick(event)
+															}
 														]}
 													/>
 												)}

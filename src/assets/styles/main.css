@@ -963,6 +963,8 @@ html {
     padding-top: 0; }
   .wrapper .news-loader-content.darken {
     background-color: #f2f2f2; }
+  .wrapper .news-loader-content p {
+    text-align: center; }
 
 .wrapper .news-masthead {
   position: relative;
@@ -1831,13 +1833,13 @@ html {
         color: #131315;
         line-height: 1;
         letter-spacing: 2px; }
-    .wrapper .newsletter-content .container #newsletter-form {
+    .wrapper .newsletter-content .container form[name="newsletter-form"] {
       display: flex;
       justify-content: center;
       margin-top: 0; }
-      .wrapper .newsletter-content .container #newsletter-form fieldset {
+      .wrapper .newsletter-content .container form[name="newsletter-form"] fieldset {
         max-width: 768px; }
-        .wrapper .newsletter-content .container #newsletter-form fieldset legend {
+        .wrapper .newsletter-content .container form[name="newsletter-form"] fieldset legend {
           font-family: "Dosis", sans-serif;
           font-size: 2.4rem;
           font-weight: 400;
@@ -1846,20 +1848,20 @@ html {
           line-height: 1.1;
           letter-spacing: 2px;
           text-align: center; }
-        .wrapper .newsletter-content .container #newsletter-form fieldset .newsletter-input-wrapper {
+        .wrapper .newsletter-content .container form[name="newsletter-form"] fieldset .newsletter-input-wrapper {
           max-width: 480px;
           padding-top: 3.2rem;
           margin: 0 auto; }
-          .wrapper .newsletter-content .container #newsletter-form fieldset .newsletter-input-wrapper:last-child {
+          .wrapper .newsletter-content .container form[name="newsletter-form"] fieldset .newsletter-input-wrapper:last-child {
             padding-top: 2.4rem;
             display: flex;
             justify-content: center; }
-          .wrapper .newsletter-content .container #newsletter-form fieldset .newsletter-input-wrapper .txt-input {
+          .wrapper .newsletter-content .container form[name="newsletter-form"] fieldset .newsletter-input-wrapper .txt-input {
             text-align: center; }
-            .wrapper .newsletter-content .container #newsletter-form fieldset .newsletter-input-wrapper .txt-input::placeholder {
+            .wrapper .newsletter-content .container form[name="newsletter-form"] fieldset .newsletter-input-wrapper .txt-input::placeholder {
               text-transform: none;
               text-align: center; }
-          .wrapper .newsletter-content .container #newsletter-form fieldset .newsletter-input-wrapper span {
+          .wrapper .newsletter-content .container form[name="newsletter-form"] fieldset .newsletter-input-wrapper span {
             display: block;
             margin-top: 1.2rem;
             color: #ed5565; }

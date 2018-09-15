@@ -12,7 +12,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 			localStorage.getItem("user") ? (
 				<Component {...props} />
 			) : (
-				<Redirect to={{ pathname: "/", state: { isModalOpen: true, from: props.location } }} />
+				<Redirect
+					to={{ pathname: "/", state: { isModalOpen: true, from: props.location, offsetTop: window.pageYOffset } }}
+				/>
 			)
 		}
 	/>
@@ -23,17 +25,19 @@ export const _renderRoutes = () => (
 		render={({ location }) => (
 			<TransitionGroup>
 				<CSSTransition key={location.pathname} classNames="fade" timeout={{ enter: 500, exit: 300 }} unmountOnExit>
-					<Switch
-					// location={location}
-					>
-						<Route exact path="/" component={HomeScreen} />
-						<Route exact path="/about" component={AboutScreen} />
-						<Route exact path="/contact" component={ContactScreen} />
-						<Route exact path="/license" component={LicenseScreen} />
-						<Route path="/blog" component={Articles} />
-						<PrivateRoute path="/user" component={Users} />
-						<Route component={NotFoundScreen} />
-					</Switch>
+					<div>
+						<Switch
+						// location={location}
+						>
+							<Route exact path="/" component={HomeScreen} />
+							<Route exact path="/about" component={AboutScreen} />
+							<Route exact path="/contact" component={ContactScreen} />
+							<Route exact path="/license" component={LicenseScreen} />
+							<PrivateRoute path="/blog" component={Articles} />
+							<PrivateRoute path="/user" component={Users} />
+							<Route component={NotFoundScreen} />
+						</Switch>
+					</div>
 				</CSSTransition>
 			</TransitionGroup>
 		)}

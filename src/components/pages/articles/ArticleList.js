@@ -55,7 +55,7 @@ export class ArticleList extends Component {
 			<div className="wrapper">
 				<div className="news-list-wrapper">
 					{this._renderNewsHeader(hasHeaderButton, hasHeaderTabs)}
-					{this._renderNewsContent(Object.keys(articles).length ? articles.data.articles : [])}
+					{this._renderNewsContent(Object.keys(articles).length && articles.data ? articles.data.articles : [])}
 				</div>
 			</div>
 		);

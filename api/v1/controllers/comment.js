@@ -127,6 +127,30 @@ exports.comments_create_comment = async (req, res, next) => {
 			});
 		});
 };
+exports.comments_delete_all = (req, res, next) => {
+	const id = req.params.articleId;
+	Comment.remove({ article_id: id })
+		.exec()
+		.then(result => {
+			res.status(204).json({
+				// message: "Comments deleted",
+				// request: {
+				// 	type: "POST",
+				// 	url: "http://localhost:5000/api/comments",
+				// 	body: {
+				// 		author_id: "String",
+				// 		article_id: "String",
+				// 		text: "String"
+				// 	}
+				// }
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+};
 exports.comments_delete_comment = (req, res, next) => {
 	const id = req.params.commentId;
 	Comment.remove({ _id: id })

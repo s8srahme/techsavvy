@@ -14,6 +14,9 @@ import {
 	DELETE_COMMENT,
 	DELETE_COMMENT_SUCCESS,
 	DELETE_COMMENT_FAILURE,
+	DELETE_COMMENTS,
+	DELETE_COMMENTS_SUCCESS,
+	DELETE_COMMENTS_FAILURE,
 	CREATE_COMMENT,
 	CREATE_COMMENT_SUCCESS,
 	CREATE_COMMENT_FAILURE
@@ -44,7 +47,11 @@ const initialState = {
 
 	onDeleteData: {},
 	isFetchingDeleteData: false,
-	onDeleteError: null
+	onDeleteError: null,
+
+	onDeleteAllData: {},
+	isFetchingDeleteAllData: false,
+	onDeleteAllError: null
 };
 
 export const commentReducer = (state = initialState, action) => {
@@ -52,7 +59,8 @@ export const commentReducer = (state = initialState, action) => {
 		case FETCH_COMMENTS:
 			return {
 				...state,
-				isFetchingComments: true
+				isFetchingComments: true,
+				comments: {}
 			};
 		case FETCH_COMMENTS_SUCCESS:
 			return {
@@ -126,7 +134,12 @@ export const commentReducer = (state = initialState, action) => {
 				onCreateError: null,
 				comments: {
 					meta: state.comments.meta,
-					data: { comments: [action.payload.data.createdComment, ...state.comments.data.comments] }
+					data: {
+						comments: [
+							action.payload.data.createdComment,
+							...(Object.keys(state.comments).length ? state.comments.data.comments : {})
+						]
+					}
 				}
 			};
 		case CREATE_COMMENT_FAILURE:
@@ -207,6 +220,27 @@ export const commentReducer = (state = initialState, action) => {
 				...state,
 				isFetchingDeleteData: false,
 				onDeleteError: action.error
+			};
+
+		case DELETE_COMMENTS:
+			return {
+				...state,
+				onDeleteAllData: {},
+				isFetchingDeleteAllData: true
+			};
+		case DELETE_COMMENTS_SUCCESS:
+			return {
+				...state,
+				isFetchingDeleteAllData: false,
+				onDeleteAllData: action.payload,
+				onDeleteAllError: null
+				// comments: {}
+			};
+		case DELETE_COMMENTS_FAILURE:
+			return {
+				...state,
+				isFetchingDeleteAllData: false,
+				onDeleteAllError: action.error
 			};
 
 		default:

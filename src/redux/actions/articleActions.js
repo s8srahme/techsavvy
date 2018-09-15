@@ -19,7 +19,10 @@ import {
 	UPDATE_ARTICLE_FAILURE,
 	CREATE_ARTICLE,
 	CREATE_ARTICLE_SUCCESS,
-	CREATE_ARTICLE_FAILURE
+	CREATE_ARTICLE_FAILURE,
+	DELETE_ARTICLE,
+	DELETE_ARTICLE_SUCCESS,
+	DELETE_ARTICLE_FAILURE
 } from "../constants";
 import services from "services";
 
@@ -112,6 +115,34 @@ export const create = createData => {
 			.catch(err => {
 				console.log("err:", err);
 				dispatch(getFailure(CREATE_ARTICLE_FAILURE, err));
+			});
+	};
+};
+
+export const remove = (id, cb) => {
+	return dispatch => {
+		dispatch(get(DELETE_ARTICLE));
+		services.articles
+			.delete(id)
+			.then(res => {
+				dispatch(
+					getSuccess(DELETE_ARTICLE_SUCCESS, {
+						...res,
+						...{
+							data: {
+								message: "Article deleted",
+								deletedArticle: {
+									_id: id
+								}
+							}
+						}
+					})
+				);
+				cb();
+			})
+			.catch(err => {
+				console.log("err:", err);
+				dispatch(getFailure(DELETE_ARTICLE_FAILURE, err));
 			});
 	};
 };

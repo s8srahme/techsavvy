@@ -4,7 +4,7 @@ const checkAuth = require("../middlewares/auth");
 const validatePhoto = require("../middlewares/photo");
 
 module.exports = router => {
-	router.route("/articles").get(checkAuth, ArticlesController.articles_get_all);
+	router.route("/articles").get(ArticlesController.articles_get_all);
 	router.route("/articles/:articleId").get(checkAuth, ArticlesController.articles_get_article);
 	router.route("/articles/:articleId").delete(checkAuth, ArticlesController.articles_delete_article);
 	router

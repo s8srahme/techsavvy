@@ -212,7 +212,7 @@ module.exports = {
 			updateOps.image_url = image_url;
 		}
 
-		console.log("updateOps:", updateOps);
+		// console.log("updateOps:", updateOps);
 		User.update({ _id: id }, { $set: updateOps })
 			.exec()
 			.then(result => {
@@ -323,7 +323,7 @@ module.exports = {
 			.populate("author_id", "name")
 			.exec((error, records) => {
 				if (error) res.status(500).json({ error: error });
-				else if (records.length === 0) res.status(404).json({ message: "No entries found" });
+				else if (records.length === 0) res.status(200).json({ message: "No entries found" });
 				else {
 					Article.count({ ...{ author_id: id }, ...filter })
 						.exec()

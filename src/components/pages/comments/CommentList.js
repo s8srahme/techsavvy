@@ -57,6 +57,7 @@ export class CommentList extends Component {
 				// hasErroredComments,
 				// isFetchingComments,
 				// commentsError,
+				// isFetchingDeleteAllData,
 				onFetchMore,
 				isFetchingMoreComments,
 				isLoadingAuthentication,
