@@ -35,12 +35,42 @@ export class Contact extends React.Component {
 
 	_handleFormSubmit = event => {
 		event.preventDefault();
-		this.setState(
-			{
-				isLoading: true
-			},
-			() => console.log(this.state)
-		);
+		const { email, fullName, subject, message } = this.state;
+		const {
+			onCreate
+			// onCreateData, isFetchingCreateData, onCreateError
+		} = this.props;
+
+		this.setState({ isLoading: true }, () => {
+			onCreate(
+				{ to: "trickster0179@gmail.com", from: email, subject, name: fullName, message },
+				{
+					onSuccessCb: () => {
+						this.setState(
+							{
+								isLoading: false,
+								errorInputIndex: -1,
+								errorInputMessage: ""
+							},
+							() => {
+								this.props.history.push("/");
+							}
+						);
+					},
+					onFailureCb: err => {
+						this.setState({
+							isLoading: false,
+							errorInputIndex: 4,
+							errorInputMessage: err.response.data.message || "There was a problem sending the mail"
+						});
+					}
+				}
+			);
+		});
+	};
+
+	_handleFormCancel = () => {
+		this.props.history.goBack();
 	};
 
 	_renderContactForm = () => {
@@ -111,18 +141,22 @@ export class Contact extends React.Component {
 								required
 								onChange={event => this.setState({ message: event.target.value })}
 							/>
-							{this.state.errorInputIndex === 3 && <span>{this.state.errorInputMessage}</span>}
+							{/* {this.state.errorInputIndex === 3 && <span>{this.state.errorInputMessage}</span>} */}
+						</div>
+						<div className="contact-form-inputs-wrapper">
+							{this.state.errorInputIndex === 4 && <span>{this.state.errorInputMessage}</span>}
+							{isLoading ? (
+								<div className="contact-form-inputs">
+									<Loader />
+								</div>
+							) : (
+								<div className="contact-form-inputs">
+									<input type="button" className="btn" value="cancel" onClick={this._handleFormCancel} />
+									<input type="submit" className="btn" value="send" />
+								</div>
+							)}
 						</div>
 					</fieldset>
-					<div className="contact-form-btn-wrapper">
-						{isLoading ? (
-							<div className="contact-form-loader-wrapper">
-								<Loader />
-							</div>
-						) : (
-							<input type="submit" className="btn" value="save" />
-						)}
-					</div>
 				</form>
 			</div>
 		);
@@ -155,7 +189,11 @@ export class Contact extends React.Component {
 							return (
 								<li key={itemKey} className="contact-info-item">
 									<Icon className="contact-info-item-icon" />
-									<hgroup>{item.titles.map((title, titleKey) => <h4 key={titleKey}>{title}</h4>)}</hgroup>
+									<hgroup>
+										{item.titles.map((title, titleKey) => (
+											<h4 key={titleKey}>{title}</h4>
+										))}
+									</hgroup>
 								</li>
 							);
 						})}

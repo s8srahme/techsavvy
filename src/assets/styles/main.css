@@ -2264,6 +2264,35 @@ html {
                 @media (min-width: 320px) {
                   .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper .contact-form-input-wrapper:last-child {
                     margin-left: 1.6rem; } }
+              .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper:last-child {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between; }
+                @media (max-width: 479px) {
+                  .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper:last-child {
+                    flex-direction: column-reverse; } }
+                .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper:last-child span {
+                  flex: 1;
+                  display: block;
+                  margin: 1.2rem 0;
+                  color: #ed5565; }
+                .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper:last-child .contact-form-inputs {
+                  flex: 1;
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: flex-end; }
+                  @media (max-width: 479px) {
+                    .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper:last-child .contact-form-inputs {
+                      width: 100%;
+                      justify-content: center; }
+                      .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper:last-child .contact-form-inputs .btn {
+                        flex: 1;
+                        justify-content: center;
+                        padding: 0; } }
+                  .contact-content .container .row #contact-form form fieldset .contact-form-inputs-wrapper:last-child .contact-form-inputs .btn:last-child {
+                    margin-left: 1.2rem; }
             .contact-content .container .row #contact-form form fieldset .contact-form-input-wrapper:not(:last-child) {
               margin-bottom: 1.6rem; }
             .contact-content .container .row #contact-form form fieldset .contact-form-input-wrapper span,
@@ -2271,14 +2300,6 @@ html {
               display: block;
               margin-top: 1.2rem;
               color: #ed5565; }
-          .contact-content .container .row #contact-form form .contact-form-btn-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 3.2rem; }
-            @media (max-width: 319px) {
-              .contact-content .container .row #contact-form form .contact-form-btn-wrapper .btn {
-                width: 100%; } }
 
 .license-content {
   background-color: #ffffff; }

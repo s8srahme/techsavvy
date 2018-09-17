@@ -9,7 +9,7 @@ import UserFormScreen from "./users/UserFormScreen";
 import UserDetailScreen from "./users/UserDetailScreen";
 import UserEditingScreen from "./users/UserEditingScreen";
 import { AboutScreen } from "./AboutScreen";
-import { ContactScreen } from "./ContactScreen";
+import ContactScreen from "./ContactScreen";
 import { LicenseScreen } from "./LicenseScreen";
 
 export {

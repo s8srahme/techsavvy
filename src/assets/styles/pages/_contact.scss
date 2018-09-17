@@ -121,7 +121,47 @@
 									}
 								}
 							}
+
+							&:last-child {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								justify-content: space-between;
+								@include breakpoint(xs) {
+									flex-direction: column-reverse;
+								}
+
+								span {
+									flex: 1;
+									display: block;
+									margin: $gutter-sm 0;
+									color: $color-grapefruit;
+								}
+								.contact-form-inputs {
+									flex: 1;
+									display: flex;
+									flex-direction: row;
+									align-items: center;
+									justify-content: flex-end;
+									@include breakpoint(xs) {
+										width: 100%;
+										justify-content: center;
+										.btn {
+											flex: 1;
+											justify-content: center;
+											padding: 0;
+										}
+									}
+
+									.btn {
+										&:last-child {
+											margin-left: $gutter-sm;
+										}
+									}
+								}
+							}
 						}
+
 						.contact-form-input-wrapper {
 							&:not(:last-child) {
 								margin-bottom: $gutter-md;
@@ -132,20 +172,6 @@
 								display: block;
 								margin-top: $gutter-sm;
 								color: $color-grapefruit;
-							}
-						}
-					}
-					.contact-form-btn-wrapper {
-						width: 100%;
-						display: flex;
-						justify-content: flex-end;
-						margin-top: $gutter-xl;
-
-						// .contact-form-loader-wrapper {
-						// }
-						.btn {
-							@include breakpoint(0, $breakpoint-xs) {
-								width: 100%;
 							}
 						}
 					}
