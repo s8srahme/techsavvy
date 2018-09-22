@@ -14,7 +14,7 @@ const register = ({ email, password, name }) => {
 
 	return dispatch => {
 		dispatch(request());
-		services.users.create({ email, password, name }).then(
+		services.auth.register({ email, password, name }).then(
 			user => {
 				dispatch(success(user.data));
 			},
@@ -39,7 +39,7 @@ const login = ({ email, password }) => {
 
 	return dispatch => {
 		dispatch(request());
-		services.users.check({ email, password }).then(
+		services.auth.login({ email, password }).then(
 			user => {
 				// console.log(user);
 				if (user.data.token) {
@@ -55,14 +55,44 @@ const login = ({ email, password }) => {
 	};
 };
 
-export const logout = () => {
-	const success = () => {
-		return { type: authenticationConstants.LOGOUT_SUCCESS };
+export const logout = cb => {
+	const request = () => {
+		return { type: authenticationConstants.LOGOUT_REQUEST };
+	};
+	const success = payload => {
+		return { type: authenticationConstants.LOGOUT_SUCCESS, payload };
+	};
+	const failure = error => {
+		return { type: authenticationConstants.LOGOUT_FAILURE, error };
 	};
 
 	return dispatch => {
-		localStorage.removeItem("user");
-		dispatch(success());
+		dispatch(request());
+		// if (typeof cb === "function") {
+		services.auth.logout().then(
+			response => {
+				dispatch(success(response));
+				localStorage.removeItem("user");
+				cb();
+			},
+			error => {
+				console.error("err:", error);
+				dispatch(failure(error));
+			}
+		);
+		// } else {
+		// 	dispatch(
+		// 		success({
+		// 			data: {
+		// 				success: true,
+		// 				message: "Session expired"
+		// 			}
+		// 		})
+		// 	);
+		// 	dispatch({ type: "CLEAR_ONE" });
+		// 	dispatch({ type: "CLEAR_SELF" });
+		// 	localStorage.removeItem("user");
+		// }
 	};
 };
 

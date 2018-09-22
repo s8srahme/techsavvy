@@ -27,15 +27,15 @@ export class UserEditing extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps = nextProps => {
-		if (this.props !== nextProps) {
-			const { userData, isLoadingUpdateData } = nextProps;
-			if (this.props.isLoadingUpdateData && !isLoadingUpdateData) {
-				if (nextProps.onUpdateError) {
+	componentDidUpdate = (prevProps, prevState, snapshot) => {
+		if (this.props !== prevProps) {
+			const { userData, isLoadingUpdateData } = this.props;
+			if (prevProps.isLoadingUpdateData && !isLoadingUpdateData) {
+				if (this.props.onUpdateError) {
 					this.setState({
 						isLoadingUpdateData: false,
 						errorInputIndex: 6,
-						errorInputMessage: nextProps.onUpdateError.response.data.message || "There was a problem updating the user"
+						errorInputMessage: this.props.onUpdateError.response.data.message || "There was a problem updating the user"
 					});
 				} else {
 					this.setState({ isLoadingUpdateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {
@@ -58,6 +58,38 @@ export class UserEditing extends React.Component {
 			}
 		}
 	};
+
+	// componentWillReceiveProps = nextProps => {
+	// 	if (this.props !== nextProps) {
+	// 		const { userData, isLoadingUpdateData } = nextProps;
+	// 		if (this.props.isLoadingUpdateData && !isLoadingUpdateData) {
+	// 			if (nextProps.onUpdateError) {
+	// 				this.setState({
+	// 					isLoadingUpdateData: false,
+	// 					errorInputIndex: 6,
+	// 					errorInputMessage: nextProps.onUpdateError.response.data.message || "There was a problem updating the user"
+	// 				});
+	// 			} else {
+	// 				this.setState({ isLoadingUpdateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {
+	// 					this.props.history.goBack();
+	// 					this.props.onGetOneAuthentication();
+	// 				});
+	// 			}
+	// 		} else if (!this.state.isLoadingUpdateData && Object.keys(userData).length) {
+	// 			let stateData = {},
+	// 				names = userData.name.split(" ");
+
+	// 			stateData.isLoadingUser = false;
+	// 			stateData.userImage = userData.image_url;
+	// 			stateData.firstName = names[0];
+	// 			stateData.lastName = names.length > 1 ? names[1] : "";
+	// 			stateData["bio"] = userData.bio ? userData.bio : "";
+	// 			stateData["location"] = userData.location ? userData.location : "";
+
+	// 			this.setState(prevState => stateData);
+	// 		}
+	// 	}
+	// };
 
 	_validatePasswords = (oldPassword, newPassword) => {
 		const illegalChars = /[\W_]/;
@@ -135,7 +167,7 @@ export class UserEditing extends React.Component {
 			};
 			let formData = new FormData();
 			for (let key in updateData) formData.append(key, updateData[key]);
-			for (let pair of formData.entries()) console.log(`${pair[0]}: ${pair[1]}`);
+			// for (let pair of formData.entries()) console.log(`${pair[0]}: ${pair[1]}`);
 			// console.log(updateData.photos, ": photos");
 			this.props.onUpdate(userData._id, formData);
 		});

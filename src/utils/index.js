@@ -46,15 +46,51 @@ export const exportBreakpoint = size => {
 
 export const createRequestInstance = () => {
 	let instance = axios.create({
-			baseURL: "http://localhost:5000/api/v1"
-			// timeout: 2500
-		}),
-		user = JSON.parse(localStorage.getItem("user"));
-	// console.log("token:", user);
+		baseURL: "http://localhost:5000/api/v1",
+		// timeout: 2500,
+		validateStatus: status => {
+			// if (status === 401) {
+			// 	let user = JSON.parse(localStorage.getItem("user"));
+			// 	if (user && user.token) {
+			// 		user.success = false;
+			// 		user.message = "Session expired";
+			// 	}
+			// 	localStorage.setItem("user", JSON.stringify(user));
+			// }
+			return status >= 200 && status < 300;
+		}
+	});
 
-	if (user && user.token) {
-		instance.defaults.headers.common["Authorization"] = "Bearer " + user.token;
-	}
+	instance.interceptors.request.use(
+		config => {
+			return config;
+		},
+		error => {
+			return Promise.reject(error);
+		}
+	);
+
+	instance.interceptors.response.use(
+		response => {
+			return response;
+		},
+		error => {
+			if (error.response.status === 401) {
+				let user = JSON.parse(localStorage.getItem("user"));
+				if (user && user.token) {
+					user.success = false;
+					user.message = "Session expired";
+				}
+				localStorage.setItem("user", JSON.stringify(user));
+			}
+			return Promise.reject(error);
+		}
+	);
+
+	// let user = JSON.parse(localStorage.getItem("user"));
+	// if (user && user.token) {
+	// 	instance.defaults.headers.common["Authorization"] = "Bearer " + user.token;
+	// }
 
 	return instance;
 };

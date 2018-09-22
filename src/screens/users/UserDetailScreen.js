@@ -7,7 +7,8 @@ import { UserDetail, NotFound } from "../../components";
 class UserDetailScreen extends Component {
 	componentWillMount = () => {
 		window.scrollTo(0, 0);
-		this.props.getOne({ id: this.props.match.params.userId });
+		// throw new Error("An error has occured in Buggy component!");
+		if (!this.props.isLoadingUser) this.props.getOne({ id: this.props.match.params.userId });
 	};
 
 	render = () => {

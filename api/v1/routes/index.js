@@ -3,6 +3,7 @@ const articleRoutes = require("./article");
 const commentRoutes = require("./comment");
 const photoRoutes = require("./photo");
 const mailRoutes = require("./mail");
+const authRoutes = require("./auth");
 
 module.exports = router => {
 	userRoutes(router);
@@ -10,4 +11,5 @@ module.exports = router => {
 	commentRoutes(router);
 	photoRoutes(router);
 	mailRoutes(router);
+	authRoutes(router);
 };

@@ -15,7 +15,12 @@ const initialState = {
 	registerData: {},
 	isLoadingRegister: false,
 	hasErroredRegister: false,
-	registerError: null
+	registerError: null,
+
+	logoutData: {},
+	isLoadingLogout: false,
+	hasErroredLogout: false,
+	logoutError: null
 };
 
 let user = JSON.parse(localStorage.getItem("user"));
@@ -67,11 +72,28 @@ export const authenticationReducer = (state = initialState, action) => {
 				registerError: action.error
 			};
 
+		case authenticationConstants.LOGOUT_REQUEST:
+			return {
+				...state,
+				isLoadingLogout: true
+			};
 		case authenticationConstants.LOGOUT_SUCCESS:
 			return {
 				...state,
 				isAuthenticated: false,
-				loginData: {}
+				loginData: {},
+
+				logoutData: action.payload.data,
+				isLoadingLogout: false,
+				hasErroredLogout: false,
+				logoutError: null
+			};
+		case authenticationConstants.LOGOUT_FAILURE:
+			return {
+				...state,
+				isLoadingLogout: false,
+				hasErroredLogout: true,
+				logoutError: action.error
 			};
 
 		case authenticationConstants.GET_SELF_REQUEST:
@@ -95,7 +117,13 @@ export const authenticationReducer = (state = initialState, action) => {
 			};
 
 		case "CLEAR_SELF":
-			return initialState;
+			return {
+				...initialState,
+				logoutData: state.logoutData,
+				isLoadingLogout: state.isLoadingLogout,
+				hasErroredLogout: state.hasErroredLogout,
+				logoutError: state.loginError
+			};
 
 		default:
 			return state;

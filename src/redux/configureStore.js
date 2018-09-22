@@ -8,11 +8,28 @@ const loggerMiddleware = createLogger({
 		predicate: () => process.env.NODE_ENV === "development"
 	}),
 	instanceMiddleware = store => next => action => {
-		const user = JSON.parse(localStorage.getItem("user"));
-		if (user && user.token) {
+		// console.log("Middleware triggered:", action);
+		const user = JSON.parse(localStorage.getItem("user")),
+			loginData = store.getState().authentication.loginData;
+		// console.log(user, loginData);
+
+		if (user && user.success === false) {
+			localStorage.removeItem("user");
+			store.dispatch({
+				type: "LOGOUT_SUCCESS",
+				payload: {
+					data: {
+						success: true,
+						message: "Session expired"
+					}
+				}
+			});
+			store.dispatch({ type: "CLEAR_ONE" });
+			store.dispatch({ type: "CLEAR_SELF" });
+		} else if (user && user.token) {
 			instance.defaults.headers.common["Authorization"] = "Bearer " + user.token;
-		} else if (store.getState().authentication.userLogin) {
-			instance.defaults.headers.common["Authorization"] = "Bearer " + store.getState().authentication.userLogin.token;
+		} else if (loginData && loginData.token) {
+			instance.defaults.headers.common["Authorization"] = "Bearer " + loginData.token;
 		}
 		next(action);
 	},

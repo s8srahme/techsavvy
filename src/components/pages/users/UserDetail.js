@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import {
 	iconMale,
@@ -8,7 +8,7 @@ import {
 import { Loader } from "components";
 import { MapPin } from "react-feather";
 
-export class UserDetail extends Component {
+export class UserDetail extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -17,33 +17,62 @@ export class UserDetail extends Component {
 		};
 	}
 
-	componentWillReceiveProps = nextProps => {
-		if (this.props !== nextProps) {
+	// shouldComponentUpdate = (nextProps, nextState) => (nextProps.isLoadingUser ? false : true);
+
+	static getDerivedStateFromProps = (nextProps, prevState) => {
+		if (Object.keys(nextProps.userData).length) {
 			const { authenticationData, userData, onFollowData, onUnfollowData } = nextProps;
-			if (Object.keys(userData).length) {
-				let hasOnFollowData = Object.keys(onFollowData).length,
-					hasOnUnfollowData = Object.keys(onUnfollowData).length;
-				this.setState({
-					isFollowing: hasOnFollowData
-						? true
-						: hasOnUnfollowData
-							? false
-							: userData.followers.includes(authenticationData._id),
-					stats: [
-						{ label: "Stories", value: userData.counts["articles"] },
-						{
-							label: "Followers",
-							value: hasOnFollowData ? userData.followers.length + 1 : userData.followers.length
-						},
-						{
-							label: "Following",
-							value: userData.following.length
-						}
-					]
-				});
-			}
+			let hasOnFollowData = Object.keys(onFollowData).length,
+				hasOnUnfollowData = Object.keys(onUnfollowData).length;
+			return {
+				isFollowing: hasOnFollowData
+					? true
+					: hasOnUnfollowData
+						? false
+						: userData.followers.includes(authenticationData._id),
+				stats: [
+					{ label: "Stories", value: userData.counts["articles"] },
+					{
+						label: "Followers",
+						value: hasOnFollowData ? userData.followers.length + 1 : userData.followers.length
+					},
+					{
+						label: "Following",
+						value: userData.following.length
+					}
+				]
+			};
 		}
+		return null;
 	};
+
+	// componentWillReceiveProps = nextProps => {
+	// 	if (this.props !== nextProps) {
+	// 		const { authenticationData, userData, onFollowData, onUnfollowData } = nextProps;
+	// 		if (Object.keys(userData).length) {
+	// 			let hasOnFollowData = Object.keys(onFollowData).length,
+	// 				hasOnUnfollowData = Object.keys(onUnfollowData).length;
+	// 			this.setState({
+	// 				isFollowing: hasOnFollowData
+	// 					? true
+	// 					: hasOnUnfollowData
+	// 						? false
+	// 						: userData.followers.includes(authenticationData._id),
+	// 				stats: [
+	// 					{ label: "Stories", value: userData.counts["articles"] },
+	// 					{
+	// 						label: "Followers",
+	// 						value: hasOnFollowData ? userData.followers.length + 1 : userData.followers.length
+	// 					},
+	// 					{
+	// 						label: "Following",
+	// 						value: userData.following.length
+	// 					}
+	// 				]
+	// 			});
+	// 		}
+	// 	}
+	// };
 
 	render = () => {
 		const { userData, isLoadingUser, authenticationData, onFollow, onUnfollow, isLoadingFollowData } = this.props,

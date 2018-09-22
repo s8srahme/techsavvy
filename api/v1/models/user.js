@@ -29,7 +29,8 @@ const userSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User"
 		}
-	]
+	],
+	revoked_tokens: [{ type: String, unique: true }]
 	// articles: [
 	// 	{
 	// 		type: mongoose.Schema.Types.ObjectId,
@@ -40,6 +41,17 @@ const userSchema = new mongoose.Schema({
 	// 	age: Number,
 	// 	website: String
 	// },
+});
+
+userSchema.pre("save", function(next) {
+	const user = this;
+	if (user) return next();
+	console.log("Pre-hook called");
+});
+
+userSchema.post("save", async function() {
+	// const user = this;
+	await console.log("User saved");
 });
 
 userSchema.methods.follow = function(following_id) {
@@ -86,6 +98,22 @@ userSchema.methods.deleteFollower = function(follower_id) {
 	}
 	return new Promise(resolve => {
 		resolve({ message: "Not allowed" });
+	});
+};
+
+userSchema.methods.revokeToken = function(token) {
+	this.revoked_tokens.push(token);
+	return this.save();
+};
+
+userSchema.methods.isValidToken = function(token) {
+	if (this.revoked_tokens.indexOf(token) === -1) {
+		return new Promise(resolve => {
+			resolve(false);
+		});
+	}
+	return new Promise(resolve => {
+		resolve(true);
 	});
 };
 

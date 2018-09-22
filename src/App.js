@@ -10,16 +10,22 @@ class App extends Component {
 	componentWillMount = () => {
 		const user = JSON.parse(localStorage.getItem("user"));
 		if (user && user.token) {
-			this.props.getOne({ id: "self" }, this.props.logout);
+			this.props.getOne({ id: "self" });
 		}
 	};
 
 	render = () => {
-		const { user, logout, handleClear, isLoading } = this.props;
+		const { user, logout, handleClear, isLoadingUser, isLoadingLogout } = this.props;
 		return (
 			<BrowserRouter>
 				<main>
-					<Header isLoading={isLoading} user={user} onLogout={logout} onClear={handleClear} />
+					<Header
+						isLoadingUser={isLoadingUser}
+						isLoadingLogout={isLoadingLogout}
+						user={user}
+						onLogout={logout}
+						onClear={handleClear}
+					/>
 					{_renderRoutes()}
 					<Footer />
 				</main>
@@ -30,9 +36,13 @@ class App extends Component {
 
 const mapStateToProps = ({ authentication }) => ({
 		user: authentication.user,
-		isLoading: authentication.isLoadingUser,
-		hasErrored: authentication.hasErroredUser,
-		error: authentication.userError
+		isLoadingUser: authentication.isLoadingUser,
+		hasErroredUser: authentication.hasErroredUser,
+		userError: authentication.userError,
+
+		isLoadingLogout: authentication.isLoadingLogout,
+		hasErroredLogout: authentication.hasErroredLogout,
+		logoutError: authentication.logoutError
 	}),
 	mapDispatchToProps = dispatch =>
 		bindActionCreators(

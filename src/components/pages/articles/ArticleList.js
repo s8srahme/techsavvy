@@ -15,7 +15,48 @@ export class ArticleList extends Component {
 			windowWidth: window.innerWidth,
 			isFetchingArticles: false
 		};
+		this.listRef = React.createRef();
 	}
+
+	getSnapshotBeforeUpdate = (prevProps, prevState) => {
+		const prevArticles =
+				Object.keys(prevProps.articles).length && prevProps.articles.data ? prevProps.articles.data.articles : [],
+			articles =
+				Object.keys(this.props.articles).length && this.props.articles.data ? this.props.articles.data.articles : [],
+			userArticles =
+				Object.keys(this.props.userArticles).length && this.props.userArticles.data
+					? this.props.userArticles.data.articles
+					: [],
+			prevUserArticles =
+				Object.keys(prevProps.userArticles).length && prevProps.userArticles.data
+					? prevProps.userArticles.data.articles
+					: [];
+
+		if (
+			(prevProps.isFetchingMoreArticles &&
+				!this.props.isFetchingMoreArticles &&
+				prevArticles.length < articles.length) ||
+			(prevProps.isFetchingMoreUserArticles &&
+				!this.props.isFetchingMoreUserArticles &&
+				prevUserArticles.length < userArticles.length)
+		) {
+			const list = this.listRef.current;
+			return list.scrollHeight - list.scrollTop;
+		}
+		return null;
+	};
+
+	componentDidUpdate = (prevProps, prevState, snapshot) => {
+		if (snapshot !== null) {
+			const list = this.listRef.current;
+			// list.scrollTop = list.scrollHeight - snapshot;
+			window.scrollTo({
+				top: list.scrollHeight - snapshot,
+				left: 0,
+				behavior: "instant"
+			});
+		}
+	};
 
 	_handleResize = e => {
 		this.setState({
@@ -45,18 +86,18 @@ export class ArticleList extends Component {
 		} = this.props;
 		if (this.state.activeTabIndex === 1) articles = userArticles;
 
-		return isFetchingArticles || isFetchingUserArticles ? (
-			<div className="wrapper">
-				<div className={`news-loader-content ${!hasHeaderTabs && "darken pull"}`}>
-					<Loader />
-				</div>
-			</div>
-		) : (
-			<div className="wrapper">
-				<div className="news-list-wrapper">
-					{this._renderNewsHeader(hasHeaderButton, hasHeaderTabs)}
-					{this._renderNewsContent(Object.keys(articles).length && articles.data ? articles.data.articles : [])}
-				</div>
+		return (
+			<div className="wrapper" ref={this.listRef}>
+				{isFetchingArticles || isFetchingUserArticles ? (
+					<div className={`news-loader-content ${!hasHeaderTabs && "darken pull"}`}>
+						<Loader />
+					</div>
+				) : (
+					<div className="news-list-wrapper">
+						{this._renderNewsHeader(hasHeaderButton, hasHeaderTabs)}
+						{this._renderNewsContent(Object.keys(articles).length && articles.data ? articles.data.articles : [])}
+					</div>
+				)}
 			</div>
 		);
 	};
@@ -237,8 +278,11 @@ export class ArticleList extends Component {
 		return rows;
 	};
 
-	_handleTabClick = index => {
-		this.setState({ activeTabIndex: index });
+	_handleTabClick = (event, index) => {
+		event.preventDefault();
+		this.setState({ activeTabIndex: index }, () => {
+			if (index === 1 && Object.keys(this.props.userArticles).length < 1) this.props.onFetchUserArticles();
+		});
 	};
 
 	_renderNewsHeader = (hasHeaderButton, hasHeaderTabs) => {
@@ -264,7 +308,7 @@ export class ArticleList extends Component {
 									<li
 										key={i}
 										className={`${this.state.activeTabIndex === i && "active"} news-heading-tab`}
-										onClick={() => this._handleTabClick(i)}
+										onClick={event => this._handleTabClick(event, i)}
 									>
 										{obj.name}
 									</li>

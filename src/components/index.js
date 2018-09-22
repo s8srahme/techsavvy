@@ -15,12 +15,14 @@ import { UserDetail } from "./pages/users/UserDetail";
 import { UserEditing } from "./pages/users/UserEditing";
 import { Contact } from "./pages/Contact";
 import { NotFound } from "./pages/NotFound";
+import { ErrorBoundary } from "./pages/ErrorBoundary";
 
 export {
 	Header,
 	Footer,
 	NotFound,
 	Contact,
+	ErrorBoundary,
 	ArticleList,
 	ArticleDetail,
 	ArticleEditor,

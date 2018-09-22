@@ -8,7 +8,7 @@ export class UserEditingScreen extends Component {
 	componentWillMount = () => {
 		// console.log(this.props.match);
 		window.scrollTo(0, 0);
-		this.props.getOneUser({ id: this.props.match.params.userId });
+		if (!this.props.isLoadingUser) this.props.getOneUser({ id: this.props.match.params.userId });
 	};
 
 	render = () => {

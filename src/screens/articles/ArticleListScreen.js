@@ -14,22 +14,14 @@ class ArticleListScreen extends Component {
 			seed: 1,
 			userSeed: 1,
 			limit: 10,
-			userLimit: 10,
-			offsetTop: 0,
-			userOffsetTop: 0
+			userLimit: 10
+			// offsetTop: 0,
+			// userOffsetTop: 0
 		};
 	}
 
 	componentWillMount = () => {
-		const {
-			authenticationData,
-			isLoadingAuthentication,
-			isFetchingArticles,
-			isFetchingUserArticles,
-			limit,
-			hasHeaderTabs = true
-		} = this.props;
-		// console.log(this.props, "componentWillMount");
+		const { isFetchingArticles, limit } = this.props;
 
 		if (!isFetchingArticles) {
 			// this.setState(
@@ -44,8 +36,12 @@ class ArticleListScreen extends Component {
 			// 	}
 			// );
 		}
-		if (hasHeaderTabs && !isFetchingUserArticles && !isLoadingAuthentication) {
-			// window.scrollTo(0, 0);
+	};
+
+	_handleFetchUserArticles = () => {
+		const { authenticationData, isLoadingAuthentication, isFetchingUserArticles } = this.props;
+
+		if (!isFetchingUserArticles && !isLoadingAuthentication) {
 			this.props.fetchAllUserArticles(
 				authenticationData._id,
 				this.state.userSeed,
@@ -56,24 +52,14 @@ class ArticleListScreen extends Component {
 	};
 
 	componentWillReceiveProps = nextProps => {
-		let { hasHeaderTabs = true } = this.props;
-		if (hasHeaderTabs && this.props.isLoadingAuthentication && !nextProps.isLoadingAuthentication) {
-			// window.scrollTo(0, 0);
-			this.props.fetchAllUserArticles(
-				nextProps.authenticationData._id,
-				this.state.userSeed,
-				this.state.userPage,
-				this.state.userLimit
-			);
-		}
 		if (this.state.isFetchingMoreArticles && this.props.isFetchingMoreArticles && !nextProps.isFetchingMoreArticles) {
 			this.setState({ isFetchingMoreArticles: false }, () => {
 				// console.log(this.state.offsetTop);
-				window.scrollTo({
-					top: this.state.offsetTop,
-					left: 0,
-					behavior: "instant"
-				});
+				// window.scrollTo({
+				// 	top: this.state.offsetTop,
+				// 	left: 0,
+				// 	behavior: "instant"
+				// });
 			});
 		}
 		if (
@@ -83,11 +69,11 @@ class ArticleListScreen extends Component {
 		) {
 			this.setState({ isFetchingMoreUserArticles: false }, () => {
 				// console.log(this.state.userOffsetTop);
-				window.scrollTo({
-					top: this.state.userOffsetTop,
-					left: 0,
-					behavior: "instant"
-				});
+				// window.scrollTo({
+				// 	top: this.state.userOffsetTop,
+				// 	left: 0,
+				// 	behavior: "instant"
+				// });
 			});
 		}
 	};
@@ -97,8 +83,8 @@ class ArticleListScreen extends Component {
 		this.setState(
 			{
 				page: this.state.page + 1,
-				isFetchingMoreArticles: true,
-				offsetTop: window.pageYOffset
+				isFetchingMoreArticles: true
+				// offsetTop: window.pageYOffset
 			},
 			() => {
 				// console.log(this.state.offsetTop);
@@ -112,8 +98,8 @@ class ArticleListScreen extends Component {
 		this.setState(
 			{
 				userPage: this.state.userPage + 1,
-				isFetchingMoreUserArticles: true,
-				userOffsetTop: window.pageYOffset
+				isFetchingMoreUserArticles: true
+				// userOffsetTop: window.pageYOffset
 			},
 			() => {
 				// console.log(this.state.userOffsetTop);
@@ -194,6 +180,7 @@ class ArticleListScreen extends Component {
 		// ];
 		return (
 			<ArticleList
+				onFetchUserArticles={this._handleFetchUserArticles}
 				onFetchMore={onFetchMore || this._handleFetchMore}
 				onFetchMoreUserArticles={this._handleFetchMoreUserArticles}
 				articles={articles}

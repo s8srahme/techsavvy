@@ -32,6 +32,7 @@ class Header extends Component {
 	// };
 
 	componentDidMount = () => {
+		// console.log(this.props.location);
 		window.addEventListener("scroll", this._handleScroll);
 	};
 
@@ -118,6 +119,8 @@ class Header extends Component {
 								{
 									icon: User,
 									title: "Profile",
+									isLoadingSelf: false,
+									isLoadingSibling: this.props.isLoadingLogout,
 									onClick: () => {
 										this.setState({ isDropdownActive: false }, () => {
 											if (this.props.location.pathname !== `/user/${user._id}`)
@@ -128,6 +131,8 @@ class Header extends Component {
 								{
 									icon: Settings,
 									title: "Settings",
+									isLoadingSelf: false,
+									isLoadingSibling: this.props.isLoadingLogout,
 									onClick: () => {
 										this.setState({ isDropdownActive: false });
 									}
@@ -135,11 +140,14 @@ class Header extends Component {
 								{
 									icon: Power,
 									title: "Sign out",
+									isLoadingSelf: this.props.isLoadingLogout,
+									isLoadingSibling: false,
 									onClick: () => {
-										this.setState({ isDropdownActive: false }, () => {
-											this.props.onLogout();
-											this.props.onClear();
-											this.props.history.push("/");
+										this.props.onLogout(() => {
+											this.setState({ isDropdownActive: false }, () => {
+												this.props.onClear();
+												this.props.history.push("/");
+											});
 										});
 									}
 								}
@@ -180,7 +188,7 @@ class Header extends Component {
 			// }
 		];
 		// console.log(location.pathname);
-		const { user = {}, isLoading } = this.props;
+		const { user = {}, isLoadingUser } = this.props;
 
 		return (
 			<div
@@ -226,7 +234,7 @@ class Header extends Component {
 							);
 						})}
 					</nav>
-					{this._renderDropdownContent(user, isLoading)}
+					{this._renderDropdownContent(user, isLoadingUser)}
 					<UserFormScreen showModal={this.state.isModalOpen} onClose={this._handleModalClickOut} />
 				</header>
 			</div>

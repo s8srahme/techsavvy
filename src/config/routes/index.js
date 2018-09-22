@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { NotFoundScreen, HomeScreen, AboutScreen, ContactScreen, LicenseScreen } from "screens";
+import { ErrorBoundary } from "components";
 import Articles from "./articleRoutes";
 import Users from "./userRoutes";
 
@@ -22,10 +23,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 export const _renderRoutes = () => (
 	<Route
-		render={({ location }) => (
+		render={({ location, history }) => (
 			<TransitionGroup>
 				<CSSTransition key={location.pathname} classNames="fade" timeout={{ enter: 500, exit: 300 }} unmountOnExit>
-					<div>
+					<ErrorBoundary hasError location={location} history={history}>
 						<Switch
 						// location={location}
 						>
@@ -37,7 +38,7 @@ export const _renderRoutes = () => (
 							<PrivateRoute path="/user" component={Users} />
 							<Route component={NotFoundScreen} />
 						</Switch>
-					</div>
+					</ErrorBoundary>
 				</CSSTransition>
 			</TransitionGroup>
 		)}
