@@ -1,6 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+// import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import { Transition } from "react-transition-group";
+
+const duration = 300;
+const defaultStyle = {
+	transition: `opacity ${duration}ms ease-in-out`,
+	opacity: 0
+};
+const transitionStyles = {
+	entering: { opacity: 0 },
+	entered: { opacity: 1 }
+};
 
 class Modal extends React.Component {
 	// componentWillMount = () => {
@@ -20,22 +31,39 @@ class Modal extends React.Component {
 
 	render = () => {
 		const { showModal } = this.props;
-		let component;
+		// let component;
 
-		if (showModal) {
-			component = (
-				<div className="modal-overlay" onClick={this._handleOverlayClick}>
-					<div className="modal-content" ref={node => (this.modal = node)}>
-						{this.props.children}
-					</div>
-				</div>
-			);
-		}
+		// if (showModal) {
+		// 	component = (
+		// 		<div className="modal-overlay" onClick={this._handleOverlayClick}>
+		// 			<div className="modal-content" ref={node => (this.modal = node)}>
+		// 				{this.props.children}
+		// 			</div>
+		// 		</div>
+		// 	);
+		// }
+
+		// <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+		// 	{component}
+		// </ReactCSSTransitionGroup>
 
 		return (
-			<ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
-				{component}
-			</ReactCSSTransitionGroup>
+			<Transition in={showModal} timeout={duration}>
+				{state => (
+					<div
+						style={{
+							...defaultStyle,
+							...transitionStyles[state]
+						}}
+						className="modal-overlay"
+						onClick={this._handleOverlayClick}
+					>
+						<div className="modal-content" ref={node => (this.modal = node)}>
+							{this.props.children}
+						</div>
+					</div>
+				)}
+			</Transition>
 		);
 	};
 }
