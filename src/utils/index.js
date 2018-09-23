@@ -49,14 +49,14 @@ export const createRequestInstance = () => {
 		baseURL: "http://localhost:5000/api/v1",
 		// timeout: 2500,
 		validateStatus: status => {
-			// if (status === 401) {
-			// 	let user = JSON.parse(localStorage.getItem("user"));
-			// 	if (user && user.token) {
-			// 		user.success = false;
-			// 		user.message = "Session expired";
-			// 	}
-			// 	localStorage.setItem("user", JSON.stringify(user));
-			// }
+			if (status === 401) {
+				let user = JSON.parse(localStorage.getItem("user"));
+				if (user && user.token) {
+					user.success = false;
+					user.message = "Session expired";
+				}
+				localStorage.setItem("user", JSON.stringify(user));
+			}
 			return status >= 200 && status < 300;
 		}
 	});
@@ -75,14 +75,14 @@ export const createRequestInstance = () => {
 			return response;
 		},
 		error => {
-			if (error.response.status === 401) {
-				let user = JSON.parse(localStorage.getItem("user"));
-				if (user && user.token) {
-					user.success = false;
-					user.message = "Session expired";
-				}
-				localStorage.setItem("user", JSON.stringify(user));
-			}
+			// if (error.response.status === 401) {
+			// 	let user = JSON.parse(localStorage.getItem("user"));
+			// 	if (user && user.token) {
+			// 		user.success = false;
+			// 		user.message = "Session expired";
+			// 	}
+			// 	localStorage.setItem("user", JSON.stringify(user));
+			// }
 			return Promise.reject(error);
 		}
 	);
