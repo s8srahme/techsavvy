@@ -11,6 +11,8 @@ const defaultStyle = {
 const transitionStyles = {
 	entering: { opacity: 0 },
 	entered: { opacity: 1 }
+	// exiting: { opacity: 1 },
+	// exited: { opacity: 0 }
 };
 
 class Modal extends React.Component {
@@ -48,7 +50,7 @@ class Modal extends React.Component {
 		// </ReactCSSTransitionGroup>
 
 		return (
-			<Transition in={showModal} timeout={duration}>
+			<Transition in={showModal} timeout={duration} unmountOnExit>
 				{state => (
 					<div
 						style={{
