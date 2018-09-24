@@ -5,10 +5,11 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const cloudinary = require("cloudinary");
+const path = require("path");
 
-const setRoutes = require("./v1/routes/");
-// setApiV2Routes = require("./v1/routes/");
-const templateRoutes = require("./v1/routes/template");
+const setRoutes = require("./api/v1/routes/");
+// setApiV2Routes = require("./api/v1/routes/");
+const templateRoutes = require("./api/v1/routes/template");
 require("dotenv").config();
 
 const app = express();
@@ -24,17 +25,16 @@ let config = {
 };
 
 cloudinary.config(config);
-mongoose.connect(
-	uri,
-	{},
-	error => {
-		if (error) {
-			console.log("Unable to connect to the mLab server. Error:", error);
-		} else {
-			console.log("Connected to mLab server successfully");
+mongoose
+	.connect(
+		uri,
+		{
+			useCreateIndex: true,
+			useNewUrlParser: true
 		}
-	}
-);
+	)
+	.then(() => console.log("Connected to database successfully"))
+	.catch(err => console.error("Could not connect to database", err));
 
 app.use(
 	cors({
@@ -63,7 +63,7 @@ app.use(
 // 	next();
 // });
 app.use(morgan("dev"));
-app.use("../uploads", express.static("uploads"));
+app.use("uploads", express.static("api/v1/uploads"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(helmet());
@@ -88,6 +88,13 @@ app.use((error, req, res, next) => {
 	});
 });
 
+// if (process.env.NODE_ENV === "production") {
+// 	app.use(express.static(path.join(__dirname, "client/build")));
+// 	app.get("*", function(req, res) {
+// 		res.sendFile(path.join(__dirname, "client/build", "index.html"));
+// 	});
+// }
+
 app.listen(port, () => {
-	console.log(`Server started at port: ${port}`);
+	console.log(`Server started at port ${port}`);
 });

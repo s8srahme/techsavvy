@@ -20,7 +20,7 @@ exports.articles_get_all = (req, res, next) => {
 			if (err) res.status(500).json({ error: err });
 			else if (docs.length === 0) res.status(200).json({ message: "No entries found" });
 			else {
-				Article.count(filter)
+				Article.countDocuments(filter)
 					.exec()
 					.then(count => {
 						const response = {
@@ -289,7 +289,7 @@ exports.articles_get_all_comments = (req, res, next) => {
 			if (err) res.status(500).json({ error: err });
 			else if (docs.length === 0) res.status(200).json({ message: "No entries found" });
 			else {
-				Comment.count({ article_id: id })
+				Comment.countDocuments({ article_id: id })
 					.exec()
 					.then(count => {
 						const response = {

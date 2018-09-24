@@ -1,0 +1,33 @@
+{
+	"name": "client",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"ajv": "^6.0.0",
+		"axios": "^0.18.0",
+		"medium-editor": "^5.23.3",
+		"moment": "^2.22.2",
+		"node-sass-chokidar": "0.0.3",
+		"react": "^16.3.0",
+		"react-dom": "^16.3.3",
+		"react-feather": "^1.0.8",
+		"react-redux": "^5.0.7",
+		"react-router-dom": "^4.2.2",
+		"react-scripts": "^1.1.5",
+		"react-transition-group": "^2.2.1",
+		"redux": "^4.0.0",
+		"redux-logger": "^3.0.6",
+		"redux-thunk": "^2.3.0"
+	},
+	"scripts": {
+		"postbuild": "echo 'Your app is ready to be deployed.'",
+		"build-css": "node-sass-chokidar src/ -o src/",
+		"watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+		"start": "PORT=3006 react-scripts start",
+		"build": "rm -rf build && GENERATE_SOURCEMAP=false react-scripts build",
+		"deploy": "pushstate-server build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject"
+	},
+	"proxy": "http://localhost:5000/"
+}

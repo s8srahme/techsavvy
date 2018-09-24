@@ -140,7 +140,7 @@ module.exports = {
 			.then(docs => {
 				if (docs.length === 0) res.status(404).json({ message: "No entries found" });
 				else {
-					User.count(filter)
+					User.countDocuments(filter)
 						.exec()
 						.then(count => {
 							const response = {
@@ -189,7 +189,7 @@ module.exports = {
 				if (error) res.status(500).json({ error: error });
 				else if (records.length === 0) res.status(200).json({ message: "No entries found" });
 				else {
-					Article.count({ ...{ author_id: id }, ...filter })
+					Article.countDocuments({ ...{ author_id: id }, ...filter })
 						.exec()
 						.then(count => {
 							const response = {
@@ -236,7 +236,7 @@ module.exports = {
 			if (err) res.status(500).json({ error: err });
 			else if (!user) res.status(404).json({ message: "User not found" });
 			else {
-				Article.count({ author_id: id })
+				Article.countDocuments({ author_id: id })
 					.exec()
 					.then(count => {
 						// let userCopy = Object.assign({}, user);
