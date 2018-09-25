@@ -10,8 +10,10 @@ const fs = require("fs");
 const dotenv = require("dotenv");
 
 if (fs.existsSync(".env")) {
+	console.log("File exists");
 	let { parsed, error } = dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 	if (error) {
+		console.log("File does not exist");
 		throw error;
 	} else {
 		if (parsed.NODE_ENV === "production") dotenv.config({ path: ".env.production" });
