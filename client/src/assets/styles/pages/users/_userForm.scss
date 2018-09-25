@@ -80,6 +80,7 @@
 					// }
 					span,
 					label {
+						@include font($font-size-small, $font-weight-regular, $font-style-regular, $color-medium-gray, 1);
 						display: block;
 						margin-top: $gutter-sm;
 						color: $color-grapefruit;
