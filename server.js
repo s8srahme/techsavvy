@@ -9,15 +9,15 @@ const path = require("path");
 const fs = require("fs");
 const dotenv = require("dotenv");
 
-let { parsed, error } = dotenv.config();
-if (error) {
-	throw error;
-} else {
-	if (parsed.NODE_ENV === "production" && fs.existsSync(".env.production")) dotenv.config({ path: ".env.production" });
-	else if (parsed.NODE_ENV === "development") dotenv.config({ path: ".env.development" });
-	// console.log(process.env.MONGODB_URI);
+if (fs.existsSync(".env")) {
+	let { parsed, error } = dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+	if (error) {
+		throw error;
+	} else {
+		if (parsed.NODE_ENV === "production") dotenv.config({ path: ".env.production" });
+		else if (parsed.NODE_ENV === "development") dotenv.config({ path: ".env.development" });
+	}
 }
-
 const setRoutes = require("./api/v1/routes/");
 // setApiV2Routes = require("./api/v1/routes/");
 // const templateRoutes = require("./api/v1/routes/template");
@@ -85,7 +85,7 @@ setRoutes(router);
 app.use("/api/v1", router);
 // app.use("/api/v2", apiV2Router);
 
-if (process.env.NODE_ENV === "production" && !fs.existsSync(".env.production")) {
+if (process.env.NODE_ENV === "production" && !fs.existsSync(".env")) {
 	app.use(express.static(path.join(__dirname, "client/build")));
 	app.get("*", (req, res) => {
 		res.sendFile(path.join(__dirname, "client/build", "index.html"));
