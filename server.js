@@ -9,7 +9,7 @@ const path = require("path");
 const fs = require("fs");
 const dotenv = require("dotenv");
 
-let { parsed, error } = dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+let { parsed, error } = dotenv.config();
 if (error) {
 	throw error;
 } else {
