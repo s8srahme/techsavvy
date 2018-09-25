@@ -280,31 +280,31 @@ export default class HomeScreen extends Component {
 			],
 			works = [
 				{
-					thumbnail: "http://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
+					thumbnail: "https://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
 					title: "Surfer Paradise",
 					category: "mobile app",
 					routeName: ""
 				},
 				{
-					thumbnail: "http://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
+					thumbnail: "https://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
 					title: "Surfer Paradise",
 					category: "mobile app",
 					routeName: ""
 				},
 				{
-					thumbnail: "http://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
+					thumbnail: "https://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
 					title: "Surfer Paradise",
 					category: "mobile app",
 					routeName: ""
 				},
 				{
-					thumbnail: "http://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
+					thumbnail: "https://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
 					title: "Surfer Paradise",
 					category: "mobile app",
 					routeName: ""
 				},
 				{
-					thumbnail: "http://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
+					thumbnail: "https://gdj.graphicdesignjunction.com/wp-content/uploads/2017/07/app-ui-ux-design-4.jpg",
 					title: "Surfer Paradise",
 					category: "mobile app",
 					routeName: ""

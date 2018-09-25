@@ -46,7 +46,7 @@ export const exportBreakpoint = size => {
 
 export const createRequestInstance = () => {
 	let instance = axios.create({
-		baseURL: "http://localhost:5000/api/v1",
+		baseURL: "https://localhost:5000/api/v1",
 		// timeout: 2500,
 		validateStatus: status => {
 			if (status === 401) {
