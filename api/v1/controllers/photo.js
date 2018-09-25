@@ -17,7 +17,8 @@ exports.photos_create_photo = async (req, res, next) => {
 			}
 
 			// console.log("File uploaded");
-			res.status(201).json({
+			res.statusCode = 500;
+			res.json({
 				message: "Uploaded photos successfully",
 				createdPhotos: {
 					image_urls,

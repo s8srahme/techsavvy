@@ -6,18 +6,28 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const cloudinary = require("cloudinary");
 const path = require("path");
+const fs = require("fs");
+const dotenv = require("dotenv");
+
+let { parsed, error } = dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+if (error) {
+	throw error;
+} else {
+	if (parsed.NODE_ENV === "production" && fs.existsSync(".env.production")) dotenv.config({ path: ".env.production" });
+	else if (parsed.NODE_ENV === "development") dotenv.config({ path: ".env.development" });
+	// console.log(process.env.MONGODB_URI);
+}
 
 const setRoutes = require("./api/v1/routes/");
 // setApiV2Routes = require("./api/v1/routes/");
-const templateRoutes = require("./api/v1/routes/template");
-require("dotenv").config();
+// const templateRoutes = require("./api/v1/routes/template");
 
 const app = express();
 const router = express.Router();
 // apiV2Router = express.Router();
 let port = process.env.PORT || 5000;
 // let allowedOrigins = ["http://localhost:3006", "http://yourapp.com"];
-let uri = "mongodb://admin:" + process.env.MONGO_DB_PW + "@ds113200.mlab.com:13200/medium";
+let uri = process.env.MONGODB_URI;
 let config = {
 	cloud_name: process.env.CLOUDINARY_NAME,
 	api_key: process.env.CLOUDINARY_API_KEY,
@@ -69,30 +79,30 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.set("view engine", "ejs");
 
-app.use("/templates", templateRoutes.router);
+// app.use("/templates", templateRoutes.router);
 setRoutes(router);
 // setApiV2Routes(apiV2Router);
 app.use("/api/v1", router);
 // app.use("/api/v2", apiV2Router);
 
-// app.use((req, res, next) => {
-// 	const error = new Error("Not found");
-// 	error.status = 404;
-// 	next(error);
-// });
-// app.use((error, req, res, next) => {
-// 	res.status(error.status || 500);
-// 	res.json({
-// 		error: {
-// 			message: error.message
-// 		}
-// 	});
-// });
-
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" && !fs.existsSync(".env.production")) {
 	app.use(express.static(path.join(__dirname, "client/build")));
-	app.get("*", function(req, res) {
+	app.get("*", (req, res) => {
 		res.sendFile(path.join(__dirname, "client/build", "index.html"));
+	});
+} else {
+	app.use((req, res, next) => {
+		const error = new Error("Not found");
+		error.status = 404;
+		next(error);
+	});
+	app.use((error, req, res, next) => {
+		res.status(error.status || 500);
+		res.json({
+			error: {
+				message: error.message
+			}
+		});
 	});
 }
 
