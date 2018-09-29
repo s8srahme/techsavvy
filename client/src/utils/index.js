@@ -1,4 +1,6 @@
 import axios from "axios";
+import http from "http";
+import https from "https";
 
 export const extractId = str => {
 	let params = str.split("-");
@@ -47,7 +49,11 @@ export const exportBreakpoint = size => {
 export const createRequestInstance = () => {
 	let instance = axios.create({
 		baseURL: "http://localhost:5000/api/v1",
-		// timeout: 2500,
+		timeout: 60000,
+		httpAgent: new http.Agent({ keepAlive: true }),
+		httpsAgent: new https.Agent({ keepAlive: true }),
+		maxRedirects: 10,
+		maxContentLength: 10 * 1000 * 1000,
 		validateStatus: status => {
 			if (status === 401) {
 				let user = JSON.parse(localStorage.getItem("user"));
@@ -75,7 +81,7 @@ export const createRequestInstance = () => {
 			return response;
 		},
 		error => {
-			// if (error.response.status === 401) {
+			// if (error.response && error.response.status === 401) {
 			// 	let user = JSON.parse(localStorage.getItem("user"));
 			// 	if (user && user.token) {
 			// 		user.success = false;

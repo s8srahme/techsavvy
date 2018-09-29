@@ -115,7 +115,7 @@ const getOne = ({ id }, cb = () => {}) => {
 			},
 			error => {
 				dispatch(failure(error));
-				if (error.response.status === 401) cb();
+				if (error.response && error.response.status === 401) cb();
 				console.error(error);
 			}
 		);

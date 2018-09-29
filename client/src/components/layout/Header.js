@@ -106,7 +106,7 @@ class Header extends Component {
 				>
 					<img
 						src={Object.keys(user).length && user.image_url ? user.image_url : iconMale}
-						alt="header infographic"
+						alt="Header infographic"
 						className="header-thumbnail"
 					/>
 					<div className="header-dropdown-img-overlay" />

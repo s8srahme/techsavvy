@@ -13,7 +13,7 @@ import {
 	iconPostbox
 } from "../assets";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
-import { Loader } from "../components";
+import { Loader, LazyLoad } from "../components";
 import { ArticleListScreen } from "screens";
 import { truncate, exportBreakpoint } from "../utils";
 
@@ -67,70 +67,6 @@ export default class HomeScreen extends Component {
 	};
 
 	render = () => {
-		// const news = [
-		// 		{
-		// 			thumbnail: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/photo-1429043794791-eb8f26f44081.jpeg",
-		// 			title: "City Lights in New York",
-		// 			subtitle: "The city that never sleeps.",
-		// 			description:
-		// 				"New York, the largest city in the U.S., is an architectural marvel with plenty of historic monuments, magnificent buildings and countless dazzling skyscrapers.",
-		// 			timestamp: "6 mins ago",
-		// 			category: "tech",
-		// 			author: "Andy Tran",
-		// 			slug: slugify("City Lights in New York")
-		// 		},
-		// 		{
-		// 			thumbnail:
-		// 				"https://i.amz.mshcdn.com/-Tvnq3kgcjiELKDZkWWGBnWIwLo=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F728735%2Fd76babe8-b91a-45e0-aa46-2a3028ef2a94.jpg",
-		// 			title: "iPhone X's notch probably won't get smaller or disappear anytime soon",
-		// 			subtitle: "Still can't bring yourself to accept the iPhone X's notch? ",
-		// 			description:
-		// 				"Sorry, buddy, but I have some bad news for you: Apple's unlikely to make any major changes to controversial cutout in the display, despite new rumors suggesting future iPhones might come with a smaller notch or remove it entirely.",
-		// 			timestamp: "20 hours ago",
-		// 			category: "tech",
-		// 			author: "RAYMOND WONG",
-		// 			slug: slugify("iPhone X's notch probably won't get smaller or disappear anytime soon")
-		// 		},
-		// 		{
-		// 			thumbnail:
-		// 				"https://i.amz.mshcdn.com/e7CcQOUVZ11v8ZxZMpY7b5utGiY=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F722728%2F18aba02e-ce15-4af5-a077-6946cbd81fb4.jpg",
-		// 			title: "iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers",
-		// 			subtitle:
-		// 				"No more numbers, no more upgrade treadmills: When Apple launches its new lineup of iPhones, there's only one thing it should call them, and that thing is 'iPhone.'",
-		// 			description:
-		// 				"We already have a MacBook, an iPad, and an iPod Touch, but Apple continues to develop its most popular device through a series of numbered, annual updates.",
-		// 			timestamp: "6 mins ago",
-		// 			category: "tech",
-		// 			author: "DAMON BERES",
-		// 			slug: slugify("iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers")
-		// 		},
-		// 		{
-		// 			thumbnail:
-		// 				"https://i.amz.mshcdn.com/-TXIaACwILA8VZlEfIDEIe08ZcA=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F729118%2F290cc6a2-12bc-4198-b153-ba9651eeb095.jpeg",
-		// 			title: "This Samsung smart TV deal is HUGE — both in screen size and discount",
-		// 			subtitle:
-		// 				"All products featured here are selected by Mashable's commerce team and meet our rigorous standards for awesomeness.",
-		// 			description:
-		// 				"Smart TVs were selling like hotcakes (seriously, who eats hotcakes?) during Black Friday, Cyber Monday, and Super Bowl sales. Except all of those hot TV events are over — does that mean that if you missed those, you're stuck paying full price until Thanksgiving?",
-		// 			timestamp: "6 mins ago",
-		// 			category: "tech",
-		// 			author: "LEAH STODART",
-		// 			slug: slugify("This Samsung smart TV deal is HUGE — both in screen size and discount")
-		// 		},
-		// 		{
-		// 			thumbnail:
-		// 				"https://i.amz.mshcdn.com/e7CcQOUVZ11v8ZxZMpY7b5utGiY=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F722728%2F18aba02e-ce15-4af5-a077-6946cbd81fb4.jpg",
-		// 			title: "iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers",
-		// 			subtitle:
-		// 				"No more numbers, no more upgrade treadmills: When Apple launches its new lineup of iPhones, there's only one thing it should call them, and that thing is 'iPhone.'",
-		// 			description:
-		// 				"We already have a MacBook, an iPad, and an iPod Touch, but Apple continues to develop its most popular device through a series of numbered, annual updates.",
-		// 			timestamp: "6 mins ago",
-		// 			category: "tech",
-		// 			author: "DAMON BERES",
-		// 			slug: slugify("iPhone 9? iPhone XI? Apple's next big thing should just drop the numbers")
-		// 		}
-		// 	],
 		const socials = [
 				{ name: Twitter, href: "" },
 				{ name: Facebook, href: "" },
@@ -140,7 +76,7 @@ export default class HomeScreen extends Component {
 			],
 			team = [
 				{
-					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3bb.jpg",
 					title: "John Doe",
 					subtitle: "project manager",
 					socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
@@ -346,7 +282,6 @@ export default class HomeScreen extends Component {
 						<h4>Document your insights and grow an audience around the things you are passionate about.</h4>
 						<button className="btn">Explore</button>
 					</article>
-					<article className="column _20" />
 				</section>
 			</div>
 		</figure>
@@ -363,7 +298,7 @@ export default class HomeScreen extends Component {
 		<div className="newsletter-content">
 			<section className="container">
 				<figure className="row newsletter-img-wrapper">
-					<img src={iconPostbox} alt="newsletter infographic" className="newsletter-graphic" />
+					<img src={iconPostbox} alt="Newsletter infographic" className="newsletter-graphic" />
 					<figcaption>Subscribe</figcaption>
 				</figure>
 				<form
@@ -403,7 +338,7 @@ export default class HomeScreen extends Component {
 				<div className="container">
 					<section className="row">
 						<figure className="column extended-feature-img-wrapper">
-							<img src={item.icon} alt="extended feature infographic" className="extended-feature-graphic" />
+							<img src={item.icon} alt="Extended feature infographic" className="extended-feature-graphic" />
 						</figure>
 						<article className="column extended-feature-info-wrapper">
 							<h1>{item.title}</h1>
@@ -428,7 +363,7 @@ export default class HomeScreen extends Component {
 						return (
 							<figure key={colKey} className="column client-card">
 								<div className="client-card-img-wrapper">
-									<img src={col.thumbnail} alt="card infographic" className="client-thumbnail" />
+									<img src={col.thumbnail} alt="Card infographic" className="client-thumbnail" />
 								</div>
 							</figure>
 						);
@@ -529,7 +464,7 @@ export default class HomeScreen extends Component {
 					{cols.map((col, colKey) => (
 						<figure key={colKey} className="column work-card">
 							<div className="work-card-img-wrapper">
-								<img src={col.thumbnail} alt="card infographic" className="work-thumbnail" />
+								<img src={col.thumbnail} alt="Card infographic" className="work-thumbnail" />
 							</div>
 							<figcaption className="work-card-info-wrapper">
 								<h4>{col.category}</h4>
@@ -553,7 +488,7 @@ export default class HomeScreen extends Component {
 						return (
 							<figure key={colKey} className="column team-card">
 								<div className="team-card-img-wrapper">
-									<img src={col.thumbnail} alt="card infographic" className="team-thumbnail" />
+									<LazyLoad src={col.thumbnail} alt="Card infographic" className="team-thumbnail" />
 									<div className="team-card-img-overlay" />
 								</div>
 								<figcaption className="team-card-info-wrapper">
@@ -607,7 +542,7 @@ export default class HomeScreen extends Component {
 							<figure key={colKey} className="column feature-card">
 								<span className="feature-icon-wrapper">
 									{/* <Icon className="feature-icon" /> */}
-									<img src={col.icon} alt="feature infographic" className="feature-icon" />
+									<img src={col.icon} alt="Feature infographic" className="feature-icon" />
 								</span>
 								<figcaption className="feature-card-info-wrapper">
 									<h3>{col.title}</h3>

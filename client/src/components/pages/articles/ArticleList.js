@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { truncate, exportBreakpoint, slugify, extractContent } from "../../../utils";
-import { iconPicture } from "../../../assets";
+import { slugify, extractContent } from "../../../utils";
+import { iconPictureLight } from "../../../assets";
 // import { ArrowRight } from "react-feather";
 import { Loader } from "../..";
 
@@ -13,7 +13,9 @@ export class ArticleList extends Component {
 			activeTabIndex: 0,
 			windowHeight: window.innerHeight,
 			windowWidth: window.innerWidth,
-			isFetchingArticles: false
+			isFetchingArticles: false,
+			offsetTop: 0,
+			hasExpandedCard: false
 		};
 		this.listRef = React.createRef();
 	}
@@ -40,46 +42,103 @@ export class ArticleList extends Component {
 				!this.props.isFetchingMoreUserArticles &&
 				prevUserArticles.length < userArticles.length)
 		) {
-			const list = this.listRef.current;
-			return list.scrollHeight - list.scrollTop;
+			// const list = this.listRef.current;
+			// return list.scrollHeight - list.scrollTop;
+			return window.pageYOffset;
 		}
 		return null;
 	};
 
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
+		if (
+			(prevProps.isFetchingAllArticles && !this.props.isFetchingAllArticles) ||
+			(!this.props.isFetchingAllArticles && prevProps.isFetchingUserArticles && !this.props.isFetchingUserArticles)
+		)
+			setTimeout(this._handleEllipsis, 300);
 		if (snapshot !== null) {
-			const list = this.listRef.current;
+			// const list = this.listRef.current;
 			// list.scrollTop = list.scrollHeight - snapshot;
 			window.scrollTo({
-				top: list.scrollHeight - snapshot,
+				// top: list.scrollHeight - snapshot,
+				top: snapshot,
 				left: 0,
 				behavior: "instant"
 			});
 		}
 	};
 
+	_ellipsizeTextBox = (id, text) => {
+		let el = document.getElementById(id);
+		if (this.state.hasExpandedCard) {
+			el.innerHTML = text;
+		}
+
+		let wordArray = el.innerHTML.split(" ");
+		while (el.scrollHeight > el.offsetHeight) {
+			wordArray.pop();
+
+			let lastWord = wordArray[wordArray.length - 1];
+			let lastChar = lastWord.charAt(lastWord.length - 1);
+			if (/[^a-zA-Z0-9]/.test(lastChar)) {
+				lastWord = lastWord.substr(0, lastWord.length - 1);
+				wordArray[wordArray.length - 1] = lastWord;
+			}
+
+			el.innerHTML = wordArray.join(" ") + "...";
+		}
+	};
+
+	_handleEllipsis = () => {
+		let articles = this.props.articles;
+		if (this.state.activeTabIndex === 1) articles = this.props.userArticles;
+
+		articles = Object.keys(articles).length && articles.data ? articles.data.articles : [];
+		articles = articles.slice(0);
+
+		// let newArticles = [];
+		// for (let index = 0; index < articles.length; index = index + 3) {
+		// 	let cols = articles.slice(index, index + 3);
+		// 	newArticles = [...newArticles, ...cols];
+		// }
+
+		for (let index = 1; index <= articles.length; index++) {
+			this._ellipsizeTextBox("news-title-" + index, articles[index - 1].title);
+			this._ellipsizeTextBox("news-description-" + index, extractContent(articles[index - 1].description));
+		}
+	};
+
 	_handleResize = e => {
-		this.setState({
-			windowHeight: window.innerHeight,
-			windowWidth: window.innerWidth
-		});
+		this.setState((previousState, currentProps) => {
+			return {
+				windowHeight: window.innerHeight,
+				windowWidth: window.innerWidth,
+				hasExpandedCard: previousState.windowWidth < window.innerWidth
+			};
+		}, this._handleEllipsis);
+	};
+
+	_handleScroll = e => {
+		this.setState({ offsetTop: window.pageYOffset });
 	};
 
 	componentDidMount = () => {
 		window.addEventListener("resize", this._handleResize);
+		window.addEventListener("scroll", this._handleScroll);
 	};
 
 	componentWillUnmount = () => {
 		window.removeEventListener("resize", this._handleResize);
+		window.removeEventListener("scroll", this._handleScroll);
 	};
 
 	render = () => {
 		let {
 			articles,
 			userArticles,
+			isFetchingAllArticles,
 			// hasErroredArticles,
-			isFetchingArticles,
-			isFetchingUserArticles,
+			// isFetchingArticles,
+			// isFetchingUserArticles,
 			// articlesError,
 			hasHeaderButton = false,
 			hasHeaderTabs = false
@@ -88,7 +147,7 @@ export class ArticleList extends Component {
 
 		return (
 			<div className="wrapper" ref={this.listRef}>
-				{isFetchingArticles || isFetchingUserArticles ? (
+				{isFetchingAllArticles ? (
 					<div className={`news-loader-content ${!hasHeaderTabs && "darken pull"}`}>
 						<Loader />
 					</div>
@@ -103,174 +162,68 @@ export class ArticleList extends Component {
 	};
 
 	_handleNewsRowsAndCols = articles => {
-		articles = articles.slice(0).reverse();
+		articles = articles.slice(0);
 		let rows = [];
-		for (let rowKey = 0, index = 0; rowKey < articles.length; rowKey = rowKey + 3, index += 1) {
-			let cols = articles.slice(rowKey, rowKey + 3).reverse();
+
+		for (let rowKey = 0, rowIndex = 0; rowKey < articles.length; rowKey = rowKey + 3, rowIndex += 1) {
+			let cols = articles.slice(rowKey, rowKey === 0 ? 1 : rowKey + 3);
+			if (rowKey !== 0 && cols.length < 3) {
+				cols = [...cols, ...(cols.length === 1 ? [{}, {}] : {})];
+			}
+			if (rowKey === 0) rowKey = -2;
+
 			rows.push(
-				<article key={index} className="row">
+				<article key={rowIndex} className="row">
 					{cols.map((col, colKey) => {
-						let { windowWidth } = this.state,
-							description = extractContent(col.description),
-							title = "",
-							timestamp = moment(col.created_at).fromNow();
+						if (Object.keys(col).length) {
+							let description = extractContent(col.description),
+								title = col.title,
+								timestamp = moment(col.created_at).fromNow(),
+								colIndex = rowIndex === 0 ? 1 : 3 * rowIndex - 2 + (colKey + 1);
 
-						if (cols.length === 1) {
-							if (windowWidth >= exportBreakpoint("desktop").max) {
-								description = truncate(description, 210, " ");
-								title = truncate(col.title, 150, " ");
-							} else if (
-								windowWidth >= exportBreakpoint("desktop").min &&
-								windowWidth < exportBreakpoint("desktop").max
-							) {
-								description = truncate(description, 170, " ");
-								title = truncate(col.title, 120, " ");
-							} else if (
-								windowWidth < exportBreakpoint("desktop").min &&
-								windowWidth >= exportBreakpoint("tablet").max
-							) {
-								description = truncate(description, 110, " ");
-								title = truncate(col.title, 80, " ");
-							} else if (
-								windowWidth < exportBreakpoint("tablet").max &&
-								windowWidth >= exportBreakpoint("tablet").min
-							) {
-								description = truncate(description, 180, " ");
-								title = truncate(col.title, 130, " ");
-							} else if (
-								windowWidth < exportBreakpoint("tablet").min &&
-								windowWidth >= exportBreakpoint("mobile").max
-							) {
-								description = truncate(description, 140, " ");
-								title = truncate(col.title, 100, " ");
-							} else if (
-								windowWidth < exportBreakpoint("mobile").max &&
-								windowWidth >= exportBreakpoint("mobile").min
-							) {
-								description = truncate(description, 80, " ");
-								title = truncate(col.title, 50, " ");
-							} else {
-								description = truncate(description, 60, " ");
-								title = truncate(col.title, 35, " ");
-							}
-						} else if (cols.length === 2) {
-							if (windowWidth >= exportBreakpoint("desktop").max) {
-								description = truncate(description, 210, " ");
-								title = truncate(col.title, 150, " ");
-							} else if (
-								windowWidth >= exportBreakpoint("desktop").min &&
-								windowWidth < exportBreakpoint("desktop").max
-							) {
-								description = truncate(description, 160, " ");
-								title = truncate(col.title, 100, " ");
-							} else if (
-								windowWidth < exportBreakpoint("desktop").min &&
-								windowWidth >= exportBreakpoint("tablet").max
-							) {
-								description = truncate(description, 110, " ");
-								title = truncate(col.title, 70, " ");
-							} else if (
-								windowWidth < exportBreakpoint("tablet").max &&
-								windowWidth >= exportBreakpoint("tablet").min
-							) {
-								description = truncate(description, 180, " ");
-								title = truncate(col.title, 130, " ");
-							} else if (
-								windowWidth < exportBreakpoint("tablet").min &&
-								windowWidth >= exportBreakpoint("mobile").max
-							) {
-								description = truncate(description, 140, " ");
-								title = truncate(col.title, 100, " ");
-							} else if (
-								windowWidth < exportBreakpoint("mobile").max &&
-								windowWidth >= exportBreakpoint("mobile").min
-							) {
-								description = truncate(description, 80, " ");
-								title = truncate(col.title, 50, " ");
-							} else {
-								description = truncate(description, 60, " ");
-								title = truncate(col.title, 35, " ");
-							}
+							return (
+								<Link
+									key={colKey}
+									className="column"
+									to={{
+										pathname: `/blog/${slugify(col.title)}-${col._id}`
+									}}
+								>
+									<figure className={`news-card ${cols.length === 1 && "full"}`}>
+										<div className={`news-card-img-wrapper ${col.featured_image_url ? "" : "shrink"}`}>
+											<img
+												src={col.featured_image_url ? col.featured_image_url : iconPictureLight}
+												alt="Card infographic"
+												className={`news-thumbnail ${col.featured_image_url ? "" : "shrink"}`}
+											/>
+											{col.featured_image_url && <div className="news-card-img-overlay" />}
+										</div>
+										<figcaption className="news-card-info-wrapper">
+											<div className="news-tag-wrapper">
+												<span className="tag active">{col.category ? col.category : "others"}</span>
+											</div>
+											<hgroup>
+												<h2 id={"news-title-" + colIndex}>{title}</h2>
+												{/* <h4>{col.subtitle}</h4> */}
+											</hgroup>
+											<div className="news-meta">
+												<span>{col.author_id ? col.author_id.name.toLowerCase() : "Unnamed Author"}</span>
+												<span>{"\u00b7"}</span>
+												<time>{timestamp}</time>
+											</div>
+											<p id={"news-description-" + colIndex}>{description}</p>
+											<div className="news-card-link-wrapper">
+												<span>read</span>
+												<span>→</span>
+												{/* <ArrowRight className="news-card-icon" /> */}
+											</div>
+										</figcaption>
+									</figure>
+								</Link>
+							);
 						} else {
-							if (windowWidth >= exportBreakpoint("desktop").max) {
-								description = truncate(description, 130, " ");
-								title = truncate(col.title, 90, " ");
-							} else if (
-								windowWidth >= exportBreakpoint("desktop").min &&
-								windowWidth < exportBreakpoint("desktop").max
-							) {
-								description = truncate(description, 90, " ");
-								title = truncate(col.title, 60, " ");
-							} else if (
-								windowWidth < exportBreakpoint("desktop").min &&
-								windowWidth >= exportBreakpoint("tablet").max
-							) {
-								description = truncate(description, 60, " ");
-								title = truncate(col.title, 35, " ");
-							} else if (
-								windowWidth < exportBreakpoint("tablet").max &&
-								windowWidth >= exportBreakpoint("tablet").min
-							) {
-								description = truncate(description, 180, " ");
-								title = truncate(col.title, 130, " ");
-							} else if (
-								windowWidth < exportBreakpoint("tablet").min &&
-								windowWidth >= exportBreakpoint("mobile").max
-							) {
-								description = truncate(description, 140, " ");
-								title = truncate(col.title, 100, " ");
-							} else if (
-								windowWidth < exportBreakpoint("mobile").max &&
-								windowWidth >= exportBreakpoint("mobile").min
-							) {
-								description = truncate(description, 80, " ");
-								title = truncate(col.title, 50, " ");
-							} else {
-								description = truncate(description, 60, " ");
-								title = truncate(col.title, 35, " ");
-							}
+							return <div key={colKey} className="column empty" />;
 						}
-
-						return (
-							<Link
-								key={colKey}
-								className="column"
-								to={{
-									pathname: `/blog/${slugify(col.title)}-${col._id}`
-								}}
-							>
-								<figure className={`news-card ${cols.length === 1 && "full"}`}>
-									<div className="news-card-img-wrapper">
-										<img
-											src={col.featured_image_url ? col.featured_image_url : iconPicture}
-											alt="card infographic"
-											className="news-thumbnail"
-										/>
-										<div className="news-card-img-overlay" />
-									</div>
-									<figcaption className="news-card-info-wrapper">
-										<div className="news-tag-wrapper">
-											<span className="tag active">{col.category ? col.category : "others"}</span>
-										</div>
-										<hgroup>
-											<h3>{title}</h3>
-											{/* <h4>{col.subtitle}</h4> */}
-										</hgroup>
-										<div className="news-meta">
-											<span>{col.author_id ? col.author_id.name.toLowerCase() : "Unnamed Author"}</span>
-											<span>{"\u00b7"}</span>
-											<time>{timestamp}</time>
-										</div>
-										<p>{description}</p>
-										<div className="news-card-link-wrapper">
-											<span>read</span>
-											<span>→</span>
-											{/* <ArrowRight className="news-card-icon" /> */}
-										</div>
-									</figcaption>
-								</figure>
-							</Link>
-						);
 					})}
 				</article>
 			);
@@ -289,7 +242,7 @@ export class ArticleList extends Component {
 		if (hasHeaderButton && hasHeaderTabs) {
 			return (
 				<div className="news-list-header">
-					<div className="container">
+					<div className={`container ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
 						<header className="row news-heading-wrapper">
 							<div className="column">
 								<h1>news &amp; blog</h1>
@@ -335,12 +288,24 @@ export class ArticleList extends Component {
 
 	_renderNewsContent = articles => {
 		let { activeTabIndex } = this.state,
-			meta = activeTabIndex === 0 ? this.props.articles.meta : this.props.userArticles.meta;
+			meta = activeTabIndex === 0 ? this.props.articles.meta : this.props.userArticles.meta,
+			{ hasHeaderButton = false, hasHeaderTabs = false } = this.props;
 		return (
-			<div className="news-list-content">
+			<div
+				className={`news-list-content ${this.state.offsetTop > 0 ? "shrink" : ""} ${
+					articles.length > 0 ? "" : "clear"
+				} ${hasHeaderButton && hasHeaderTabs ? "" : "fixed"}`}
+			>
 				<div className="container">
-					{articles.length > 0 ? (
-						<section className="news-cards-wrapper">
+					{activeTabIndex === 1 && !this.props.isFetchingAllArticles && this.props.isFetchingUserArticles ? (
+						<article className="row news-info-wrapper">
+							<div className="column">
+								<Loader />
+							</div>
+						</article>
+					) : articles.length > 0 ? (
+						<section className={`news-cards-wrapper ${hasHeaderButton && hasHeaderTabs ? "" : "fixed"}`}>
+							{this._handleNewsRowsAndCols(articles).map(row => row)}
 							{meta.page !== meta.pages && (
 								<div className="row news-cards-btn-wrapper">
 									{activeTabIndex === 0 ? (
@@ -360,7 +325,6 @@ export class ArticleList extends Component {
 									)}
 								</div>
 							)}
-							{this._handleNewsRowsAndCols(articles).map(row => row)}
 						</section>
 					) : (
 						<article className="row news-info-wrapper">

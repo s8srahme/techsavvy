@@ -89,7 +89,7 @@ export class CommentEditing extends Component {
 						<div className="comment-card-img-wrapper">
 							<img
 								src={authenticationData.image_url ? authenticationData.image_url : iconMale}
-								alt="card infographic"
+								alt="Card infographic"
 								className="comment-thumbnail"
 							/>
 							<div className="comment-card-img-overlay" />

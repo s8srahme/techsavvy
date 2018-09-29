@@ -94,8 +94,8 @@ exports.articles_create_article = (req, res, next) => {
 			if (req.files.length) {
 				await cloudinary.uploader.upload(req.files[0].path, result => {
 					// console.log(result);
-					if (result.url) {
-						featured_image_url = result.url;
+					if (result.secure_url) {
+						featured_image_url = result.secure_url;
 						fs.unlink(req.files[0].path, err => {
 							if (err) console.log(err);
 							else console.log("Image deleted");
@@ -187,8 +187,8 @@ exports.articles_update_article = async (req, res, next) => {
 	if (req.files.length) {
 		await cloudinary.uploader.upload(req.files[0].path, result => {
 			// console.log(result);
-			if (result.url) {
-				featured_image_url = result.url;
+			if (result.secure_url) {
+				featured_image_url = result.secure_url;
 				fs.unlink(req.files[0].path, err => {
 					if (err) console.log(err);
 					else console.log("Image deleted");

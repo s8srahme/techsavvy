@@ -90,7 +90,7 @@ module.exports = {
 				path,
 				result => {
 					if (result) {
-						image_url = result.url;
+						image_url = result.secure_url;
 						fs.unlink(path, err => {
 							if (err) console.log(err);
 							else console.log("Image deleted");

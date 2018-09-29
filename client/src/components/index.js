@@ -3,6 +3,7 @@ import { Footer } from "./layout/Footer";
 import { Modal } from "./common/Modal";
 import { Loader } from "./common/Loader";
 import { Dropdown } from "./common/Dropdown";
+import { LazyLoad } from "./common/LazyLoad";
 import { ArticleList } from "./pages/articles/ArticleList";
 import { ArticleDetail } from "./pages/articles/ArticleDetail";
 import { ArticleEditor } from "./pages/articles/ArticleEditor";
@@ -35,5 +36,6 @@ export {
 	UserEditing,
 	Modal,
 	Loader,
-	Dropdown
+	Dropdown,
+	LazyLoad
 };

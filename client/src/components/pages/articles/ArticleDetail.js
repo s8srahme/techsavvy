@@ -23,6 +23,11 @@ export class ArticleDetail extends Component {
 		}
 	};
 
+	// shouldComponentUpdate = (nextProps, nextState) => {
+	// 	if (this.state.isDropdownActive) return false;
+	// 	return true;
+	// };
+
 	_handleDropdownClick = (event, cb = () => {}) => {
 		// console.log(cb);
 		this.setState({ isDropdownActive: !this.state.isDropdownActive }, () => cb());

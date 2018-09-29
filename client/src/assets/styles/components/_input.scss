@@ -50,9 +50,10 @@
 		color: $color-dark-gray;
 	}
 	&.inverse {
-		line-height: 44px;
+		margin: $gutter-sm 0;
+		// line-height: 44px;
 		background-color: $color-light-gray;
-		min-height: 132px;
+		// min-height: 132px;
 		padding: 0 $gutter-sm;
 		border-right-width: 0;
 		border-bottom-width: 2px;
@@ -61,7 +62,7 @@
 
 		&::placeholder {
 			text-transform: capitalize;
-			line-height: 44px;
+			// line-height: 44px;
 		}
 	}
 }

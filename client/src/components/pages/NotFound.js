@@ -4,7 +4,7 @@ import { iconCaution } from "assets";
 export const NotFound = ({ location, history, hasError }) => (
 	<article className="not-found-content">
 		<div className="not-found-img-wrapper">
-			<img src={iconCaution} alt="not found graphic" id="not-found-graphic" />
+			<img src={iconCaution} alt="Not-found graphic" id="not-found-graphic" />
 		</div>
 		<div className="not-found-message-wrapper">
 			<hgroup>

@@ -13,6 +13,7 @@ export let iconRedux = require("./icon-redux.svg");
 export let iconAnalytics = require("./icon-analytics.svg");
 export let iconSmartphone = require("./icon-smartphone.svg");
 export let iconPicture = require("./icon-picture.svg");
+export let iconPictureLight = require("./icon-picture-light.svg");
 export let iconEdit = require("./icon-edit.svg");
 export let iconMale = require("./icon-male.svg");
 export let iconFemale = require("./icon-female.svg");

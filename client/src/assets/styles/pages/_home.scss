@@ -1,92 +1,45 @@
 .wrapper {
-	// .landing-content {
-	// 	display: flex;
-	// 	// flex-direction: column;
-	// 	justify-content: center;
-	// 	align-items: center;
-	// 	background-position: center center;
-	// 	background-repeat: no-repeat;
-	// 	background-attachment: fixed;
-	// 	background-size: cover;
-	// 	background-color: $color-light-gray;
-	// 	height: 100vh;
-	// 	width: 100%;
-	// 	@include transition(padding 0.4s ease-in-out 0s);
-	// 	// @include breakpoint(md) {
-	// 	// 	flex-direction: row;
-	// 	// }
-
-	// 	.landing-message-wrapper {
-	// 		display: flex;
-	// 		align-items: center;
-	// 		flex-direction: column;
-	// 		margin: 0 $gutter-md;
-
-	// 		.landing-message {
-	// 			max-width: $breakpoint-lg;
-	// 			text-align: center;
-	// 			@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-light-gray, 1.1, -1px);
-	// 		}
-	// 		h3 {
-	// 			margin: $gutter-lg 0;
-	// 			color: $color-light-gray;
-	// 			text-align: center;
-	// 			max-width: 650px;
-	// 		}
-	// 		.btn {
-	// 			margin-top: $gutter-md;
-	// 		}
-
-	// 		// @include breakpoint(xs) {
-	// 		// 	.landing-message {
-	// 		// 		@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-light-gray, 1.1, -1px);
-	// 		// 	}
-	// 		// 	h2 {
-	// 		// 		@include font($font-size-large, $font-weight-light, $font-style-regular, $color-light-gray, 1.1);
-	// 		// 	}
-	// 		// }
-	// 	}
-
-	// 	// .landing-img-wrapper {
-	// 	// 	width: 225px;
-	// 	// 	padding: $gutter-md;
-	// 	// 	@include breakpoint(md) {
-	// 	// 		width: 250px;
-	// 	// 	}
-
-	// 	// 	#landing-graphic {
-	// 	// 		display: block;
-	// 	// 		animation: spin 20s linear 0s infinite normal;
-	// 	// 		width: 100%;
-	// 	// 	}
-	// 	// }
-	// }
-
 	.landing-content {
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-size: cover;
 		background-color: $color-light-gray;
-		height: 100vh;
+		height: auto;
 		width: 100%;
+		padding-bottom: $gutter-xl;
+		@media (min-height: $breakpoint-md) {
+			height: 100vh;
+			padding-bottom: 0;
+
+			.container {
+				margin-top: 0 !important;
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
 
 		.container {
-			position: relative;
-			top: 50%;
-			transform: translateY(-50%);
+			margin-top: $gutter-xl;
 
 			.row {
 				.landing-message-wrapper {
+					max-width: 48rem - 1.6rem * 2;
 					background-color: $color-light-gray;
 					padding: $gutter-xxl $gutter-xl $gutter-xxxl;
 					@include breakpoint(xs) {
-						padding: $gutter-lg $gutter-lg $gutter-xl;
+						padding: $gutter-xl $gutter-lg $gutter-xxl;
 
 						.landing-message {
-							font-size: $font-size-x-large !important;
+							line-height: 1 !important;
 						}
 					}
+					// @include breakpoint(0, $breakpoint-xs) {
+					// 	.landing-message {
+					// font-size: $font-size-x-large !important;
+					// 	}
+					// }
 
 					.landing-message {
 						@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-dark-gray, 1.3);
@@ -104,14 +57,6 @@
 					}
 					// .btn {
 					// }
-				}
-				._20 {
-					padding: 0 $gutter-xl;
-					margin-top: 0;
-
-					@include breakpoint($breakpoint-md, $breakpoint-lg) {
-						flex: 1;
-					}
 				}
 			}
 		}
@@ -251,9 +196,9 @@
 							margin-top: $gutter-sm;
 							color: $color-grapefruit;
 						}
-						.btn {
-							// width: 100%;
-						}
+						// .btn {
+						// width: 100%;
+						// }
 					}
 				}
 			}
@@ -445,7 +390,7 @@
 							}
 						}
 
-						&:hover > .team-card-img-wrapper > img {
+						&:hover > .team-card-img-wrapper img {
 							transform: scale(1.2);
 						}
 					}

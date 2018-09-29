@@ -102,7 +102,7 @@ export class UserDetail extends PureComponent {
 								<div className="user-img-wrapper">
 									<img
 										src={userData.image_url ? userData.image_url : iconMale}
-										alt="user infographic"
+										alt="User infographic"
 										className="user-thumbnail"
 									/>
 									<div className="user-img-overlay" />

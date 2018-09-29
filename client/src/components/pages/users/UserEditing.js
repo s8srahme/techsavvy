@@ -343,7 +343,7 @@ export class UserEditing extends React.Component {
 						<header className="row">
 							<figure className="column user-heading-wrapper">
 								<div className="user-img-wrapper" onClick={this._triggerFileInput}>
-									<img src={this.state.userImage} alt="" className="user-thumbnail" />
+									<img src={this.state.userImage} alt="User infographic" className="user-thumbnail" />
 									<div className="user-img-overlay">
 										<Camera className="user-img-overlay-icon" />
 									</div>

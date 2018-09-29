@@ -20,12 +20,12 @@
 		"redux-thunk": "^2.3.0"
 	},
 	"scripts": {
+		"deploy": "pushstate-server build",
 		"postbuild": "echo 'Your app is ready to be deployed.'",
 		"build-css": "node-sass-chokidar src/ -o src/",
 		"watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
 		"start": "PORT=3006 react-scripts start",
 		"build": "rm -rf build && GENERATE_SOURCEMAP=false react-scripts build",
-		"deploy": "pushstate-server build",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject"
 	}

@@ -47,14 +47,16 @@ const getFailure = (type, error) => {
 export const fetchAll = (seed, page, limit) => {
 	return dispatch => {
 		dispatch(get(seed === page ? FETCH_ARTICLES : FETCH_MORE_ARTICLES));
-		services.articles
+		return services.articles
 			.getAll(seed, page, limit)
 			.then(res => {
 				dispatch(getSuccess(seed === page ? FETCH_ARTICLES_SUCCESS : FETCH_MORE_ARTICLES_SUCCESS, res.data));
+				return res;
 			})
 			.catch(err => {
 				console.log("err:", err);
 				dispatch(getFailure(seed === page ? FETCH_ARTICLES_FAILURE : FETCH_MORE_ARTICLES_FAILURE, err));
+				return err;
 			});
 	};
 };
@@ -62,14 +64,16 @@ export const fetchAll = (seed, page, limit) => {
 export const fetchAllUserArticles = (id, seed, page, limit) => {
 	return dispatch => {
 		dispatch(get(seed === page ? FETCH_USER_ARTICLES : FETCH_MORE_USER_ARTICLES));
-		services.users
+		return services.users
 			.getAllArticles({ id, seed, page, limit })
 			.then(res => {
 				dispatch(getSuccess(seed === page ? FETCH_USER_ARTICLES_SUCCESS : FETCH_MORE_USER_ARTICLES_SUCCESS, res.data));
+				return res;
 			})
 			.catch(err => {
 				console.log("err:", err);
 				dispatch(getFailure(seed === page ? FETCH_USER_ARTICLES_FAILURE : FETCH_MORE_USER_ARTICLES_FAILURE, err));
+				return err;
 			});
 	};
 };

@@ -4,9 +4,17 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "redux/actions";
 import { _renderRoutes } from "./config";
-import { Header, Footer } from "components";
+import { Header, Footer, Loader } from "components";
 
 class App extends Component {
+	state = {
+		isLoading: true
+	};
+
+	componentDidMount = () => {
+		this.setState({ isLoading: false });
+	};
+
 	componentWillMount = () => {
 		const user = JSON.parse(localStorage.getItem("user"));
 		if (user && user.token) {
@@ -15,7 +23,18 @@ class App extends Component {
 	};
 
 	render = () => {
+		const { isLoading } = this.state;
 		const { user, logout, handleClear, isLoadingUser, isLoadingLogout } = this.props;
+
+		if (isLoading) {
+			return (
+				<div className="wrapper">
+					<div className="news-loader-content pull">
+						<Loader />
+					</div>
+				</div>
+			);
+		}
 		return (
 			<BrowserRouter>
 				<main>

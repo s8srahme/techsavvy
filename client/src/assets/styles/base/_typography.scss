@@ -16,7 +16,6 @@ $font-style-oblique: oblique;
 
 $font-family-dosis: "Dosis", "Trebuchet MS", Helvetica, sans-serif;
 $font-family-times-new-roman: "Times New Roman", serif;
-$font-family-eb-garamond: "EB Garamond", serif;
 
 h1 {
 	@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1, 2px);

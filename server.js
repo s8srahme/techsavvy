@@ -83,7 +83,7 @@ branch("./")
 		// 	next();
 		// });
 		app.use(morgan("dev"));
-		app.use("uploads", express.static("api/v1/uploads"));
+		app.use("/uploads", express.static(path.join(__dirname, "api/v1/uploads")));
 		app.use(bodyParser.urlencoded({ extended: false }));
 		app.use(bodyParser.json());
 		app.use(helmet());

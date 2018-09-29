@@ -224,7 +224,7 @@ url("${this.state.featuredImage}")`
 						<div className={`${!this.state.featuredImage && "pull"} news-masthead-img-wrapper`}>
 							<img
 								src={!this.state.featuredImage ? iconPicture : iconEdit}
-								alt="masthead graphic"
+								alt="Masthead graphic"
 								className="news-masthead-graphic"
 							/>
 						</div>
@@ -246,7 +246,7 @@ url("${this.state.featuredImage}")`
 								<div className="news-editor-heading-img-wrapper">
 									<img
 										src={authenticationData.image_url ? authenticationData.image_url : iconMale}
-										alt="card infographic"
+										alt="Card infographic"
 										className="news-editor-heading-thumbnail"
 									/>
 									<div className="news-editor-heading-img-overlay" />

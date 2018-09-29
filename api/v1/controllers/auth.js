@@ -32,7 +32,7 @@ module.exports = {
 										return;
 									}
 
-									image_url = result.url;
+									image_url = result.secure_url;
 									fs.unlink(req.file.path, err => {
 										if (err) console.log(err);
 										else console.log("Image deleted");

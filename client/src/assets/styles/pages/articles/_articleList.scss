@@ -1,14 +1,39 @@
 .news-list-wrapper {
+	position: relative;
+
 	.news-list-header {
+		position: absolute;
+		top: 0;
+		z-index: 1;
+		width: 100%;
 		background-color: $color-light-gray;
 		&.clear {
 			background-color: darken($color-light-gray, 5%);
 		}
 
 		.container {
-			padding-top: $gutter-xxl + 10rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			min-height: 30rem;
+			&.shrink {
+				min-height: 25rem;
+			}
 			&.clear {
-				padding-top: $gutter-xxxl;
+				min-height: 22rem;
+				justify-content: center;
+			}
+			@include breakpoint(md) {
+				min-height: 27rem;
+				&.shrink {
+					min-height: 22rem;
+				}
+			}
+			@include breakpoint(0, $breakpoint-xs) {
+				min-height: 35rem;
+				&.shrink {
+					min-height: 30rem;
+				}
 			}
 
 			.news-heading-wrapper {
@@ -66,13 +91,35 @@
 	}
 	.news-list-content {
 		background-color: darken($color-light-gray, 5%);
+		min-height: 100vh;
+		padding-top: 30rem;
+		&.clear {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			max-width: 100%;
+		}
+		&.shrink {
+			padding-top: 25rem;
+		}
+		&.fixed {
+			padding-top: 22rem !important;
+		}
+		@include breakpoint(md) {
+			padding-top: 27rem;
+			&.shrink {
+				padding-top: 22rem;
+			}
+		}
+		@include breakpoint(0, $breakpoint-xs) {
+			padding-top: 35rem;
+			&.shrink {
+				padding-top: 30rem;
+			}
+		}
 
 		.container {
-			padding: $gutter-xxxl 0;
-
 			.news-info-wrapper {
-				min-height: 30vh;
-
 				.column {
 					p {
 						text-align: center;
@@ -81,18 +128,36 @@
 			}
 			.news-cards-wrapper {
 				display: flex;
-				flex-direction: column-reverse;
-
-				.row + .row {
-					margin-top: 0;
-					margin-bottom: $gutter-md;
+				flex-direction: column;
+				padding: $gutter-xxxl 0;
+				&.fixed {
+					padding-top: 0;
 				}
+
 				.row {
 					&.news-cards-btn-wrapper {
-						margin-top: $gutter-xxl;
+						margin-top: $gutter-xxxl;
 						justify-content: center;
 					}
+					.column + .column {
+						@include breakpoint(0, $breakpoint-sm) {
+							&.empty {
+								margin-top: 0;
+							}
+						}
+						@include breakpoint($breakpoint-sm, $breakpoint-lg) {
+							margin-top: $gutter-md;
+							margin-left: 0;
+							&.empty {
+								margin-top: 0;
+							}
+						}
+					}
 					.column {
+						@include breakpoint($breakpoint-sm, $breakpoint-lg) {
+							flex-basis: 100%;
+						}
+
 						.news-card {
 							height: 100%;
 							display: flex;
@@ -101,37 +166,57 @@
 							overflow: hidden;
 							@include box-shadow(all);
 							&.full {
-								@include breakpoint(md) {
+								@include breakpoint(sm) {
 									flex-direction: row;
 
 									.news-card-img-wrapper {
-										height: 350px;
+										height: 375px;
 									}
 									.news-card-info-wrapper {
 										width: calc(100% - #{$gutter-xxl});
 									}
 								}
 							}
+							@include breakpoint($breakpoint-sm, $breakpoint-lg) {
+								flex-direction: row;
+
+								.news-card-img-wrapper {
+									height: 375px !important;
+								}
+								.news-card-info-wrapper {
+									width: calc(100% - #{$gutter-xxl}) !important;
+								}
+							}
 
 							.news-card-info-wrapper {
 								width: 100%;
-								min-height: 350px;
+								min-height: 375px;
 								padding: $gutter-lg;
 								position: relative;
 
 								.news-tag-wrapper {
 									display: inline-block;
-
-									// .tag {}
 								}
 								hgroup {
-									margin: $gutter-md 0;
+									margin: $gutter-sm 0;
 
-									h3 {
+									h2 {
 										font-weight: $font-weight-bold;
+										letter-spacing: normal;
+										line-height: 1.3;
+										max-height: $font-size-x-large * 1.3 * 3;
+										overflow: hidden;
+										@include breakpoint(xs) {
+											font-size: $font-size-large;
+											max-height: $font-size-large * 1.3 * 3;
+										}
 									}
 								}
-								// p {}
+								p {
+									letter-spacing: normal;
+									max-height: $font-size-regular * 1.5 * 3;
+									overflow: hidden;
+								}
 								.news-meta {
 									display: flex;
 									align-items: center;
@@ -179,6 +264,12 @@
 								overflow: hidden;
 								position: relative;
 								background-color: $color-light-gray;
+								&.shrink {
+									display: flex;
+									justify-content: center;
+									align-items: center;
+									background-color: darken($color-medium-gray, 5%);
+								}
 
 								.news-thumbnail {
 									display: block;
@@ -186,6 +277,11 @@
 									width: 100%;
 									height: 100%;
 									object-fit: cover;
+									&.shrink {
+										width: 50%;
+										height: 50%;
+										object-fit: fill;
+									}
 								}
 								.news-card-img-overlay {
 									position: absolute;
