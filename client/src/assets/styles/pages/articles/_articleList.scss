@@ -198,7 +198,7 @@
 									display: inline-block;
 								}
 								hgroup {
-									margin: $gutter-sm 0;
+									margin: 0 0 $gutter-sm;
 
 									h2 {
 										font-weight: $font-weight-bold;
@@ -264,12 +264,6 @@
 								overflow: hidden;
 								position: relative;
 								background-color: $color-light-gray;
-								&.shrink {
-									display: flex;
-									justify-content: center;
-									align-items: center;
-									background-color: darken($color-medium-gray, 5%);
-								}
 
 								.news-thumbnail {
 									display: block;
@@ -298,7 +292,7 @@
 								}
 							}
 
-							&:hover > .news-card-img-wrapper > img {
+							&:hover > .news-card-img-wrapper img {
 								transform: scale(1.2);
 							}
 						}

@@ -30,6 +30,8 @@
 							cursor: pointer;
 
 							.user-img-overlay {
+								opacity: 1;
+
 								.user-img-overlay-icon {
 									transform: scale(1.2);
 								}
@@ -53,6 +55,8 @@
 							align-items: center;
 							z-index: 1;
 							background-color: rgba($color-dark-gray, 0.7);
+							opacity: 0;
+							@include transition(opacity 0.4s ease-in-out 0s);
 
 							.user-img-overlay-icon {
 								color: darken($color-light-gray, 10%);

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { slugify, extractContent } from "../../../utils";
+import { slugify, extractContent, ellipsizeTextBox } from "../../../utils";
 import { iconPictureLight } from "../../../assets";
 // import { ArrowRight } from "react-feather";
-import { Loader } from "../..";
+import { Loader, LazyLoad } from "../..";
 
 export class ArticleList extends Component {
 	constructor(props) {
@@ -67,27 +67,6 @@ export class ArticleList extends Component {
 		}
 	};
 
-	_ellipsizeTextBox = (id, text) => {
-		let el = document.getElementById(id);
-		if (this.state.hasExpandedCard) {
-			el.innerHTML = text;
-		}
-
-		let wordArray = el.innerHTML.split(" ");
-		while (el.scrollHeight > el.offsetHeight) {
-			wordArray.pop();
-
-			let lastWord = wordArray[wordArray.length - 1];
-			let lastChar = lastWord.charAt(lastWord.length - 1);
-			if (/[^a-zA-Z0-9]/.test(lastChar)) {
-				lastWord = lastWord.substr(0, lastWord.length - 1);
-				wordArray[wordArray.length - 1] = lastWord;
-			}
-
-			el.innerHTML = wordArray.join(" ") + "...";
-		}
-	};
-
 	_handleEllipsis = () => {
 		let articles = this.props.articles;
 		if (this.state.activeTabIndex === 1) articles = this.props.userArticles;
@@ -102,8 +81,12 @@ export class ArticleList extends Component {
 		// }
 
 		for (let index = 1; index <= articles.length; index++) {
-			this._ellipsizeTextBox("news-title-" + index, articles[index - 1].title);
-			this._ellipsizeTextBox("news-description-" + index, extractContent(articles[index - 1].description));
+			ellipsizeTextBox("news-title-" + index, articles[index - 1].title, this.state.hasExpandedCard);
+			ellipsizeTextBox(
+				"news-description-" + index,
+				extractContent(articles[index - 1].description),
+				this.state.hasExpandedCard
+			);
 		}
 	};
 
@@ -190,13 +173,14 @@ export class ArticleList extends Component {
 									}}
 								>
 									<figure className={`news-card ${cols.length === 1 && "full"}`}>
-										<div className={`news-card-img-wrapper ${col.featured_image_url ? "" : "shrink"}`}>
-											<img
+										<div className="news-card-img-wrapper">
+											<LazyLoad
 												src={col.featured_image_url ? col.featured_image_url : iconPictureLight}
 												alt="Card infographic"
 												className={`news-thumbnail ${col.featured_image_url ? "" : "shrink"}`}
+												errored={col.featured_image_url ? false : true}
 											/>
-											{col.featured_image_url && <div className="news-card-img-overlay" />}
+											{/* {col.featured_image_url && <div className="news-card-img-overlay" />} */}
 										</div>
 										<figcaption className="news-card-info-wrapper">
 											<div className="news-tag-wrapper">

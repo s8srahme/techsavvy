@@ -15,7 +15,187 @@ import {
 import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
 import { Loader, LazyLoad } from "../components";
 import { ArticleListScreen } from "screens";
-import { truncate, exportBreakpoint } from "../utils";
+import { ellipsizeTextBox } from "../utils";
+
+const socials = [
+		{ name: Twitter, href: "" },
+		{ name: Facebook, href: "" },
+		{ name: Instagram, href: "" },
+		{ name: Linkedin, href: "" },
+		{ name: Github, href: "" }
+	],
+	team = [
+		{
+			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3bb.jpg",
+			title: "John Doe",
+			subtitle: "project manager",
+			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+		},
+		{
+			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+			title: "John Doe",
+			subtitle: "project manager",
+			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+		},
+		{
+			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+			title: "John Doe",
+			subtitle: "project manager",
+			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+		},
+		{
+			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+			title: "John Doe",
+			subtitle: "project manager",
+			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+		},
+		{
+			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+			title: "John Doe",
+			subtitle: "project manager",
+			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+		},
+		{
+			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+			title: "John Doe",
+			subtitle: "project manager",
+			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+		}
+	],
+	clients = [
+		{
+			thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
+		},
+		{
+			thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
+		},
+		{
+			thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
+		},
+		{
+			thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
+		},
+		{
+			thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
+		}
+		// {
+		// 	thumbnail: "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png"
+		// }
+	],
+	testimonials = [
+		{
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo. Nullam at mauris ac lorem varius pellentesque at a orci.",
+			author: "Andy Tran"
+		},
+		{
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo.",
+			author: "RAYMOND WONG"
+		},
+		{
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis.",
+			author: "ADAM ROSENBERG"
+		},
+		{
+			description:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum.",
+			author: "LAURA BYAGER"
+		}
+	],
+	features = [
+		{
+			name: Airplay,
+			icon: iconResponsive,
+			title: "fully responsive",
+			description:
+				"Our website uses flexible grids and layouts to resize the content according to the size of the device that it is being viewed on."
+		},
+		{
+			name: Copy,
+			icon: iconPencil,
+			title: "Unique Typography",
+			description:
+				"We have a particular font used to help our viewers immediately identify us, making it easier for us to more accurately express ourselves through typography."
+		},
+		{
+			name: Airplay,
+			icon: iconGallery,
+			title: "Semi-Flat Design",
+			description:
+				"Not only is our flat design easier for users to comprehend, but it can also load more quickly on websites without complicated or overly-technical elements."
+		},
+		{
+			name: Box,
+			icon: iconTimeManagement,
+			title: "Fast Loading",
+			description:
+				"We ensure a fast and smooth experience for our site visitors and allow users to interact with us without reloading the page."
+		},
+		{
+			name: Users,
+			icon: iconScience,
+			title: "Progressive Web App",
+			description:
+				"Our app comes with PWA features to bring the best of mobile sites and native apps to users. It is reliable, fast, and engaging. It originates from a secure origin and loads regardless of network state."
+		},
+		{
+			name: ZoomIn,
+			icon: iconSearch,
+			title: "seo friendly",
+			description:
+				"By using the right keywords in specific website headers and text areas, we try to rank higher in popular engines, like Google, for gaining much sought after exposure."
+		}
+	],
+	about = [
+		{
+			icon: iconAnalytics,
+			title: "Explore interesting ideas and perspectives",
+			description:
+				"We tap into the brains of the world’s most insightful writers, thinkers, and storytellers to bring you the smartest takes on topics that matter.",
+			routeName: ""
+		},
+		{
+			icon: iconSmartphone,
+			title: "Share and follow stories on the go",
+			description:
+				"Our mobile app offers instant access by a simple tap, allowing you to consume your content quickly and offering seamless experience.",
+			routeName: ""
+		}
+	],
+	works = [
+		{
+			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
+			title: "Surfer Paradise",
+			category: "mobile app",
+			routeName: ""
+		},
+		{
+			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
+			title: "Surfer Paradise",
+			category: "mobile app",
+			routeName: ""
+		},
+		{
+			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
+			title: "Surfer Paradise",
+			category: "mobile app",
+			routeName: ""
+		},
+		{
+			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
+			title: "Surfer Paradise",
+			category: "mobile app",
+			routeName: ""
+		},
+		{
+			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
+			title: "Surfer Paradise",
+			category: "mobile app",
+			routeName: ""
+		}
+	];
 
 export default class HomeScreen extends Component {
 	constructor(props) {
@@ -28,15 +208,19 @@ export default class HomeScreen extends Component {
 			errorInputIndex: -1,
 			newsletterEmail: "",
 			windowHeight: window.innerHeight,
-			windowWidth: window.innerWidth
+			windowWidth: window.innerWidth,
+			hasExpandedSlide: false
 		};
 	}
 
 	_handleResize = e => {
-		this.setState({
-			windowHeight: window.innerHeight,
-			windowWidth: window.innerWidth
-		});
+		this.setState((previousState, currentProps) => {
+			return {
+				windowHeight: window.innerHeight,
+				windowWidth: window.innerWidth,
+				hasExpandedSlide: previousState.windowWidth < window.innerWidth
+			};
+		}, this._handleEllipsis(testimonials));
 	};
 
 	_handleScroll = e => {
@@ -59,6 +243,7 @@ export default class HomeScreen extends Component {
 		window.scrollTo(0, this.state.offsetTop);
 		window.addEventListener("resize", this._handleResize);
 		window.addEventListener("scroll", this._handleScroll);
+		this._handleEllipsis(testimonials);
 	};
 
 	componentWillUnmount = () => {
@@ -67,185 +252,6 @@ export default class HomeScreen extends Component {
 	};
 
 	render = () => {
-		const socials = [
-				{ name: Twitter, href: "" },
-				{ name: Facebook, href: "" },
-				{ name: Instagram, href: "" },
-				{ name: Linkedin, href: "" },
-				{ name: Github, href: "" }
-			],
-			team = [
-				{
-					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3bb.jpg",
-					title: "John Doe",
-					subtitle: "project manager",
-					socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-				},
-				{
-					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-					title: "John Doe",
-					subtitle: "project manager",
-					socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-				},
-				{
-					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-					title: "John Doe",
-					subtitle: "project manager",
-					socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-				},
-				{
-					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-					title: "John Doe",
-					subtitle: "project manager",
-					socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-				},
-				{
-					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-					title: "John Doe",
-					subtitle: "project manager",
-					socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-				},
-				{
-					thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-					title: "John Doe",
-					subtitle: "project manager",
-					socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-				}
-			],
-			clients = [
-				{
-					thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
-				},
-				{
-					thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
-				},
-				{
-					thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
-				},
-				{
-					thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
-				},
-				{
-					thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
-				}
-				// {
-				// 	thumbnail: "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png"
-				// }
-			],
-			testimonials = [
-				{
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo. Nullam at mauris ac lorem varius pellentesque at a orci.",
-					author: "Andy Tran"
-				},
-				{
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo.",
-					author: "RAYMOND WONG"
-				},
-				{
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis.",
-					author: "Andy Tran"
-				},
-				{
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum.",
-					author: "RAYMOND WONG"
-				}
-			],
-			features = [
-				{
-					name: Airplay,
-					icon: iconResponsive,
-					title: "fully responsive",
-					description:
-						"Our website uses flexible grids and layouts to resize the content according to the size of the device that it is being viewed on."
-				},
-				{
-					name: Copy,
-					icon: iconPencil,
-					title: "Unique Typography",
-					description:
-						"We have a particular font used to help our viewers immediately identify us, making it easier for us to more accurately express ourselves through typography."
-				},
-				{
-					name: Airplay,
-					icon: iconGallery,
-					title: "Semi-Flat Design",
-					description:
-						"Not only is our flat design easier for users to comprehend, but it can also load more quickly on websites without complicated or overly-technical elements."
-				},
-				{
-					name: Box,
-					icon: iconTimeManagement,
-					title: "Fast Loading",
-					description:
-						"We ensure a fast and smooth experience for our site visitors and allow users to interact with us without reloading the page."
-				},
-				{
-					name: Users,
-					icon: iconScience,
-					title: "Progressive Web App",
-					description:
-						"Our app comes with PWA features to bring the best of mobile sites and native apps to users. It is reliable, fast, and engaging. It originates from a secure origin and loads regardless of network state."
-				},
-				{
-					name: ZoomIn,
-					icon: iconSearch,
-					title: "seo friendly",
-					description:
-						"By using the right keywords in specific website headers and text areas, we try to rank higher in popular engines, like Google, for gaining much sought after exposure."
-				}
-			],
-			about = [
-				{
-					icon: iconAnalytics,
-					title: "Explore interesting ideas and perspectives",
-					description:
-						"We tap into the brains of the world’s most insightful writers, thinkers, and storytellers to bring you the smartest takes on topics that matter.",
-					routeName: ""
-				},
-				{
-					icon: iconSmartphone,
-					title: "Share and follow stories on the go",
-					description:
-						"Our mobile app offers instant access by a simple tap, allowing you to consume your content quickly and offering seamless experience.",
-					routeName: ""
-				}
-			],
-			works = [
-				{
-					thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-					title: "Surfer Paradise",
-					category: "mobile app",
-					routeName: ""
-				},
-				{
-					thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-					title: "Surfer Paradise",
-					category: "mobile app",
-					routeName: ""
-				},
-				{
-					thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-					title: "Surfer Paradise",
-					category: "mobile app",
-					routeName: ""
-				},
-				{
-					thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-					title: "Surfer Paradise",
-					category: "mobile app",
-					routeName: ""
-				},
-				{
-					thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-					title: "Surfer Paradise",
-					category: "mobile app",
-					routeName: ""
-				}
-			];
 		return (
 			<div className="wrapper" ref={el => (this.instance = el)}>
 				{this._renderLandingContent()}
@@ -266,13 +272,16 @@ export default class HomeScreen extends Component {
 	};
 
 	_renderLandingContent = () => (
-		<figure
+		<LazyLoad
+			figure
 			className="landing-content"
 			style={{
 				backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
-			url(${bgImgJeshootsCom})`,
+							url(${bgImgJeshootsCom})`,
 				paddingTop: `${this.state.offsetTop < 0 ? "5rem" : "10rem"}`
 			}}
+			src={bgImgJeshootsCom}
+			background="dark"
 		>
 			<div className="container">
 				<section className="row">
@@ -284,7 +293,7 @@ export default class HomeScreen extends Component {
 					</article>
 				</section>
 			</div>
-		</figure>
+		</LazyLoad>
 	);
 
 	_handleFormSubmit = event => {
@@ -363,7 +372,12 @@ export default class HomeScreen extends Component {
 						return (
 							<figure key={colKey} className="column client-card">
 								<div className="client-card-img-wrapper">
-									<img src={col.thumbnail} alt="Card infographic" className="client-thumbnail" />
+									<LazyLoad
+										src={col.thumbnail}
+										alt="Card infographic"
+										className="client-thumbnail"
+										background="light"
+									/>
 								</div>
 							</figure>
 						);
@@ -380,6 +394,11 @@ export default class HomeScreen extends Component {
 
 		if (i === slideCount) return;
 		else this.setState({ translateValue: -((i / length) * 100), slideCount: i });
+	};
+
+	_handleEllipsis = testimonials => {
+		for (let index = 1; index <= testimonials.length; index++)
+			ellipsizeTextBox("slider-txt-" + index, testimonials[index - 1].description, this.state.hasExpandedSlide);
 	};
 
 	_renderClientContent = (testimonials, clients) => (
@@ -415,23 +434,12 @@ export default class HomeScreen extends Component {
 							}}
 						>
 							{testimonials.map((obj, index) => {
-								let { windowWidth } = this.state,
-									description = "";
-
-								if (windowWidth >= exportBreakpoint("tablet").max) {
-									description = truncate(obj.description, 350, " ");
-								} else if (
-									windowWidth < exportBreakpoint("tablet").max &&
-									windowWidth >= exportBreakpoint("mobile").max
-								) {
-									description = truncate(obj.description, 200, " ");
-								} else {
-									description = truncate(obj.description, 150, " ");
-								}
-
+								let description = obj.description;
 								return (
 									<div key={index} className="slider-contents">
-										<p className="slider-txt">{description}</p>
+										<p className="slider-txt" id={"slider-txt-" + (index + 1)}>
+											{description}
+										</p>
 										<h4 className="slider-caption">{`\u2015 ${obj.author}`}</h4>
 									</div>
 								);
@@ -464,7 +472,7 @@ export default class HomeScreen extends Component {
 					{cols.map((col, colKey) => (
 						<figure key={colKey} className="column work-card">
 							<div className="work-card-img-wrapper">
-								<img src={col.thumbnail} alt="Card infographic" className="work-thumbnail" />
+								<LazyLoad src={col.thumbnail} alt="Card infographic" className="work-thumbnail" />
 							</div>
 							<figcaption className="work-card-info-wrapper">
 								<h4>{col.category}</h4>

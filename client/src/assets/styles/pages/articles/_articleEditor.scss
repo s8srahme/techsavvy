@@ -95,7 +95,7 @@
 						}
 
 						&::placeholder {
-							@include font($font-size-xx-large, $font-weight-bold, $font-style-regular, $color-medium-gray, 1);
+							@include font($font-size-xx-large, $font-weight-bold, $font-style-italic, $color-medium-gray, 1);
 							letter-spacing: normal;
 						}
 					}

@@ -113,3 +113,24 @@ export const extractContent = (html, allowSpaces = true) => {
 	}
 	return [span.textContent || span.innerText].toString().replace(/ +/g, " ");
 };
+
+export const ellipsizeTextBox = (id, text, hasExpanded) => {
+	let el = document.getElementById(id);
+	if (hasExpanded) {
+		el.innerHTML = text;
+	}
+
+	let wordArray = el.innerHTML.split(" ");
+	while (el.scrollHeight > el.offsetHeight) {
+		wordArray.pop();
+
+		let lastWord = wordArray[wordArray.length - 1];
+		let lastChar = lastWord.charAt(lastWord.length - 1);
+		if (/[^a-zA-Z0-9]/.test(lastChar)) {
+			lastWord = lastWord.substr(0, lastWord.length - 1);
+			wordArray[wordArray.length - 1] = lastWord;
+		}
+
+		el.innerHTML = wordArray.join(" ") + "...";
+	}
+};

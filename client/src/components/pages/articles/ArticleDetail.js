@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Loader } from "components";
+import { Loader, LazyLoad } from "components";
 import { ChevronDown, Edit2, Delete } from "react-feather";
 import { slugify } from "../../../utils";
 import { Dropdown } from "../..";
@@ -78,12 +78,15 @@ export class ArticleDetail extends Component {
 			<div className="wrapper">
 				{articleData.featured_image_url && (
 					<div className="news-masthead">
-						<figure
+						<LazyLoad
+							figure
 							className="news-featured-image"
 							style={{
 								backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
 			url("${articleData.featured_image_url}")`
 							}}
+							src={articleData.featured_image_url}
+							background="darken-light"
 						/>
 					</div>
 				)}

@@ -44,6 +44,8 @@
 				font-style: $font-style-italic;
 				margin-bottom: $gutter-lg;
 				max-width: $breakpoint-sm;
+				max-height: $font-size-regular * 1.5 * 4;
+				overflow: hidden;
 				@include breakpoint(md) {
 					max-width: $breakpoint-md;
 				}

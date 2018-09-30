@@ -5,7 +5,7 @@ import {
 	// iconFemale,
 	bgImgEmptyStreet
 } from "assets";
-import { Loader } from "components";
+import { Loader, LazyLoad } from "components";
 import { MapPin } from "react-feather";
 
 export class UserDetail extends PureComponent {
@@ -87,12 +87,15 @@ export class UserDetail extends PureComponent {
 		) : (
 			<div className="wrapper">
 				<div className="news-masthead">
-					<figure
+					<LazyLoad
+						figure
 						className="news-featured-image"
 						style={{
 							backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
-			url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
+				url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
 						}}
+						src={userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}
+						background="darken-light"
 					/>
 				</div>
 				<div className="user-view-content">
@@ -100,10 +103,11 @@ export class UserDetail extends PureComponent {
 						<header className="row">
 							<figure className="column user-heading-wrapper">
 								<div className="user-img-wrapper">
-									<img
+									<LazyLoad
 										src={userData.image_url ? userData.image_url : iconMale}
 										alt="User infographic"
 										className="user-thumbnail"
+										defaultImage={iconMale}
 									/>
 									<div className="user-img-overlay" />
 								</div>

@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Menu, User, Settings, Power } from "react-feather";
+import {
+	Menu,
+	User,
+	// Settings,
+	Power
+} from "react-feather";
 import { UserFormScreen } from "screens";
-import { Loader } from "components";
+import { Loader, LazyLoad } from "components";
 import { Dropdown } from "..";
 import { iconMale } from "assets";
 
@@ -92,7 +97,7 @@ class Header extends Component {
 		if (isLoading)
 			return (
 				<div className={`header-dropdown-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
-					<Loader />
+					<Loader inverse={this.state.offsetTop <= 0} />
 				</div>
 			);
 		return (
@@ -104,10 +109,11 @@ class Header extends Component {
 					className={`header-dropdown-img-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}
 					onClick={Object.keys(user).length ? this._handleDropdownClick : this._handleModalClickIn}
 				>
-					<img
+					<LazyLoad
 						src={Object.keys(user).length && user.image_url ? user.image_url : iconMale}
 						alt="Header infographic"
 						className="header-thumbnail"
+						defaultImage={iconMale}
 					/>
 					<div className="header-dropdown-img-overlay" />
 				</div>
@@ -128,15 +134,15 @@ class Header extends Component {
 										});
 									}
 								},
-								{
-									icon: Settings,
-									title: "Settings",
-									isLoadingSelf: false,
-									isLoadingSibling: this.props.isLoadingLogout,
-									onClick: () => {
-										this.setState({ isDropdownActive: false });
-									}
-								},
+								// {
+								// 	icon: Settings,
+								// 	title: "Settings",
+								// 	isLoadingSelf: false,
+								// 	isLoadingSibling: this.props.isLoadingLogout,
+								// 	onClick: () => {
+								// 		this.setState({ isDropdownActive: false });
+								// 	}
+								// },
 								{
 									icon: Power,
 									title: "Sign out",

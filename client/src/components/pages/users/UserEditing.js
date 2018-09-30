@@ -1,6 +1,6 @@
 import React from "react";
 import { Camera } from "react-feather";
-import { Loader } from "../..";
+import { Loader, LazyLoad } from "../..";
 import { bgImgEmptyStreet } from "assets/images";
 
 export class UserEditing extends React.Component {
@@ -23,7 +23,7 @@ export class UserEditing extends React.Component {
 			isLoadingUser: false,
 			isLoadingUpdateData: false,
 			selectedFile: null,
-			userImage: null
+			userImage: ""
 		};
 	}
 
@@ -330,12 +330,15 @@ export class UserEditing extends React.Component {
 		) : (
 			<div className="wrapper">
 				<div className="news-masthead">
-					<figure
+					<LazyLoad
+						figure
 						className="news-featured-image"
 						style={{
 							backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
-			url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
+				url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
 						}}
+						src={userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}
+						background="darken-light"
 					/>
 				</div>
 				<div className="user-editing-content">
@@ -343,7 +346,7 @@ export class UserEditing extends React.Component {
 						<header className="row">
 							<figure className="column user-heading-wrapper">
 								<div className="user-img-wrapper" onClick={this._triggerFileInput}>
-									<img src={this.state.userImage} alt="User infographic" className="user-thumbnail" />
+									<LazyLoad src={this.state.userImage} alt="User infographic" className="user-thumbnail" />
 									<div className="user-img-overlay">
 										<Camera className="user-img-overlay-icon" />
 									</div>

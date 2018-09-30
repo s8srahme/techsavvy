@@ -16,10 +16,10 @@
 			}
 			@include breakpoint(md) {
 				.column + .column {
+					padding-top: 10rem;
 					margin-left: 0;
 				}
 				.column {
-					padding-top: 10rem;
 					min-height: 100vh;
 				}
 			}
@@ -59,10 +59,14 @@
 					}
 				}
 			}
-			.about-img-wrapper {
-				background-position: center center;
-				background-repeat: no-repeat;
-				background-size: cover;
+			.column {
+				.about-img-wrapper {
+					min-height: 100%;
+					width: 100%;
+					background-position: center center;
+					background-repeat: no-repeat;
+					background-size: cover;
+				}
 			}
 		}
 	}

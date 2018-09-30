@@ -18,12 +18,16 @@
 		width: 3.2rem;
 		height: 3.2rem;
 		border: 0.6rem solid $color-dark-gray;
-		border-top-color: $color-light-gray;
+		border-top-color: transparent;
 		animation: spin 1s infinite linear;
 		&.small {
 			border-width: 0.4rem;
 			width: 2.4rem;
 			height: 2.4rem;
+		}
+		&.inverse {
+			border-color: $color-light-gray;
+			border-top-color: transparent;
 		}
 	}
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MediumEditor from "medium-editor";
-import { Loader } from "components";
+import { Loader, LazyLoad } from "components";
 import { iconPicture, iconEdit, iconMale } from "../../../assets";
 import "../../../../node_modules/medium-editor/dist/css/medium-editor.css";
 import "../../../../node_modules/medium-editor/dist/css/themes/beagle.css";
@@ -17,11 +17,12 @@ export class ArticleEditor extends Component {
 			shouldTitleResize: false,
 			titleHeight: 75,
 			selectedFile: null,
-			featuredImage: null,
+			featuredImage: "",
 			activeTagIndex: 0,
 			errorInputIndex: -1,
 			errorInputMessage: "",
-			isFetchingCreateData: false
+			isFetchingCreateData: false,
+			isLoadingFeaturedImage: true
 		};
 	}
 
@@ -200,7 +201,7 @@ export class ArticleEditor extends Component {
 			// isFetchingCreateData,
 			// onCreateError
 		} = this.props;
-		let { featuredImage, isFetchingCreateData } = this.state,
+		let { featuredImage, isFetchingCreateData, isLoadingFeaturedImage } = this.state,
 			props = {};
 		if (featuredImage) {
 			props = {
@@ -219,25 +220,36 @@ url("${this.state.featuredImage}")`
 		) : (
 			<div className="wrapper">
 				<div className="news-masthead">
-					<figure className="news-featured-image" {...props} />
-					<div className={`news-masthead-overlay ${!this.state.featuredImage && "active"}`}>
-						<div className={`${!this.state.featuredImage && "pull"} news-masthead-img-wrapper`}>
-							<img
-								src={!this.state.featuredImage ? iconPicture : iconEdit}
-								alt="Masthead graphic"
-								className="news-masthead-graphic"
-							/>
+					<LazyLoad
+						figure
+						className="news-featured-image"
+						{...props}
+						src={this.state.featuredImage}
+						background="darken-light"
+						callback={() => {
+							this.setState({ isLoadingFeaturedImage: false });
+						}}
+					/>
+					{!isLoadingFeaturedImage && (
+						<div className={`news-masthead-overlay ${!this.state.featuredImage && "active"}`}>
+							<div className={`${!this.state.featuredImage && "pull"} news-masthead-img-wrapper`}>
+								<img
+									src={!this.state.featuredImage ? iconPicture : iconEdit}
+									alt="Masthead graphic"
+									className="news-masthead-graphic"
+								/>
+							</div>
+							<h4>
+								{!this.state.featuredImage
+									? "Add a high resolution image to your story to capture people’s interest."
+									: "Update existing image of your story."}
+							</h4>
+							<button className="btn inverse" type="button" onClick={this._triggerFileInput}>
+								{!this.state.featuredImage ? "upload image" : "update image"}
+							</button>
+							<input ref={fileInput => (this.fileInput = fileInput)} type="file" onChange={this._handleFileChange} />
 						</div>
-						<h4>
-							{!this.state.featuredImage
-								? "Add a high resolution image to your story to capture people’s interest."
-								: "Update existing image of your story."}
-						</h4>
-						<button className="btn inverse" type="button" onClick={this._triggerFileInput}>
-							{!this.state.featuredImage ? "upload image" : "update image"}
-						</button>
-						<input ref={fileInput => (this.fileInput = fileInput)} type="file" onChange={this._handleFileChange} />
-					</div>
+					)}
 				</div>
 				<section className="news-editor-content">
 					<div className="container">

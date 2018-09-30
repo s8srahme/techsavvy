@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { bgImgCorinneKutz } from "../assets";
+import { LazyLoad } from "../components";
 
 export class AboutScreen extends Component {
 	componentWillMount = () => {
@@ -10,13 +11,18 @@ export class AboutScreen extends Component {
 		<div className="about-content">
 			<div className="container">
 				<section className="row">
-					<figure
-						className="column about-img-wrapper"
-						style={{
-							backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
+					<div className="column">
+						<LazyLoad
+							figure
+							className="about-img-wrapper"
+							style={{
+								backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
 			url("${bgImgCorinneKutz}")`
-						}}
-					/>
+							}}
+							src={bgImgCorinneKutz}
+							background="darken-light"
+						/>
+					</div>
 					<article className="column about-info-wrapper">
 						<div>
 							<h1 className="separator">about techsavvy</h1>

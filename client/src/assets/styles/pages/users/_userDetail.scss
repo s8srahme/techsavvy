@@ -27,7 +27,7 @@
 								text-align: center;
 								text-transform: capitalize;
 								&.separator:after {
-									margin: 1.6rem auto;
+									margin: $gutter-md auto;
 								}
 							}
 							h3 {
@@ -72,7 +72,7 @@
 						border: 3px solid $color-light-gray;
 						background-color: $color-medium-gray;
 						@include box-shadow(all);
-						&:hover > img {
+						&:hover img {
 							transform: scale(1.2);
 						}
 

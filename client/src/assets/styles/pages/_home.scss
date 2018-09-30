@@ -4,11 +4,10 @@
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-size: cover;
-		background-color: $color-light-gray;
 		height: auto;
 		width: 100%;
 		padding-bottom: $gutter-xl;
-		@media (min-height: $breakpoint-md) {
+		@media (min-height: 600px) {
 			height: 100vh;
 			padding-bottom: 0;
 
@@ -129,7 +128,7 @@
 						.work-card-info-wrapper {
 							opacity: 1;
 						}
-						.work-card-img-wrapper > img {
+						.work-card-img-wrapper img {
 							transform: scale(1.2);
 						}
 					}
@@ -511,7 +510,7 @@
 							object-fit: cover;
 						}
 					}
-					&:hover > .client-card-img-wrapper > img {
+					&:hover > .client-card-img-wrapper img {
 						transform: scale(0.8);
 					}
 				}
