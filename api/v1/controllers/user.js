@@ -100,11 +100,11 @@ module.exports = {
 						console.log("Error uploading file");
 						image_url = "http://localhost:5000/" + path;
 					}
-				},
-				{
-					resource_type: "image",
-					effect: "sepia"
 				}
+				// {
+				// 	resource_type: "image",
+				// 	effect: "sepia"
+				// }
 			);
 
 			updateOps.image_url = image_url;

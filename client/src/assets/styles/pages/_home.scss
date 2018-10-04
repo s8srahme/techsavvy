@@ -7,6 +7,10 @@
 		height: auto;
 		width: 100%;
 		padding-bottom: $gutter-xl;
+		padding-top: 10rem;
+		&.shrink {
+			padding-top: 5rem;
+		}
 		@media (min-height: 600px) {
 			height: 100vh;
 			padding-bottom: 0;
@@ -143,19 +147,29 @@
 		.container {
 			padding: $gutter-xxxl 0;
 
-			.newsletter-img-wrapper {
+			.row {
 				flex-direction: column;
 				align-items: center;
 
-				.newsletter-graphic {
-					height: auto;
-					width: 100%;
-					max-width: 150px;
-				}
-				figcaption {
-					text-transform: uppercase;
-					margin: $gutter-xl 0 $gutter-sm;
-					@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1, 2px);
+				figure {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					.newsletter-img-wrapper {
+						height: 150px;
+						width: 150px;
+
+						.newsletter-graphic {
+							height: 100%;
+							width: 100%;
+						}
+					}
+					figcaption {
+						text-transform: uppercase;
+						margin: $gutter-xl 0 $gutter-sm;
+						@include font($font-size-xx-large, $font-weight-regular, $font-style-regular, $color-dark-gray, 1, 2px);
+					}
 				}
 			}
 			form[name="newsletter-form"] {
@@ -281,6 +295,7 @@
 						height: auto;
 						width: 100%;
 						max-width: 250px;
+						margin: 0 auto;
 						@include transition(transform 0.4s ease-in-out 0s);
 						@include breakpoint(md) {
 							max-width: 400px;

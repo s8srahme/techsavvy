@@ -126,6 +126,24 @@ span {
   .header-content.shrink {
     background-color: white;
     box-shadow: 0 5px 5px -5px #a8aaaf; }
+  .header-content .header-status-wrapper {
+    background-color: #ed5565;
+    height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out 0s; }
+    .header-content .header-status-wrapper.offline {
+      padding: 0.4rem 1.2rem;
+      height: auto; }
+      .header-content .header-status-wrapper.offline p {
+        opacity: 1; }
+    .header-content .header-status-wrapper p {
+      opacity: 0;
+      text-align: center;
+      color: #ffffff;
+      line-height: 1.3;
+      letter-spacing: normal; }
   .header-content .header-wrapper {
     position: relative;
     margin: 0 auto;
@@ -441,6 +459,11 @@ html {
   font-size: 62.5%; }
   html body {
     background-color: #131315; }
+    @media (max-width: 600) and (display-mode: standalone) {
+      html body {
+        -webkit-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none; } }
     html body #root fieldset {
       border: 0; }
       html body #root fieldset legend {
@@ -835,14 +858,23 @@ html {
     z-index: 1;
     display: flex;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    transition: all 0.4s ease-in-out 0s; }
+    .lazy-load-wrapper .lazy-load-overlay.push {
+      margin-top: 10rem; }
+      .lazy-load-wrapper .lazy-load-overlay.push.pull {
+        margin-top: 5rem; }
     .lazy-load-wrapper .lazy-load-overlay .lazy-load-thumbnail {
       width: 50%;
       height: 50%;
-      transition: transform 0.4s ease-in-out 0s; }
+      transition: all 0.4s ease-in-out 0s; }
       .lazy-load-wrapper .lazy-load-overlay .lazy-load-thumbnail.full {
         width: 100%;
         height: 100%; }
+      .lazy-load-wrapper .lazy-load-overlay .lazy-load-thumbnail.push {
+        margin-top: 10rem; }
+        .lazy-load-wrapper .lazy-load-overlay .lazy-load-thumbnail.push.pull {
+          margin-top: 5rem; }
   .lazy-load-wrapper > img,
   .lazy-load-wrapper > figure {
     filter: blur(5px);
@@ -870,7 +902,8 @@ html {
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      min-height: 30rem; }
+      min-height: 30rem;
+      transition: all 0.4s ease-in-out 0s; }
       .news-list-wrapper .news-list-header .container.shrink {
         min-height: 25rem; }
       .news-list-wrapper .news-list-header .container.clear {
@@ -928,7 +961,8 @@ html {
   .news-list-wrapper .news-list-content {
     background-color: #f2f2f2;
     min-height: 100vh;
-    padding-top: 30rem; }
+    padding-top: 30rem;
+    transition: all 0.4s ease-in-out 0s; }
     .news-list-wrapper .news-list-content.clear {
       display: flex;
       align-items: center;
@@ -938,6 +972,11 @@ html {
       padding-top: 25rem; }
     .news-list-wrapper .news-list-content.fixed {
       padding-top: 22rem !important; }
+    .news-list-wrapper .news-list-content.pull {
+      padding-top: 14.35rem !important; }
+      @media (max-width: 319px) {
+        .news-list-wrapper .news-list-content.pull {
+          padding-top: 16.75rem !important; } }
     @media (min-width: 768px) {
       .news-list-wrapper .news-list-content {
         padding-top: 27rem; }
@@ -1118,9 +1157,11 @@ html {
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition: opacity 0.4s ease-in-out 0s; }
+    transition: all 0.4s ease-in-out 0s; }
     .wrapper .news-masthead .news-masthead-overlay:hover, .wrapper .news-masthead .news-masthead-overlay.active {
       opacity: 1; }
+    .wrapper .news-masthead .news-masthead-overlay.shrink {
+      padding-top: 5rem; }
     .wrapper .news-masthead .news-masthead-overlay .news-masthead-img-wrapper {
       padding: 1.2rem; }
       .wrapper .news-masthead .news-masthead-overlay .news-masthead-img-wrapper.pull {
@@ -1249,13 +1290,12 @@ html {
         margin-bottom: 0; }
 
 .news-editor-content {
-  background-color: #f2f2f2; }
+  background-color: #ffffff; }
   .news-editor-content .container {
     max-width: 768px;
-    padding: 6.4rem 0;
-    background-color: #ffffff; }
+    padding: 6.4rem 0; }
     .news-editor-content .container .row {
-      padding: 0 1.6rem; }
+      padding: 0 !important; }
       .news-editor-content .container .row .news-editor-heading-wrapper {
         display: flex;
         flex-direction: row;
@@ -1862,7 +1902,10 @@ html {
   background-size: cover;
   height: auto;
   width: 100%;
-  padding-bottom: 3.2rem; }
+  padding-bottom: 3.2rem;
+  padding-top: 10rem; }
+  .wrapper .landing-content.shrink {
+    padding-top: 5rem; }
   @media (min-height: 600px) {
     .wrapper .landing-content {
       height: 100vh;
@@ -1954,23 +1997,29 @@ html {
   background-color: #ffffff; }
   .wrapper .newsletter-content .container {
     padding: 6.4rem 0; }
-    .wrapper .newsletter-content .container .newsletter-img-wrapper {
+    .wrapper .newsletter-content .container .row {
       flex-direction: column;
       align-items: center; }
-      .wrapper .newsletter-content .container .newsletter-img-wrapper .newsletter-graphic {
-        height: auto;
-        width: 100%;
-        max-width: 150px; }
-      .wrapper .newsletter-content .container .newsletter-img-wrapper figcaption {
-        text-transform: uppercase;
-        margin: 3.2rem 0 1.2rem;
-        font-family: "Dosis", "Trebuchet MS", Helvetica, sans-serif;
-        font-size: 4.8rem;
-        font-weight: 400;
-        font-style: normal;
-        color: #131315;
-        line-height: 1;
-        letter-spacing: 2px; }
+      .wrapper .newsletter-content .container .row figure {
+        display: flex;
+        flex-direction: column;
+        align-items: center; }
+        .wrapper .newsletter-content .container .row figure .newsletter-img-wrapper {
+          height: 150px;
+          width: 150px; }
+          .wrapper .newsletter-content .container .row figure .newsletter-img-wrapper .newsletter-graphic {
+            height: 100%;
+            width: 100%; }
+        .wrapper .newsletter-content .container .row figure figcaption {
+          text-transform: uppercase;
+          margin: 3.2rem 0 1.2rem;
+          font-family: "Dosis", "Trebuchet MS", Helvetica, sans-serif;
+          font-size: 4.8rem;
+          font-weight: 400;
+          font-style: normal;
+          color: #131315;
+          line-height: 1;
+          letter-spacing: 2px; }
     .wrapper .newsletter-content .container form[name="newsletter-form"] {
       display: flex;
       justify-content: center;
@@ -2056,6 +2105,7 @@ html {
         height: auto;
         width: 100%;
         max-width: 250px;
+        margin: 0 auto;
         transition: transform 0.4s ease-in-out 0s; }
         @media (min-width: 768px) {
           .wrapper .extended-feature-content .container .row .extended-feature-img-wrapper .extended-feature-graphic {
@@ -2274,6 +2324,8 @@ html {
         .about-content .container .row .column + .column {
           padding-top: 10rem;
           margin-left: 0; }
+          .about-content .container .row .column + .column.shrink {
+            padding-top: 5rem; }
         .about-content .container .row .column {
           min-height: 100vh; } }
       .about-content .container .row .about-info-wrapper {
@@ -2302,12 +2354,14 @@ html {
               margin-bottom: 1.6rem; }
             .about-content .container .row .about-info-wrapper div p b {
               font-weight: 700; }
-      .about-content .container .row .column .about-img-wrapper {
-        min-height: 100%;
-        width: 100%;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover; }
+      .about-content .container .row .column {
+        transition: all 0.4s ease-in-out 0s; }
+        .about-content .container .row .column .about-img-wrapper {
+          min-height: 100%;
+          width: 100%;
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: cover; }
 
 .contact-content {
   background-color: #f2f2f2; }

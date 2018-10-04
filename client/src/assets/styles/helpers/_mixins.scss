@@ -1,5 +1,6 @@
 @mixin font($size: false, $weight: false, $style: false, $color: false, $lh: false, $ls: false) {
 	font-family: $font-family-dosis;
+	// font-display: fallback;
 	@if $size {
 		font-size: $size;
 	}

@@ -6,11 +6,12 @@ import {
 	iconAnalytics,
 	iconGallery,
 	iconPencil,
-	iconScience,
+	iconApplication,
 	iconTimeManagement,
 	iconResponsive,
 	iconSearch,
-	iconPostbox
+	iconPostbox,
+	iconPictureDark
 } from "../assets";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
 import { Loader, LazyLoad } from "../components";
@@ -26,7 +27,7 @@ const socials = [
 	],
 	team = [
 		{
-			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3bb.jpg",
+			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
 			title: "John Doe",
 			subtitle: "project manager",
 			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
@@ -135,7 +136,7 @@ const socials = [
 		},
 		{
 			name: Users,
-			icon: iconScience,
+			icon: iconApplication,
 			title: "Progressive Web App",
 			description:
 				"Our app comes with PWA features to bring the best of mobile sites and native apps to users. It is reliable, fast, and engaging. It originates from a secure origin and loads regardless of network state."
@@ -274,11 +275,10 @@ export default class HomeScreen extends Component {
 	_renderLandingContent = () => (
 		<LazyLoad
 			figure
-			className="landing-content"
+			className={`landing-content ${this.state.offsetTop < 0 ? "shrink" : ""}`}
 			style={{
 				backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
-							url(${bgImgJeshootsCom})`,
-				paddingTop: `${this.state.offsetTop < 0 ? "5rem" : "10rem"}`
+							url(${bgImgJeshootsCom})`
 			}}
 			src={bgImgJeshootsCom}
 			background="dark"
@@ -298,18 +298,30 @@ export default class HomeScreen extends Component {
 
 	_handleFormSubmit = event => {
 		event.preventDefault();
-		const { newsletterEmail } = this.state;
+		// const { newsletterEmail } = this.state;
 
-		this.setState({ isNewsletterLoading: true }, () => console.log(newsletterEmail));
+		this.setState(
+			{ isNewsletterLoading: true }
+			// , () => console.log(newsletterEmail)
+		);
 	};
 
 	_renderNewsletterContent = socials => (
 		<div className="newsletter-content">
 			<section className="container">
-				<figure className="row newsletter-img-wrapper">
-					<img src={iconPostbox} alt="Newsletter infographic" className="newsletter-graphic" />
-					<figcaption>Subscribe</figcaption>
-				</figure>
+				<div className="row">
+					<figure>
+						<LazyLoad
+							src={iconPostbox}
+							alt="Newsletter infographic"
+							className="newsletter-graphic"
+							wrapperClassName="newsletter-img-wrapper"
+							background="light"
+							defaultImage={iconPictureDark}
+						/>
+						<figcaption>Subscribe</figcaption>
+					</figure>
+				</div>
 				<form
 					name="newsletter-form"
 					// id="newsletter-form"
@@ -347,7 +359,12 @@ export default class HomeScreen extends Component {
 				<div className="container">
 					<section className="row">
 						<figure className="column extended-feature-img-wrapper">
-							<img src={item.icon} alt="Extended feature infographic" className="extended-feature-graphic" />
+							<LazyLoad
+								src={item.icon}
+								alt="Extended feature infographic"
+								className="extended-feature-graphic"
+								background={index % 2 !== 0 ? "light" : "darken-light"}
+							/>
 						</figure>
 						<article className="column extended-feature-info-wrapper">
 							<h1>{item.title}</h1>
@@ -472,7 +489,12 @@ export default class HomeScreen extends Component {
 					{cols.map((col, colKey) => (
 						<figure key={colKey} className="column work-card">
 							<div className="work-card-img-wrapper">
-								<LazyLoad src={col.thumbnail} alt="Card infographic" className="work-thumbnail" />
+								<LazyLoad
+									src={col.thumbnail}
+									alt="Card infographic"
+									className="work-thumbnail"
+									background="darken-light"
+								/>
 							</div>
 							<figcaption className="work-card-info-wrapper">
 								<h4>{col.category}</h4>
@@ -548,10 +570,16 @@ export default class HomeScreen extends Component {
 						// const Icon = col["name"];
 						return (
 							<figure key={colKey} className="column feature-card">
-								<span className="feature-icon-wrapper">
-									{/* <Icon className="feature-icon" /> */}
-									<img src={col.icon} alt="Feature infographic" className="feature-icon" />
-								</span>
+								{/* <span className="feature-icon-wrapper"> */}
+								{/* <Icon className="feature-icon" /> */}
+								<LazyLoad
+									src={col.icon}
+									alt="Feature infographic"
+									className="feature-icon"
+									wrapperClassName="feature-icon-wrapper"
+									background="light"
+								/>
+								{/* </span> */}
 								<figcaption className="feature-card-info-wrapper">
 									<h3>{col.title}</h3>
 									<p>{col.description}</p>

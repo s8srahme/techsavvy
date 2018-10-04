@@ -24,7 +24,8 @@ export class ArticleForm extends Component {
 			errorInputIndex: -1,
 			errorInputMessage: "",
 			isFetchingUpdateData: false,
-			isFetchingArticle: true
+			isFetchingArticle: true,
+			offsetTop: 0
 		};
 	}
 
@@ -36,6 +37,18 @@ export class ArticleForm extends Component {
 	// componentWillUnmount = () => {
 	// 	editor.unsubscribe("editableInput", this._handleEditableInput);
 	// };
+
+	_handleScroll = e => {
+		this.setState({ offsetTop: window.pageYOffset });
+	};
+
+	componentDidMount = () => {
+		window.addEventListener("scroll", this._handleScroll);
+	};
+
+	componentWillUnmount = () => {
+		window.removeEventListener("scroll", this._handleScroll);
+	};
 
 	componentWillReceiveProps = async nextProps => {
 		if (this.props !== nextProps) {
@@ -293,9 +306,14 @@ url("${this.state.featuredImage}")`
 						callback={() => {
 							this.setState({ isLoadingFeaturedImage: false });
 						}}
+						overlayClassName={`push ${this.state.offsetTop > 0 ? "pull" : ""}`}
 					/>
 					{!isLoadingFeaturedImage && (
-						<div className={`news-masthead-overlay ${!this.state.featuredImage && "active"}`}>
+						<div
+							className={`news-masthead-overlay ${!this.state.featuredImage && "active"} ${
+								this.state.offsetTop > 0 ? "shrink" : ""
+							}`}
+						>
 							<div className={`${!this.state.featuredImage && "pull"} news-masthead-img-wrapper`}>
 								<img
 									src={!this.state.featuredImage ? iconPicture : iconEdit}

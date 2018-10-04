@@ -278,7 +278,9 @@ export class ArticleList extends Component {
 			<div
 				className={`news-list-content ${this.state.offsetTop > 0 ? "shrink" : ""} ${
 					articles.length > 0 ? "" : "clear"
-				} ${hasHeaderButton && hasHeaderTabs ? "" : "fixed"}`}
+				} ${hasHeaderButton && hasHeaderTabs ? "" : "fixed"} ${
+					!hasHeaderButton && !hasHeaderTabs && articles.length === 0 ? "pull" : ""
+				}`}
 			>
 				<div className="container">
 					{activeTabIndex === 1 && !this.props.isFetchingAllArticles && this.props.isFetchingUserArticles ? (

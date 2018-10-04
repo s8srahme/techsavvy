@@ -22,10 +22,22 @@ export class ArticleEditor extends Component {
 			errorInputIndex: -1,
 			errorInputMessage: "",
 			isFetchingCreateData: false,
-			isLoadingFeaturedImage: true
+			isLoadingFeaturedImage: true,
+			offsetTop: 0
 		};
 	}
 
+	_handleScroll = e => {
+		this.setState({ offsetTop: window.pageYOffset });
+	};
+
+	componentDidMount = () => {
+		window.addEventListener("scroll", this._handleScroll);
+	};
+
+	componentWillUnmount = () => {
+		window.removeEventListener("scroll", this._handleScroll);
+	};
 	// componentDidMount = () => {
 	// 	const editor = this._createEditorInstance();
 	// 	editor.subscribe("editableInput", this._handleEditableInput);
@@ -229,9 +241,14 @@ url("${this.state.featuredImage}")`
 						callback={() => {
 							this.setState({ isLoadingFeaturedImage: false });
 						}}
+						overlayClassName={`push ${this.state.offsetTop > 0 ? "pull" : ""}`}
 					/>
 					{!isLoadingFeaturedImage && (
-						<div className={`news-masthead-overlay ${!this.state.featuredImage && "active"}`}>
+						<div
+							className={`news-masthead-overlay ${!this.state.featuredImage && "active"} ${
+								this.state.offsetTop > 0 ? "shrink" : ""
+							}`}
+						>
 							<div className={`${!this.state.featuredImage && "pull"} news-masthead-img-wrapper`}>
 								<img
 									src={!this.state.featuredImage ? iconPicture : iconEdit}

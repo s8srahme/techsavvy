@@ -5,14 +5,20 @@ import { connect } from "react-redux";
 import actions from "redux/actions";
 import { _renderRoutes } from "./config";
 import { Header, Footer, Loader } from "components";
+import GA from "./utils";
 
 class App extends Component {
 	state = {
-		isLoading: true
+		isLoading: true,
+		isOnline: true
 	};
 
 	componentDidMount = () => {
+		this._updateOnlineStatus();
 		this.setState({ isLoading: false });
+
+		window.addEventListener("online", this._updateOnlineStatus);
+		window.addEventListener("offline", this._updateOnlineStatus);
 	};
 
 	componentWillMount = () => {
@@ -22,8 +28,17 @@ class App extends Component {
 		}
 	};
 
+	componentWillUnmount = () => {
+		window.removeEventListener("online");
+		window.removeEventListener("offline");
+	};
+
+	_updateOnlineStatus = event => {
+		this.setState({ isOnline: navigator.onLine });
+	};
+
 	render = () => {
-		const { isLoading } = this.state;
+		const { isLoading, isOnline } = this.state;
 		const { user, logout, handleClear, isLoadingUser, isLoadingLogout } = this.props;
 
 		if (isLoading) {
@@ -44,7 +59,9 @@ class App extends Component {
 						user={user}
 						onLogout={logout}
 						onClear={handleClear}
+						isOnline={isOnline}
 					/>
+					{GA.init() && <GA.TrackerRoute />}
 					{_renderRoutes()}
 					<Footer />
 				</main>

@@ -194,13 +194,17 @@ class Header extends Component {
 			// }
 		];
 		// console.log(location.pathname);
-		const { user = {}, isLoadingUser } = this.props;
+		const { user = {}, isLoadingUser, isOnline } = this.props;
 
 		return (
 			<div
-				className={`header-content ${this.state.offsetTop > 0 ? "shrink" : ""} ${location.pathname === "/" &&
-					"transparent"}`}
+				className={`header-content ${this.state.offsetTop > 0 ? "shrink" : ""}${
+					location.pathname === "/" ? " transparent" : ""
+				}`}
 			>
+				<div className={`header-status-wrapper ${isOnline ? "" : "offline"}`}>
+					<p>No internet connection found. App is running in offline mode.</p>
+				</div>
 				<header className={`header-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
 					<figure className={`header-logo-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
 						<div className="header-icon-wrapper">

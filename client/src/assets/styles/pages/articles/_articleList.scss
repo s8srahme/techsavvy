@@ -16,6 +16,7 @@
 			flex-direction: column;
 			justify-content: flex-end;
 			min-height: 30rem;
+			@include transition(all 0.4s ease-in-out 0s);
 			&.shrink {
 				min-height: 25rem;
 			}
@@ -93,6 +94,7 @@
 		background-color: darken($color-light-gray, 5%);
 		min-height: 100vh;
 		padding-top: 30rem;
+		@include transition(all 0.4s ease-in-out 0s);
 		&.clear {
 			display: flex;
 			align-items: center;
@@ -104,6 +106,12 @@
 		}
 		&.fixed {
 			padding-top: 22rem !important;
+		}
+		&.pull {
+			padding-top: 22rem - 7.65rem !important;
+			@include breakpoint(0, $breakpoint-xs) {
+				padding-top: 22rem - 5.25rem !important;
+			}
 		}
 		@include breakpoint(md) {
 			padding-top: 27rem;

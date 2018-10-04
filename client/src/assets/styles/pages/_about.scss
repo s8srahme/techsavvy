@@ -18,6 +18,9 @@
 				.column + .column {
 					padding-top: 10rem;
 					margin-left: 0;
+					&.shrink {
+						padding-top: 5rem;
+					}
 				}
 				.column {
 					min-height: 100vh;
@@ -60,6 +63,8 @@
 				}
 			}
 			.column {
+				@include transition(all 0.4s ease-in-out 0s);
+
 				.about-img-wrapper {
 					min-height: 100%;
 					width: 100%;

@@ -1,6 +1,7 @@
 import axios from "axios";
 import http from "http";
 import https from "https";
+import GA from "./GoogleAnalytics";
 
 export const extractId = str => {
 	let params = str.split("-");
@@ -134,3 +135,5 @@ export const ellipsizeTextBox = (id, text, hasExpanded) => {
 		el.innerHTML = wordArray.join(" ") + "...";
 	}
 };
+
+export default GA;

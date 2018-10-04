@@ -1,0 +1,31 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+}
+html body {
+	background-color: #131315;
+}
+html body #noscript-wrapper {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #f2f2f2;
+}
+html body #noscript-wrapper p {
+	text-align: center;
+	font-family: "Dosis", "Trebuchet MS", Helvetica, sans-serif;
+	font-display: fallback;
+	font-size: 1.6rem;
+	font-weight: 400;
+	font-style: normal;
+	color: #131315;
+	line-height: 1.5;
+	letter-spacing: 2px;
+}

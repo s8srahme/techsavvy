@@ -9,10 +9,25 @@ html {
 
 	body {
 		background-color: $color-dark-gray;
+		// @media (display-mode: standalone) {
+		// 	/* All installed PWAs */
+		// }
+		@media (max-width: 600) and (display-mode: standalone) {
+			-webkit-user-select: none;
+			-webkit-tap-highlight-color: transparent;
+			-webkit-touch-callout: none;
+			// @supports (-webkit-overflow-scrolling: touch) {
+			// 	/* Installed PWAs on mobile Apple devices */
+			// }
+			// @supports not (-webkit-overflow-scrolling: touch) {
+			// 	/* Installed PWAs on mobile non-Apple devices */
+			// }
+		}
 
 		#root {
 			fieldset {
 				border: 0;
+
 				legend {
 					display: table;
 				}

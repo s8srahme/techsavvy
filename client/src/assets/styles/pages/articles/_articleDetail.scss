@@ -48,12 +48,15 @@
 			justify-content: center;
 			align-items: center;
 			opacity: 0;
-			@include transition(opacity 0.4s ease-in-out 0s);
-
+			@include transition(all 0.4s ease-in-out 0s);
 			&:hover,
 			&.active {
 				opacity: 1;
 			}
+			&.shrink {
+				padding-top: 5rem;
+			}
+
 			.news-masthead-img-wrapper {
 				padding: $gutter-sm;
 				&.pull {

@@ -1,8 +1,18 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import ReactGA from "react-ga";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Heart } from "react-feather";
 
 export class Footer extends Component {
+	_handleClick = (event, index) => {
+		event.preventDefault();
+		ReactGA.event({
+			category: "Social",
+			action: "Rated an App",
+			value: index
+		});
+	};
+
 	render = () => {
 		const socials = [
 				{ name: Twitter, href: "" },
@@ -46,7 +56,10 @@ export class Footer extends Component {
 								and life learning.
 							</p>
 							<span>
-								&copy; 2018 Made with<Heart className="footer-icon" />by<b>NanoSoldierSeven</b>
+								&copy; 2018 Made with
+								<Heart className="footer-icon" />
+								by
+								<b>NanoSoldierSeven</b>
 							</span>
 						</article>
 						<article className="column _20">
@@ -64,7 +77,7 @@ export class Footer extends Component {
 								{socials.map((social, index) => {
 									const Icon = social["name"];
 									return (
-										<a key={index} className="footer-social">
+										<a key={index} className="footer-social" onClick={event => this._handleClick(event, index)}>
 											<Icon className="footer-icon" />
 										</a>
 									);

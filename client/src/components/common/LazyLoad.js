@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Loader } from "components";
-import { iconPictureLight } from "assets";
+import { iconPictureLight, iconPictureDark } from "assets";
 
 class LazyLoad extends React.Component {
 	static propTypes = {
 		src: PropTypes.string,
 		className: PropTypes.string,
+		wrapperClassName: PropTypes.string,
+		overlayClassName: PropTypes.string,
 		alt: PropTypes.string,
 		background: PropTypes.string,
 		figure: PropTypes.bool,
@@ -32,28 +34,46 @@ class LazyLoad extends React.Component {
 	_handleLoad = () => this.setState({ loaded: true }, this.props.callback);
 
 	render = () => {
-		const { src, alt, className = "", background = "", figure, style = null, defaultImage, children } = this.props;
+		const {
+			src,
+			alt,
+			className = "",
+			wrapperClassName = "",
+			overlayClassName = "",
+			background = "",
+			figure,
+			style = null,
+			defaultImage,
+			children
+		} = this.props;
 		const { loaded, errored } = this.state;
 
 		if (errored || this.props.errored) {
 			return (
-				<div className={`lazy-load-wrapper ${background}`}>
-					<div className="lazy-load-overlay">
-						{!figure && (
-							<img
-								src={defaultImage || iconPictureLight}
-								alt={alt}
-								className={`lazy-load-thumbnail ${defaultImage ? "full" : ""}`}
-							/>
-						)}
-					</div>
+				<div className={`lazy-load-wrapper ${background} ${wrapperClassName}`}>
+					{figure && children ? (
+						<figure className={`${className} show`}>{children}</figure>
+					) : (
+						src && (
+							<div className="lazy-load-overlay">
+								<img
+									src={
+										defaultImage ||
+										(background === "light" || background === "darken-light" ? iconPictureDark : iconPictureLight)
+									}
+									alt={alt}
+									className={`lazy-load-thumbnail ${defaultImage ? "full" : ""} ${overlayClassName}`}
+								/>
+							</div>
+						)
+					)}
 				</div>
 			);
 		}
 		return (
-			<div className={`lazy-load-wrapper ${background}`}>
+			<div className={`lazy-load-wrapper ${background} ${wrapperClassName}`}>
 				{!loaded && (
-					<div className="lazy-load-overlay">
+					<div className={`lazy-load-overlay ${overlayClassName}`}>
 						<Loader small shouldClearButton inverse={background === "" || background === "dark" ? true : false} />
 					</div>
 				)}

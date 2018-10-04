@@ -10,9 +10,22 @@ export class ArticleDetail extends Component {
 		super(props);
 		this.state = {
 			isDropdownActive: false,
-			isFetchingArticle: true
+			isFetchingArticle: true,
+			offsetTop: 0
 		};
 	}
+
+	_handleScroll = e => {
+		this.setState({ offsetTop: window.pageYOffset });
+	};
+
+	componentDidMount = () => {
+		window.addEventListener("scroll", this._handleScroll);
+	};
+
+	componentWillUnmount = () => {
+		window.removeEventListener("scroll", this._handleScroll);
+	};
 
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
@@ -85,6 +98,7 @@ export class ArticleDetail extends Component {
 								backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
 			url("${articleData.featured_image_url}")`
 							}}
+							overlayClassName={`push ${this.state.offsetTop > 0 ? "pull" : ""}`}
 							src={articleData.featured_image_url}
 							background="darken-light"
 						/>
