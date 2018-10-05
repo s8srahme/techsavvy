@@ -1,5 +1,6 @@
 import React from "react";
 import { NotFound } from "./NotFound";
+import GA from "utils";
 
 export class ErrorBoundary extends React.Component {
 	constructor(props) {
@@ -8,10 +9,9 @@ export class ErrorBoundary extends React.Component {
 	}
 
 	componentDidCatch = (error, info) => {
-		this.setState(
-			{ hasError: true, error, info }
-			// , () => console.log(this.state)
-		);
+		this.setState({ hasError: true, error, info }, () => {
+			GA.trackException(error);
+		});
 	};
 
 	render = () => {

@@ -57,8 +57,29 @@ const init = (options = {}) => {
 	return false;
 };
 
+const trackEvent = index => {
+	if (process.env.NODE_ENV === "production") {
+		ReactGA.event({
+			category: "Social",
+			action: "Rated an App",
+			value: index
+		});
+	}
+};
+
+const trackException = error => {
+	if (process.env.NODE_ENV === "production") {
+		ReactGA.exception({
+			description: error,
+			fatal: true
+		});
+	}
+};
+
 export default {
 	GoogleAnalytics,
 	TrackerRoute,
-	init
+	init,
+	trackEvent,
+	trackException
 };

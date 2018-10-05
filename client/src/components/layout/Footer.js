@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import ReactGA from "react-ga";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Heart } from "react-feather";
+import GA from "utils";
 
 export class Footer extends Component {
 	_handleClick = (event, index) => {
 		event.preventDefault();
-		ReactGA.event({
-			category: "Social",
-			action: "Rated an App",
-			value: index
-		});
+		GA.trackEvent(index);
 	};
 
 	render = () => {
