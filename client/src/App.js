@@ -4,18 +4,22 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "redux/actions";
 import { _renderRoutes } from "./config";
-import { Header, Footer, Loader } from "components";
+import {
+	Header,
+	Footer
+	// , Loader
+} from "components";
 import GA from "./utils";
 
 class App extends Component {
 	state = {
-		isLoading: true,
+		// isLoading: true,
 		isOnline: true
 	};
 
 	componentDidMount = () => {
 		this._updateOnlineStatus();
-		this.setState({ isLoading: false });
+		// this.setState({ isLoading: false });
 
 		window.addEventListener("online", this._updateOnlineStatus);
 		window.addEventListener("offline", this._updateOnlineStatus);
@@ -38,18 +42,21 @@ class App extends Component {
 	};
 
 	render = () => {
-		const { isLoading, isOnline } = this.state;
+		const {
+			// isLoading,
+			isOnline
+		} = this.state;
 		const { user, logout, handleClear, isLoadingUser, isLoadingLogout } = this.props;
 
-		if (isLoading) {
-			return (
-				<div className="wrapper">
-					<div className="news-loader-content pull">
-						<Loader />
-					</div>
-				</div>
-			);
-		}
+		// if (isLoading) {
+		// 	return (
+		// 		<div className="wrapper">
+		// 			<div className="news-loader-content pull">
+		// 				<Loader />
+		// 			</div>
+		// 		</div>
+		// 	);
+		// }
 		return (
 			<BrowserRouter>
 				<main>
