@@ -6,6 +6,7 @@ import { ArticleList } from "../../components";
 class ArticleListScreen extends Component {
 	constructor(props) {
 		super(props);
+		this.mounted = false;
 		this.state = {
 			isFetchingMoreArticles: false,
 			isFetchingMoreUserArticles: false,
@@ -26,7 +27,9 @@ class ArticleListScreen extends Component {
 	};
 
 	componentWillMount = () => {
-		const { isFetchingArticles, isFetchingUserArticles, limit } = this.props;
+		this.mounted = true;
+		const { isFetchingArticles, isFetchingUserArticles, limit, hasHeaderButton, hasHeaderTabs } = this.props;
+
 		if (!isFetchingArticles && !isFetchingUserArticles) {
 			window.scrollTo(0, 0);
 			let promisesToMake = [
@@ -34,19 +37,25 @@ class ArticleListScreen extends Component {
 					const res = await this.props.fetchAll(this.state.seed, this.state.page, limit || this.state.limit);
 					return res;
 				}),
-				this._makeAsyncOperation(async () => {
-					const res = await this._handleFetchUserArticles();
-					return res;
-				})
+				...(hasHeaderButton && hasHeaderTabs
+					? this._makeAsyncOperation(async () => {
+							const res = await this._handleFetchUserArticles();
+							return res;
+					  })
+					: [])
 			];
-
-			this.setState({ isFetchingAllArticles: true }, () => {
-				let promises = Promise.all(promisesToMake);
-				promises.then(results => {
-					this.setState({ isFetchingAllArticles: false });
+			this.mounted &&
+				this.setState({ isFetchingAllArticles: true }, () => {
+					let promises = Promise.all(promisesToMake);
+					promises.then(results => {
+						this.mounted && this.setState({ isFetchingAllArticles: false });
+					});
 				});
-			});
 		}
+	};
+
+	componentWillUnmount = () => {
+		this.mounted = false;
 	};
 
 	_handleFetchUserArticles = async () => {
@@ -62,10 +71,16 @@ class ArticleListScreen extends Component {
 	};
 
 	componentWillReceiveProps = nextProps => {
-		if (this.state.isFetchingMoreArticles && this.props.isFetchingMoreArticles && !nextProps.isFetchingMoreArticles) {
+		if (
+			this.mounted &&
+			this.state.isFetchingMoreArticles &&
+			this.props.isFetchingMoreArticles &&
+			!nextProps.isFetchingMoreArticles
+		) {
 			this.setState({ isFetchingMoreArticles: false });
 		}
 		if (
+			this.mounted &&
 			this.state.isFetchingMoreUserArticles &&
 			this.props.isFetchingMoreUserArticles &&
 			!nextProps.isFetchingMoreUserArticles

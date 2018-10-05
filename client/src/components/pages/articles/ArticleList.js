@@ -9,13 +9,15 @@ import { Loader, LazyLoad } from "../..";
 export class ArticleList extends Component {
 	constructor(props) {
 		super(props);
+		this.mounted = false;
 		this.state = {
 			activeTabIndex: 0,
 			windowHeight: window.innerHeight,
 			windowWidth: window.innerWidth,
 			isFetchingArticles: false,
 			offsetTop: 0,
-			hasExpandedCard: false
+			hasExpandedCard: false,
+			hasHandledEllipsis: false
 		};
 		this.listRef = React.createRef();
 	}
@@ -73,7 +75,6 @@ export class ArticleList extends Component {
 
 		articles = Object.keys(articles).length && articles.data ? articles.data.articles : [];
 		articles = articles.slice(0);
-
 		// let newArticles = [];
 		// for (let index = 0; index < articles.length; index = index + 3) {
 		// 	let cols = articles.slice(index, index + 3);
@@ -88,28 +89,34 @@ export class ArticleList extends Component {
 				this.state.hasExpandedCard
 			);
 		}
+
+		this.mounted && this.setState({ hasHandledEllipsis: true });
 	};
 
 	_handleResize = e => {
-		this.setState((previousState, currentProps) => {
-			return {
-				windowHeight: window.innerHeight,
-				windowWidth: window.innerWidth,
-				hasExpandedCard: previousState.windowWidth < window.innerWidth
-			};
-		}, this._handleEllipsis);
+		this.mounted &&
+			this.setState((previousState, currentProps) => {
+				return {
+					windowHeight: window.innerHeight,
+					windowWidth: window.innerWidth,
+					hasExpandedCard: previousState.windowWidth < window.innerWidth
+				};
+			}, this._handleEllipsis);
 	};
 
 	_handleScroll = e => {
-		this.setState({ offsetTop: window.pageYOffset });
+		this.mounted && this.setState({ offsetTop: window.pageYOffset });
 	};
 
 	componentDidMount = () => {
+		this.mounted = true;
 		window.addEventListener("resize", this._handleResize);
 		window.addEventListener("scroll", this._handleScroll);
 	};
 
 	componentWillUnmount = () => {
+		this.mounted = false;
+		if (!this.state.hasHandledEllipsis) clearTimeout(this._handleEllipsis);
 		window.removeEventListener("resize", this._handleResize);
 		window.removeEventListener("scroll", this._handleScroll);
 	};
