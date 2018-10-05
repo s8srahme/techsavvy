@@ -123,6 +123,6 @@ branch("./")
 	})
 	.then(startServer)
 	.catch(error => {
-		console.log(error);
+		console.log(error.message);
 		startServer();
 	});
