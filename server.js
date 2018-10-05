@@ -104,25 +104,26 @@ const startServer = () => {
 	});
 };
 
-branch("./")
-	.then(name => {
-		console.log("Switched to branch " + name);
-		if (name === "master" && fs.existsSync(".env.production")) {
-			console.log("Detected production environment");
-			let { parsed, error } = dotenv.config({ path: ".env.production" });
-			if (error) {
-				throw error;
-			}
-		} else if (name === "develop" && fs.existsSync(".env.development")) {
-			console.log("Detected development environment");
-			let { parsed, error } = dotenv.config({ path: ".env.development" });
-			if (error) {
-				throw error;
-			}
+try {
+	let name = branch.sync();
+	console.log("Switched to branch " + name);
+
+	if (name === "master" && fs.existsSync(".env.production")) {
+		console.log("Detected production environment");
+		let { parsed, error } = dotenv.config({ path: ".env.production" });
+		if (error) {
+			throw error;
 		}
-	})
-	.then(startServer)
-	.catch(error => {
-		console.log(error.message);
-		startServer();
-	});
+	} else if (name === "develop" && fs.existsSync(".env.development")) {
+		console.log("Detected development environment");
+		let { parsed, error } = dotenv.config({ path: ".env.development" });
+		if (error) {
+			throw error;
+		}
+	}
+
+	startServer();
+} catch (error) {
+	console.log(error.message);
+	startServer();
+}
