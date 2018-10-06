@@ -1,6 +1,6 @@
 {
 	"short_name": "Techsavvy",
-	"name": "Techsavvy",
+	"name": "TECHSAVVY",
 	"icons": [
 		{
 			"src": "images/icon-512.png",
@@ -13,7 +13,7 @@
 			"type": "image/png"
 		}
 	],
-	"start_url": "./index.html",
+	"start_url": "/",
 	"display": "standalone",
 	"theme_color": "#131315",
 	"background_color": "#ffffff"
