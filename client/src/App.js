@@ -10,6 +10,7 @@ import {
 	// , Loader
 } from "components";
 import GA from "./utils";
+import AppProvider from "./AppProvider";
 
 class App extends Component {
 	state = {
@@ -60,14 +61,16 @@ class App extends Component {
 		return (
 			<BrowserRouter>
 				<main>
-					<Header
-						isLoadingUser={isLoadingUser}
-						isLoadingLogout={isLoadingLogout}
-						user={user}
-						onLogout={logout}
-						onClear={handleClear}
-						isOnline={isOnline}
-					/>
+					<AppProvider>
+						<Header
+							isLoadingUser={isLoadingUser}
+							isLoadingLogout={isLoadingLogout}
+							user={user}
+							onLogout={logout}
+							onClear={handleClear}
+							isOnline={isOnline}
+						/>
+					</AppProvider>
 					{GA.init() && <GA.TrackerRoute />}
 					{_renderRoutes()}
 					<Footer />

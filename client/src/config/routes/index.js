@@ -5,6 +5,7 @@ import { NotFoundScreen, HomeScreen, AboutScreen, ContactScreen, LicenseScreen }
 import { ErrorBoundary } from "components";
 import Articles from "./articleRoutes";
 import Users from "./userRoutes";
+import AppProvider from "../../AppProvider";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route
@@ -21,6 +22,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 	/>
 );
 
+const ContextRoute = ({ contextComponent, component, ...rest }) => {
+	const Provider = contextComponent,
+		Component = component;
+	return (
+		<Route
+			{...rest}
+			render={props => (
+				<Provider>
+					<Component {...props} />
+				</Provider>
+			)}
+		/>
+	);
+};
+
 export const _renderRoutes = () => (
 	<Route
 		render={({ location, history }) => (
@@ -31,7 +47,7 @@ export const _renderRoutes = () => (
 						// location={location}
 						>
 							<Route exact path="/" component={HomeScreen} />
-							<Route exact path="/about" component={AboutScreen} />
+							<ContextRoute exact path="/about" contextComponent={AppProvider} component={AboutScreen} />
 							<Route exact path="/contact" component={ContactScreen} />
 							<Route exact path="/license" component={LicenseScreen} />
 							<PrivateRoute path="/blog" component={Articles} />

@@ -11,7 +11,7 @@ import {
 export default ({ match }) => (
 	<Switch>
 		<Route exact path={match.url} component={ArticleListScreen} />
-		<Route exact path={`${match.url}/new-story`} component={ArticleEditorScreen} />
+		<Route exact path={`${match.url}/create`} component={ArticleEditorScreen} />
 		<Route
 			exact
 			path={`${match.url}/:slug`}

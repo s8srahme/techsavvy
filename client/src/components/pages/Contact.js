@@ -169,7 +169,7 @@ export class Contact extends React.Component {
 				titles: ["124 Conch Street", "Bikini Bottom", "Pacific Ocean"]
 			},
 			{ icon: Mail, titles: ["trickster0179@gmail.com"] },
-			{ icon: Phone, titles: ["+880 1557-021521"] }
+			{ icon: Phone, titles: ["+880 1557-021521", "(Mobile/WhatsApp)"] }
 		];
 		let props = {},
 			{ windowWidth } = this.state;

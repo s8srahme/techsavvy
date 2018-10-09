@@ -3,7 +3,7 @@ import {
 	bgImgJeshootsCom,
 	// iconRedux,
 	iconSmartphone,
-	iconAnalytics,
+	iconScript,
 	iconGallery,
 	iconPencil,
 	iconApplication,
@@ -13,56 +13,67 @@ import {
 	iconPostbox,
 	iconPictureDark
 } from "../assets";
-import { Twitter, Facebook, Instagram, Linkedin, Github, Airplay, Users, ZoomIn, Box, Copy } from "react-feather";
+import {
+	// Twitter,
+	// Facebook,
+	// Instagram,
+	// Linkedin,
+	// Github,
+	Airplay,
+	Users,
+	ZoomIn,
+	Box,
+	Copy
+} from "react-feather";
 import { Loader, LazyLoad } from "../components";
-import { ArticleListScreen } from "screens";
+import { ArticleListScreen, UserListScreen } from "screens";
 import { ellipsizeTextBox } from "../utils";
 
-const socials = [
-		{ name: Twitter, href: "" },
-		{ name: Facebook, href: "" },
-		{ name: Instagram, href: "" },
-		{ name: Linkedin, href: "" },
-		{ name: Github, href: "" }
-	],
-	team = [
-		{
-			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-			title: "John Doe",
-			subtitle: "project manager",
-			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-		},
-		{
-			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-			title: "John Doe",
-			subtitle: "project manager",
-			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-		},
-		{
-			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-			title: "John Doe",
-			subtitle: "project manager",
-			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-		},
-		{
-			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-			title: "John Doe",
-			subtitle: "project manager",
-			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-		},
-		{
-			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-			title: "John Doe",
-			subtitle: "project manager",
-			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-		},
-		{
-			thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
-			title: "John Doe",
-			subtitle: "project manager",
-			socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
-		}
-	],
+const // socials = [
+	// 		{ name: Twitter, href: "" },
+	// 		{ name: Facebook, href: "" },
+	// 		{ name: Instagram, href: "" },
+	// 		{ name: Linkedin, href: "" },
+	// 		{ name: Github, href: "" }
+	// ],
+	// team = [
+	// 	{
+	// 		thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+	// 		title: "John Doe",
+	// 		subtitle: "project manager",
+	// 		socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+	// 	},
+	// 	{
+	// 		thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+	// 		title: "John Doe",
+	// 		subtitle: "project manager",
+	// 		socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+	// 	},
+	// 	{
+	// 		thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+	// 		title: "John Doe",
+	// 		subtitle: "project manager",
+	// 		socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+	// 	},
+	// 	{
+	// 		thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+	// 		title: "John Doe",
+	// 		subtitle: "project manager",
+	// 		socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+	// 	},
+	// 	{
+	// 		thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+	// 		title: "John Doe",
+	// 		subtitle: "project manager",
+	// 		socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+	// 	},
+	// 	{
+	// 		thumbnail: "https://i.pinimg.com/736x/b9/42/d0/b942d0e23bea3c5ecff16edc07219b3b.jpg",
+	// 		title: "John Doe",
+	// 		subtitle: "project manager",
+	// 		socials: [{ name: Twitter, href: "" }, { name: Linkedin, href: "" }, { name: Github, href: "" }]
+	// 	}
+	// ],
 	clients = [
 		{
 			thumbnail: "https://png.icons8.com/color/1600/nodejs.png"
@@ -86,23 +97,23 @@ const socials = [
 	testimonials = [
 		{
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo. Nullam at mauris ac lorem varius pellentesque at a orci.",
-			author: "Andy Tran"
+				"Whatever your interest, you can always find fresh thinking and unique perspectives here. Also, the platform is ad free which encourages many avid readers who are tired of viewing constant ads. It also has a sleek, user friendly design, allowing writers to focus on publishing content and not worry about design/presentation.",
+			author: "Casey Botticello"
 		},
 		{
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis. Praesent non gravida orci, non vestibulum leo.",
-			author: "RAYMOND WONG"
+				"It is an engaging platform where anybody can document their journey and grow an audience around the things they're passionate about.",
+			author: "Steve Campbell"
 		},
 		{
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum. Morbi commodo lectus sed consequat venenatis.",
-			author: "ADAM ROSENBERG"
+				"This is like a blogging platform that is great to revive your old posts or for gaining some traction if you are still a newbie.",
+			author: "Pascal Thellmann"
 		},
 		{
 			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ante erat, lobortis ut eleifend a, laoreet sollicitudin neque. Mauris quis enim massa. Integer iaculis id ligula in condimentum.",
-			author: "LAURA BYAGER"
+				"If you aspire to be an influnecer, this is one of the places to develop your writing skills and learn how to tailor a message in story-telling.",
+			author: "Michael Spencer"
 		}
 	],
 	features = [
@@ -111,90 +122,42 @@ const socials = [
 			icon: iconResponsive,
 			title: "fully responsive",
 			description:
-				"Our website uses flexible grids and layouts to resize the content according to the size of the device that it is being viewed on."
+				"The website uses flexible grids and layouts to resize the content according to the size of the device that it is being viewed on."
 		},
 		{
 			name: Copy,
 			icon: iconPencil,
 			title: "Unique Typography",
 			description:
-				"We have a particular font used to help our viewers immediately identify us, making it easier for us to more accurately express ourselves through typography."
+				"There is a particular font used to help viewers immediately identify the app, making it easier to more accurately express the service through typography."
 		},
 		{
 			name: Airplay,
 			icon: iconGallery,
 			title: "Semi-Flat Design",
 			description:
-				"Not only is our flat design easier for users to comprehend, but it can also load more quickly on websites without complicated or overly-technical elements."
+				"Not only is the flat design easier for users to comprehend, but it can also load more quickly on websites without complicated or overly-technical elements."
 		},
 		{
 			name: Box,
 			icon: iconTimeManagement,
 			title: "Fast Loading",
 			description:
-				"We ensure a fast and smooth experience for our site visitors and allow users to interact with us without reloading the page."
+				"The app ensures a fast and smooth experience for our site visitors and allow users to interact without reloading the page."
 		},
 		{
 			name: Users,
 			icon: iconApplication,
 			title: "Progressive Web App",
 			description:
-				"Our app comes with PWA features to bring the best of mobile sites and native apps to users. It is reliable, fast, and engaging. It originates from a secure origin and loads regardless of network state."
+				"The app comes with PWA features to bring the best of mobile sites and native apps to users. It is reliable, fast, and engaging. It originates from a secure origin and loads regardless of network state."
 		},
 		{
 			name: ZoomIn,
 			icon: iconSearch,
 			title: "seo friendly",
 			description:
-				"By using the right keywords in specific website headers and text areas, we try to rank higher in popular engines, like Google, for gaining much sought after exposure."
-		}
-	],
-	about = [
-		{
-			icon: iconAnalytics,
-			title: "Explore interesting ideas and perspectives",
-			description:
-				"We tap into the brains of the world’s most insightful writers, thinkers, and storytellers to bring you the smartest takes on topics that matter.",
-			routeName: ""
-		},
-		{
-			icon: iconSmartphone,
-			title: "Share and follow stories on the go",
-			description:
-				"Our mobile app offers instant access by a simple tap, allowing you to consume your content quickly and offering seamless experience.",
-			routeName: ""
-		}
-	],
-	works = [
-		{
-			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-			title: "Surfer Paradise",
-			category: "mobile app",
-			routeName: ""
-		},
-		{
-			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-			title: "Surfer Paradise",
-			category: "mobile app",
-			routeName: ""
-		},
-		{
-			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-			title: "Surfer Paradise",
-			category: "mobile app",
-			routeName: ""
-		},
-		{
-			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-			title: "Surfer Paradise",
-			category: "mobile app",
-			routeName: ""
-		},
-		{
-			thumbnail: "https://cdn.dribbble.com/users/1885780/screenshots/4959958/medium_drrree.png",
-			title: "Surfer Paradise",
-			category: "mobile app",
-			routeName: ""
+				"By using the right keywords in specific website headers and text areas, the service tries to rank higher in popular engines, like Google, for gaining much sought after exposure."
 		}
 	];
 
@@ -212,6 +175,7 @@ export default class HomeScreen extends Component {
 			windowWidth: window.innerWidth,
 			hasExpandedSlide: false
 		};
+		this.aboutRef = React.createRef();
 	}
 
 	_handleResize = e => {
@@ -226,10 +190,7 @@ export default class HomeScreen extends Component {
 
 	_handleScroll = e => {
 		let offsetTop = this.instance.getBoundingClientRect().top;
-		this.setState(
-			{ offsetTop }
-			// , () => console.log(offsetTop)
-		);
+		this.setState({ offsetTop });
 	};
 
 	componentWillMount = () => {
@@ -253,10 +214,40 @@ export default class HomeScreen extends Component {
 	};
 
 	render = () => {
+		const about = [
+			{
+				icon: iconScript,
+				title: "Engage in writing and reading intuitive topics",
+				description:
+					"There are so many writers, subjects and topics, that you can read and write about almost anything you want and learn something new every day.",
+				button: {
+					onClick: () => {
+						const about = this.aboutRef.current;
+						window.scrollTo({
+							top: about.offsetTop - 50,
+							left: 0,
+							behavior: "smooth"
+						});
+					},
+					title: "Keep reading"
+				}
+			},
+			{
+				icon: iconSmartphone,
+				title: "Share, follow and comment on the go",
+				description:
+					"The mobile app shall offer instant access by a simple tap, allowing you to consume your content quickly and offering seamless experience.",
+				button: {
+					onClick: () => {},
+					title: "Coming soon"
+				}
+			}
+		];
+
 		return (
 			<div className="wrapper" ref={el => (this.instance = el)}>
 				{this._renderLandingContent()}
-				{this._renderNewsletterContent(socials)}
+				{/* {this._renderNewsletterContent(socials)} */}
 				<ArticleListScreen
 					hasHeaderButton={false}
 					hasHeaderTabs={false}
@@ -265,11 +256,21 @@ export default class HomeScreen extends Component {
 				/>
 				{this._renderFeatureContent(features)}
 				{this._renderAboutContent(about)}
-				{this._renderWorkContent(works)}
-				{this._renderTeamContent(team)}
+				<UserListScreen />
+				{/* {this._renderTeamContent(team)} */}
 				{this._renderClientContent(testimonials, clients)}
 			</div>
 		);
+	};
+
+	_handleButtonClick = () => {
+		// const list = this.listRef.current;
+		window.scrollTo({
+			// top: list.offsetTop - 50,
+			top: this.state.windowHeight - 50,
+			left: 0,
+			behavior: "smooth"
+		});
 	};
 
 	_renderLandingContent = () => (
@@ -289,7 +290,9 @@ export default class HomeScreen extends Component {
 						<figcaption className="landing-message">Open content publishing for all industries</figcaption>
 						<span className="separator" />
 						<h4>Document your insights and grow an audience around the things you are passionate about.</h4>
-						<button className="btn">Explore</button>
+						<button className="btn" onClick={this._handleButtonClick}>
+							Explore
+						</button>
 					</article>
 				</section>
 			</div>
@@ -355,7 +358,7 @@ export default class HomeScreen extends Component {
 
 	_renderAboutContent = data =>
 		data.map((item, index) => (
-			<div key={index} className="extended-feature-content">
+			<div key={index} className="extended-feature-content" {...(index === 1 ? { ref: this.aboutRef } : {})}>
 				<div className="container">
 					<section className="row">
 						<figure className="column extended-feature-img-wrapper">
@@ -370,7 +373,9 @@ export default class HomeScreen extends Component {
 							<h1>{item.title}</h1>
 							<p>{item.description}</p>
 							<div className="btn-wrapper">
-								<a className="btn">learn more</a>
+								<button className="btn" onClick={item.button.onClick}>
+									{item.button.title}
+								</button>
 							</div>
 						</article>
 					</section>
@@ -422,7 +427,8 @@ export default class HomeScreen extends Component {
 		<div className="client-content">
 			<div className="container">
 				<header className="row client-heading-wrapper">
-					<h1 className="separator">happy clients</h1>
+					{/* <h1 className="separator">happy clients</h1> */}
+					<h1 className="separator">Happy Reviews</h1>
 				</header>
 				<section className="row client-testimonial">
 					<article className="slider column">
@@ -465,48 +471,9 @@ export default class HomeScreen extends Component {
 					</article>
 				</section>
 			</div>
-			<section className="container">{this._handleClientRowsAndCols(clients).map(row => row)}</section>
+			{/* <section className="container">{this._handleClientRowsAndCols(clients).map(row => row)}</section> */}
 		</div>
 	);
-
-	_renderWorkContent = works => (
-		<div className="work-content">
-			<div className="container">
-				<header className="row work-heading-wrapper">
-					<h1 className="separator">latest works</h1>
-				</header>
-				{this._handleWorkRowsAndCols(works).map(row => row)}
-			</div>
-		</div>
-	);
-
-	_handleWorkRowsAndCols = data => {
-		let rows = [];
-		for (let rowKey = 0, index = 0; index < data.length; rowKey++, index = index + 3) {
-			let cols = data.slice(index, index + 3);
-			rows.push(
-				<section key={rowKey} className="row work-cards-wrapper">
-					{cols.map((col, colKey) => (
-						<figure key={colKey} className="column work-card">
-							<div className="work-card-img-wrapper">
-								<LazyLoad
-									src={col.thumbnail}
-									alt="Card infographic"
-									className="work-thumbnail"
-									background="darken-light"
-								/>
-							</div>
-							<figcaption className="work-card-info-wrapper">
-								<h4>{col.category}</h4>
-								<h3>{col.title}</h3>
-							</figcaption>
-						</figure>
-					))}
-				</section>
-			);
-		}
-		return rows;
-	};
 
 	_handleTeamRowsAndCols = data => {
 		let rows = [];

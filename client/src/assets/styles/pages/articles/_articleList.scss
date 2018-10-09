@@ -15,26 +15,16 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-end;
-			min-height: 30rem;
+			min-height: 35rem;
 			@include transition(all 0.4s ease-in-out 0s);
-			&.shrink {
-				min-height: 25rem;
-			}
-			&.clear {
-				min-height: 22rem;
-				justify-content: center;
-			}
 			@include breakpoint(md) {
-				min-height: 27rem;
-				&.shrink {
-					min-height: 22rem;
-				}
+				min-height: 30rem;
 			}
 			@include breakpoint(0, $breakpoint-xs) {
-				min-height: 35rem;
-				&.shrink {
-					min-height: 30rem;
-				}
+				min-height: 40rem;
+			}
+			&.clear {
+				min-height: 15rem;
 			}
 
 			.news-heading-wrapper {
@@ -93,7 +83,7 @@
 	.news-list-content {
 		background-color: darken($color-light-gray, 5%);
 		min-height: 100vh;
-		padding-top: 30rem;
+		padding-top: 35rem;
 		@include transition(all 0.4s ease-in-out 0s);
 		&.clear {
 			display: flex;
@@ -101,29 +91,14 @@
 			justify-content: center;
 			max-width: 100%;
 		}
-		&.shrink {
-			padding-top: 25rem;
-		}
 		&.fixed {
-			padding-top: 22rem !important;
-		}
-		&.pull {
-			padding-top: 22rem - 7.65rem !important;
-			@include breakpoint(0, $breakpoint-xs) {
-				padding-top: 22rem - 5.25rem !important;
-			}
+			padding-top: 15rem !important;
 		}
 		@include breakpoint(md) {
-			padding-top: 27rem;
-			&.shrink {
-				padding-top: 22rem;
-			}
+			padding-top: 30rem;
 		}
 		@include breakpoint(0, $breakpoint-xs) {
-			padding-top: 35rem;
-			&.shrink {
-				padding-top: 30rem;
-			}
+			padding-top: 40rem;
 		}
 
 		.container {
@@ -138,9 +113,6 @@
 				display: flex;
 				flex-direction: column;
 				padding: $gutter-xxxl 0;
-				&.fixed {
-					padding-top: 0;
-				}
 
 				.row {
 					&.news-cards-btn-wrapper {

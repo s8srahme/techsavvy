@@ -15,7 +15,6 @@ export class ArticleList extends Component {
 			windowHeight: window.innerHeight,
 			windowWidth: window.innerWidth,
 			isFetchingArticles: false,
-			offsetTop: 0,
 			hasExpandedCard: false,
 			hasHandledEllipsis: false
 		};
@@ -104,21 +103,15 @@ export class ArticleList extends Component {
 			}, this._handleEllipsis);
 	};
 
-	_handleScroll = e => {
-		this.mounted && this.setState({ offsetTop: window.pageYOffset });
-	};
-
 	componentDidMount = () => {
 		this.mounted = true;
 		window.addEventListener("resize", this._handleResize);
-		window.addEventListener("scroll", this._handleScroll);
 	};
 
 	componentWillUnmount = () => {
 		this.mounted = false;
 		if (!this.state.hasHandledEllipsis) clearTimeout(this._handleEllipsis);
 		window.removeEventListener("resize", this._handleResize);
-		window.removeEventListener("scroll", this._handleScroll);
 	};
 
 	render = () => {
@@ -233,14 +226,14 @@ export class ArticleList extends Component {
 		if (hasHeaderButton && hasHeaderTabs) {
 			return (
 				<div className="news-list-header">
-					<div className={`container ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
+					<div className="container">
 						<header className="row news-heading-wrapper">
 							<div className="column">
 								<h1>news &amp; blog</h1>
 							</div>
 							<div className="column">
 								{/* <div className="news-heading-btn-wrapper"> */}
-								<Link className="btn" to="/blog/new-story">
+								<Link className="btn" to="/blog/create">
 									new story
 								</Link>
 								{/* </div> */}
@@ -283,10 +276,8 @@ export class ArticleList extends Component {
 			{ hasHeaderButton = false, hasHeaderTabs = false } = this.props;
 		return (
 			<div
-				className={`news-list-content ${this.state.offsetTop > 0 ? "shrink" : ""} ${
-					articles.length > 0 ? "" : "clear"
-				} ${hasHeaderButton && hasHeaderTabs ? "" : "fixed"} ${
-					!hasHeaderButton && !hasHeaderTabs && articles.length === 0 ? "pull" : ""
+				className={`news-list-content ${articles.length > 0 ? "" : "clear"} ${
+					hasHeaderButton && hasHeaderTabs ? "" : "fixed"
 				}`}
 			>
 				<div className="container">
@@ -297,7 +288,7 @@ export class ArticleList extends Component {
 							</div>
 						</article>
 					) : articles.length > 0 ? (
-						<section className={`news-cards-wrapper ${hasHeaderButton && hasHeaderTabs ? "" : "fixed"}`}>
+						<section className="news-cards-wrapper">
 							{this._handleNewsRowsAndCols(articles).map(row => row)}
 							{meta.page !== meta.pages && (
 								<div className="row news-cards-btn-wrapper">

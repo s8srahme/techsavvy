@@ -23,7 +23,12 @@ class LazyLoad extends React.Component {
 
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
 		if (prevProps.src !== this.props.src) {
-			this.setState({ errored: false });
+			this.setState(
+				{ errored: false }
+				// 	, () => {
+				// 	console.log(prevProps.src, this.props.src);
+				// }
+			);
 		}
 	};
 
@@ -53,17 +58,21 @@ class LazyLoad extends React.Component {
 				<div className={`lazy-load-wrapper ${background} ${wrapperClassName}`}>
 					{figure && children ? (
 						<figure className={`${className} show`}>{children}</figure>
+					) : src ? (
+						<div className="lazy-load-overlay">
+							<img
+								src={
+									defaultImage ||
+									(background === "light" || background === "darken-light" ? iconPictureDark : iconPictureLight)
+								}
+								alt={alt}
+								className={`lazy-load-thumbnail ${defaultImage ? "full" : ""} ${overlayClassName}`}
+							/>
+						</div>
 					) : (
-						src && (
+						defaultImage && (
 							<div className="lazy-load-overlay">
-								<img
-									src={
-										defaultImage ||
-										(background === "light" || background === "darken-light" ? iconPictureDark : iconPictureLight)
-									}
-									alt={alt}
-									className={`lazy-load-thumbnail ${defaultImage ? "full" : ""} ${overlayClassName}`}
-								/>
+								<img src={defaultImage} alt={alt} className={`lazy-load-thumbnail ${overlayClassName}`} />
 							</div>
 						)
 					)}

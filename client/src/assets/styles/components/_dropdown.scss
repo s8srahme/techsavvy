@@ -9,18 +9,21 @@
 	}
 	&.shrink {
 		top: 50px + 2px;
+
+		.arrow-up {
+			padding-right: 22.5px + 16px - 7px;
+		}
 	}
 	.arrow-up {
 		width: 100%;
 		height: 7px;
 		display: flex;
-		justify-content: center;
 		position: relative;
 		overflow: hidden;
-		padding-left: 2px + 7px;
+		padding-left: 0;
+		justify-content: flex-end;
+		padding-right: 37.5px + 16px - 7px;
 		@include breakpoint(xs) {
-			padding-left: 0;
-			justify-content: flex-end;
 			padding-right: 22.5px + 16px - 7px;
 		}
 

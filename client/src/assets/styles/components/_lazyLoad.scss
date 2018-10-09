@@ -26,10 +26,6 @@
 		@include transition(all 0.4s ease-in-out 0s);
 		&.push {
 			margin-top: 10rem;
-
-			&.pull {
-				margin-top: 5rem;
-			}
 		}
 
 		.lazy-load-thumbnail {
@@ -42,10 +38,6 @@
 			}
 			&.push {
 				margin-top: 10rem;
-
-				&.pull {
-					margin-top: 5rem;
-				}
 			}
 		}
 	}

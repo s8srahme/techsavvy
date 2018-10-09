@@ -1,7 +1,7 @@
 import { userConstants } from "../constants";
 
 const initialState = {
-	users: [],
+	users: {},
 	isLoadingUsers: false,
 	hasErroredUsers: false,
 	usersError: {},
@@ -33,8 +33,9 @@ export const userReducer = (state = initialState, { type, payload, error }) => {
 		case userConstants.GET_ALL_SUCCESS:
 			return {
 				...state,
-				users: payload.users,
-				isLoadingUsers: false
+				users: payload,
+				isLoadingUsers: false,
+				usersError: null
 			};
 		case userConstants.GET_ALL_FAILURE:
 			return {

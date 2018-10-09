@@ -38,10 +38,7 @@ const getOne = ({ id }) => {
 	return dispatch => {
 		dispatch(request());
 		services.users.getOne({ id }).then(
-			({ data }) => {
-				// console.log("userData:",data);
-				dispatch(success(data));
-			},
+			({ data }) => dispatch(success(data)),
 			error => {
 				dispatch(failure(error));
 				console.error(error);

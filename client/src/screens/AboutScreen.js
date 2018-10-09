@@ -3,24 +3,8 @@ import { bgImgCorinneKutz } from "../assets";
 import { LazyLoad } from "../components";
 
 export class AboutScreen extends Component {
-	state = {
-		offsetTop: 0
-	};
-
 	componentWillMount = () => {
 		window.scrollTo(0, 0);
-	};
-
-	_handleScroll = e => {
-		this.setState({ offsetTop: window.pageYOffset });
-	};
-
-	componentDidMount = () => {
-		window.addEventListener("scroll", this._handleScroll);
-	};
-
-	componentWillUnmount = () => {
-		window.removeEventListener("scroll", this._handleScroll);
 	};
 
 	render = () => (
@@ -31,7 +15,7 @@ export class AboutScreen extends Component {
 						<LazyLoad
 							figure
 							className="about-img-wrapper"
-							overlayClassName={`push ${this.state.offsetTop > 0 ? "pull" : ""}`}
+							overlayClassName="push"
 							style={{
 								backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
 			url("${bgImgCorinneKutz}")`
@@ -40,7 +24,7 @@ export class AboutScreen extends Component {
 							background="darken-light"
 						/>
 					</div>
-					<article className={`column about-info-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
+					<article className={"column about-info-wrapper"}>
 						<div>
 							<h1 className="separator">about techsavvy</h1>
 							<p>

@@ -11,6 +11,7 @@ import { ArticleForm } from "./pages/articles/ArticleForm";
 import { CommentList } from "./pages/comments/CommentList";
 import { CommentDetail } from "./pages/comments/CommentDetail";
 import { CommentEditing } from "./pages/comments/CommentEditing";
+import { UserList } from "./pages/users/UserList";
 import { UserForm } from "./pages/users/UserForm";
 import { UserDetail } from "./pages/users/UserDetail";
 import { UserEditing } from "./pages/users/UserEditing";
@@ -31,6 +32,7 @@ export {
 	CommentList,
 	CommentDetail,
 	CommentEditing,
+	UserList,
 	UserForm,
 	UserDetail,
 	UserEditing,

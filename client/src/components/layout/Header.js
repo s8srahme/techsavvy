@@ -11,6 +11,7 @@ import { UserFormScreen } from "screens";
 import { Loader, LazyLoad } from "components";
 import { Dropdown } from "..";
 import { iconMale } from "assets";
+import { AppContext } from "../../AppProvider";
 
 class Header extends Component {
 	static propTypes = {
@@ -24,7 +25,6 @@ class Header extends Component {
 		this.state = {
 			isMenuVisible: false,
 			isModalOpen: false,
-			offsetTop: 0,
 			isDropdownActive: false
 		};
 	}
@@ -36,11 +36,6 @@ class Header extends Component {
 	// 	}
 	// };
 
-	componentDidMount = () => {
-		// console.log(this.props.location);
-		window.addEventListener("scroll", this._handleScroll);
-	};
-
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
 			const state = nextProps.location.state;
@@ -48,16 +43,6 @@ class Header extends Component {
 				this.setState({ isModalOpen: state.isModalOpen });
 			}
 		}
-	};
-
-	componentWillUnmount = () => {
-		window.removeEventListener("scroll", this._handleScroll);
-	};
-
-	_handleScroll = e => {
-		this.setState({ offsetTop: window.pageYOffset }, () => {
-			// console.log(this.state.offsetTop);
-		});
 	};
 
 	_toggleMenu = () => {
@@ -81,12 +66,9 @@ class Header extends Component {
 		if (state && state.isModalOpen) {
 			this.props.history.replace({ pathname: "/", state: {} });
 		}
-		this.setState(
-			{
-				isModalOpen: false
-			}
-			// () => {}
-		);
+		this.setState({
+			isModalOpen: false
+		});
 	};
 
 	_handleDropdownClick = () => {
@@ -96,71 +78,79 @@ class Header extends Component {
 	_renderDropdownContent = (user, isLoading) => {
 		if (isLoading)
 			return (
-				<div className={`header-dropdown-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
-					<Loader inverse={this.state.offsetTop <= 0} />
-				</div>
+				<AppContext.Consumer>
+					{context => (
+						<div className={`header-dropdown-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
+							<Loader inverse={context.offsetTop <= 100} />
+						</div>
+					)}
+				</AppContext.Consumer>
 			);
 		return (
-			<div className={`header-dropdown-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
-				<span className={`${this.state.offsetTop > 0 ? "shrink" : ""}`}>
-					{Object.keys(user).length ? user.name.toLowerCase() : "sign in"}
-				</span>
-				<div
-					className={`header-dropdown-img-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}
-					onClick={Object.keys(user).length ? this._handleDropdownClick : this._handleModalClickIn}
-				>
-					<LazyLoad
-						src={Object.keys(user).length && user.image_url ? user.image_url : iconMale}
-						alt="Header infographic"
-						className="header-thumbnail"
-						defaultImage={iconMale}
-					/>
-					<div className="header-dropdown-img-overlay" />
-				</div>
-				{JSON.stringify(user) !== "{}" &&
-					this.state.isDropdownActive && (
-						<Dropdown
-							shouldDropdownShrink={this.state.offsetTop > 0}
-							items={[
-								{
-									icon: User,
-									title: "Profile",
-									isLoadingSelf: false,
-									isLoadingSibling: this.props.isLoadingLogout,
-									onClick: () => {
-										this.setState({ isDropdownActive: false }, () => {
-											if (this.props.location.pathname !== `/user/${user._id}`)
-												this.props.history.push(`/user/${user._id}`);
-										});
-									}
-								},
-								// {
-								// 	icon: Settings,
-								// 	title: "Settings",
-								// 	isLoadingSelf: false,
-								// 	isLoadingSibling: this.props.isLoadingLogout,
-								// 	onClick: () => {
-								// 		this.setState({ isDropdownActive: false });
-								// 	}
-								// },
-								{
-									icon: Power,
-									title: "Sign out",
-									isLoadingSelf: this.props.isLoadingLogout,
-									isLoadingSibling: false,
-									onClick: () => {
-										this.props.onLogout(() => {
-											this.setState({ isDropdownActive: false }, () => {
-												this.props.onClear();
-												this.props.history.push("/");
-											});
-										});
-									}
-								}
-							]}
-						/>
-					)}
-			</div>
+			<AppContext.Consumer>
+				{context => (
+					<div className={`header-dropdown-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
+						<span className={`${context.offsetTop > 100 ? "shrink" : ""}`}>
+							{Object.keys(user).length ? user.name.toLowerCase() : "sign in"}
+						</span>
+						<div
+							className={`header-dropdown-img-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}
+							onClick={Object.keys(user).length ? this._handleDropdownClick : this._handleModalClickIn}
+						>
+							<LazyLoad
+								src={Object.keys(user).length && user.image_url ? user.image_url : iconMale}
+								alt="Header infographic"
+								className="header-thumbnail"
+								defaultImage={iconMale}
+							/>
+							<div className="header-dropdown-img-overlay" />
+						</div>
+						{JSON.stringify(user) !== "{}" &&
+							this.state.isDropdownActive && (
+								<Dropdown
+									shouldDropdownShrink={context.offsetTop > 100}
+									items={[
+										{
+											icon: User,
+											title: "Profile",
+											isLoadingSelf: false,
+											isLoadingSibling: this.props.isLoadingLogout,
+											onClick: () => {
+												this.setState({ isDropdownActive: false }, () => {
+													if (this.props.location.pathname !== `/user/${user._id}`)
+														this.props.history.push(`/user/${user._id}`);
+												});
+											}
+										},
+										// {
+										// 	icon: Settings,
+										// 	title: "Settings",
+										// 	isLoadingSelf: false,
+										// 	isLoadingSibling: this.props.isLoadingLogout,
+										// 	onClick: () => {
+										// 		this.setState({ isDropdownActive: false });
+										// 	}
+										// },
+										{
+											icon: Power,
+											title: "Sign out",
+											isLoadingSelf: this.props.isLoadingLogout,
+											isLoadingSibling: false,
+											onClick: () => {
+												this.props.onLogout(() => {
+													this.setState({ isDropdownActive: false }, () => {
+														this.props.onClear();
+														this.props.history.push("/");
+													});
+												});
+											}
+										}
+									]}
+								/>
+							)}
+					</div>
+				)}
+			</AppContext.Consumer>
 		);
 	};
 
@@ -197,57 +187,64 @@ class Header extends Component {
 		const { user = {}, isLoadingUser, isOnline } = this.props;
 
 		return (
-			<div
-				className={`header-content ${this.state.offsetTop > 0 ? "shrink" : ""}${
-					location.pathname === "/" ? " transparent" : ""
-				}`}
-			>
-				<div className={`header-status-wrapper ${isOnline ? "" : "offline"}`}>
-					<p>No internet connection found. App is running in offline mode.</p>
-				</div>
-				<header className={`header-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
-					<figure className={`header-logo-wrapper ${this.state.offsetTop > 0 ? "shrink" : ""}`}>
-						<div className="header-icon-wrapper">
-							<Menu className={`header-icon ${this.state.offsetTop > 0 ? "shrink" : ""}`} onClick={this._toggleMenu} />
-						</div>
-						<figcaption className={`header-logo ${this.state.offsetTop > 0 ? "shrink" : ""}`}>Techsavvy</figcaption>
-						{this._renderDropdownContent(user)}
-					</figure>
-					<nav
-						className={`${this.state.isMenuVisible && "collapse"} ${
-							this.state.offsetTop > 0 && this.state.isMenuVisible ? "shrink" : ""
-						} header-nav`}
+			<AppContext.Consumer>
+				{context => (
+					<div
+						className={`header-content ${context.offsetTop > 100 ? "shrink" : ""}${
+							location.pathname === "/" ? " transparent" : ""
+						}`}
 					>
-						{links.map((obj, i) => {
-							let props = {};
-							if (obj.onClick)
-								props = {
-									onClick: () => {
-										obj.onClick();
-										this._toggleMenu();
-									}
-								};
-							else props = { onClick: this._toggleMenu };
+						<div className={`header-status-wrapper ${isOnline ? "" : "offline"}`}>
+							<p>No internet connection found. App is running in offline mode.</p>
+						</div>
+						<header className={`header-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
+							<figure className={`header-logo-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
+								<div className="header-icon-wrapper">
+									<Menu
+										className={`header-icon ${context.offsetTop > 100 ? "shrink" : ""}`}
+										onClick={this._toggleMenu}
+									/>
+								</div>
+								<figcaption className={`header-logo ${context.offsetTop > 100 ? "shrink" : ""}`}>Techsavvy</figcaption>
+								{this._renderDropdownContent(user)}
+							</figure>
+							<nav
+								className={`${this.state.isMenuVisible && "collapse"} ${
+									context.offsetTop > 100 && this.state.isMenuVisible ? "shrink" : ""
+								} header-nav`}
+							>
+								{links.map((obj, i) => {
+									let props = {};
+									if (obj.onClick)
+										props = {
+											onClick: () => {
+												obj.onClick();
+												this._toggleMenu();
+											}
+										};
+									else props = { onClick: this._toggleMenu };
 
-							return (
-								<Link
-									to={{
-										pathname: obj.path
-										// state: { prevPath: location.pathname }
-									}}
-									key={i}
-									className={`header-link ${this.state.offsetTop > 0 ? "shrink" : ""}`}
-									{...props}
-								>
-									{obj.name}
-								</Link>
-							);
-						})}
-					</nav>
-					{this._renderDropdownContent(user, isLoadingUser)}
-					<UserFormScreen showModal={this.state.isModalOpen} onClose={this._handleModalClickOut} />
-				</header>
-			</div>
+									return (
+										<Link
+											to={{
+												pathname: obj.path
+												// state: { prevPath: location.pathname }
+											}}
+											key={i}
+											className={`header-link ${context.offsetTop > 100 ? "shrink" : ""}`}
+											{...props}
+										>
+											{obj.name}
+										</Link>
+									);
+								})}
+							</nav>
+							{this._renderDropdownContent(user, isLoadingUser)}
+							<UserFormScreen showModal={this.state.isModalOpen} onClose={this._handleModalClickOut} />
+						</header>
+					</div>
+				)}
+			</AppContext.Consumer>
 		);
 	};
 }

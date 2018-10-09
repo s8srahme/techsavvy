@@ -8,8 +8,8 @@ export let bgImgThoughtCatalog = require("./bg-img-thought-catalog.jpg");
 export let bgImgBenchAccounting = require("./bg-img-bench-accounting.jpg");
 export let bgImgCorinneKutz = require("./bg-img-corinne-kutz.jpg");
 
-export let iconCaution = require("./icon-caution.svg");
-export let iconAnalytics = require("./icon-analytics.svg");
+export let iconCaution = require("./icon-danger.svg");
+export let iconScript = require("./icon-script.svg");
 export let iconSmartphone = require("./icon-smartphone.svg");
 export let iconPicture = require("./icon-picture.svg");
 export let iconPictureLight = require("./icon-picture-light.svg");
