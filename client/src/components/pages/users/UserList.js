@@ -54,7 +54,15 @@ export class UserList extends PureComponent {
 				<header className="row work-heading-wrapper">
 					<h1 className="separator">Top Writers</h1>
 				</header>
-				{this._handleWorkRowsAndCols(works).map(row => row)}
+				{works.length > 0 ? (
+					this._handleWorkRowsAndCols(works).map(row => row)
+				) : (
+					<article className="row work-info-wrapper">
+						<div className="column">
+							<p>There are no writers yet.</p>
+						</div>
+					</article>
+				)}
 			</div>
 		</div>
 	);

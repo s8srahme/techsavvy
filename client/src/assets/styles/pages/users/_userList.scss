@@ -8,6 +8,16 @@
 			.row:nth-child(2) {
 				margin-top: 0;
 			}
+			.work-info-wrapper {
+				min-height: 30vh;
+				align-items: center;
+
+				.column {
+					p {
+						text-align: center;
+					}
+				}
+			}
 			.work-heading-wrapper {
 				margin-bottom: $gutter-xxxl;
 				justify-content: center;

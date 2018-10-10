@@ -1604,6 +1604,11 @@ html {
     padding: 6.4rem 0; }
     .wrapper .work-content .container .row:nth-child(2) {
       margin-top: 0; }
+    .wrapper .work-content .container .work-info-wrapper {
+      min-height: 30vh;
+      align-items: center; }
+      .wrapper .work-content .container .work-info-wrapper .column p {
+        text-align: center; }
     .wrapper .work-content .container .work-heading-wrapper {
       margin-bottom: 6.4rem;
       justify-content: center; }
