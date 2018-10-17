@@ -83,16 +83,17 @@ class Header extends Component {
 	componentWillReceiveProps = nextProps => {
 		if (
 			this.props.location.pathname !== nextProps.location.pathname &&
-			this.props.location.pathname !== "/login" &&
+			// this.props.location.pathname !== "/login" &&
 			!this.props.isPushingHistory
 		) {
 			let { pathname } = this.props.location,
 				offsetTop = window.pageYOffset;
-			this.props.pushHistory({ from: pathname, offsetTop });
 			if (nextProps.location.pathname === "/login") {
+				offsetTop = null;
 				if (JSON.parse(localStorage.getItem("user"))) this.props.history.goBack();
 				else this.setState({ isModalOpen: true });
 			}
+			this.props.pushHistory({ from: pathname, ...(offsetTop ? { offsetTop } : {}) });
 		}
 	};
 

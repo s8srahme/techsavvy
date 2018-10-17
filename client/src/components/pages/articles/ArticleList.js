@@ -110,7 +110,9 @@ export class ArticleList extends Component {
 
 	componentWillUnmount = () => {
 		this.mounted = false;
-		if (!this.state.hasHandledEllipsis) clearTimeout(this._handleEllipsis);
+		// if (!this.state.hasHandledEllipsis) {
+		clearTimeout(this._handleEllipsis);
+		// }
 		window.removeEventListener("resize", this._handleResize);
 	};
 
@@ -137,7 +139,13 @@ export class ArticleList extends Component {
 				) : (
 					<div className="news-list-wrapper">
 						{this._renderNewsHeader(hasHeaderButton, hasHeaderTabs)}
-						{this._renderNewsContent(Object.keys(articles).length && articles.data ? articles.data.articles : [])}
+						{this._renderNewsContent(
+							Object.keys(articles).length && articles.data
+								? !hasHeaderButton && !hasHeaderTabs
+									? articles.data.articles.slice(0, 4)
+									: articles.data.articles
+								: []
+						)}
 					</div>
 				)}
 			</div>

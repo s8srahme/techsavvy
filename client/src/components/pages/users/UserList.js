@@ -41,6 +41,10 @@ export class UserList extends PureComponent {
 		isLoadingUsers: true
 	};
 
+	componentDidMount = () => {
+		if (Object.keys(this.props.users).length) this.setState({ isLoadingUsers: false });
+	};
+
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
 		const { isLoadingUsers } = this.props;
 		if (isLoadingUsers !== prevState.isLoadingUsers) {

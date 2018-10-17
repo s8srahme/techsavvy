@@ -28,29 +28,42 @@ class ArticleListScreen extends Component {
 
 	componentWillMount = () => {
 		this.mounted = true;
-		const { isFetchingArticles, isFetchingUserArticles, limit, hasHeaderButton, hasHeaderTabs } = this.props;
+		const {
+			isFetchingArticles,
+			isFetchingUserArticles,
+			limit,
+			hasHeaderButton = true,
+			hasHeaderTabs = true,
+			articles
+		} = this.props;
 
 		if (!isFetchingArticles && !isFetchingUserArticles) {
 			window.scrollTo(0, 0);
-			let promisesToMake = [
-				this._makeAsyncOperation(async () => {
-					const res = await this.props.fetchAll(this.state.seed, this.state.page, limit || this.state.limit);
-					return res;
-				}),
-				...(hasHeaderButton && hasHeaderTabs
-					? this._makeAsyncOperation(async () => {
-							const res = await this._handleFetchUserArticles();
-							return res;
-					  })
-					: [])
-			];
-			this.mounted &&
-				this.setState({ isFetchingAllArticles: true }, () => {
-					let promises = Promise.all(promisesToMake);
-					promises.then(results => {
-						this.mounted && this.setState({ isFetchingAllArticles: false });
+			if (
+				(!hasHeaderButton && !hasHeaderTabs && Object.keys(articles).length === 0) ||
+				(hasHeaderButton && hasHeaderTabs)
+			) {
+				let promisesToMake = [
+					this._makeAsyncOperation(async () => {
+						const res = await this.props.fetchAll(this.state.seed, this.state.page, limit || this.state.limit);
+						return res;
+					}),
+					...(hasHeaderButton && hasHeaderTabs
+						? this._makeAsyncOperation(async () => {
+								const res = await this._handleFetchUserArticles();
+								return res;
+						  })
+						: [])
+				];
+				if (this.mounted) {
+					this.setState({ isFetchingAllArticles: true }, () => {
+						let promises = Promise.all(promisesToMake);
+						promises.then(results => {
+							this.mounted && this.setState({ isFetchingAllArticles: false }, () => {});
+						});
 					});
-				});
+				}
+			}
 		}
 	};
 

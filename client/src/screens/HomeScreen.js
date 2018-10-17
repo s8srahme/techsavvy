@@ -185,10 +185,10 @@ class HomeScreen extends Component {
 	}
 
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
-		if (prevProps.isFetchingArticles && !this.props.isFetchingArticles)
-			this.setState({ isFetchingArticles: false }, this._handleScroll);
-		if (prevProps.isFetchingUsers && !this.props.isFetchingUsers)
-			this.setState({ isFetchingUsers: false }, this._handleScroll);
+		// if (prevProps.isFetchingArticles && !this.props.isFetchingArticles)
+		// 	this.setState({ isFetchingArticles: false }, this._handleScroll);
+		// if (prevProps.isFetchingUsers && !this.props.isFetchingUsers)
+		// 	this.setState({ isFetchingUsers: false }, this._handleScroll);
 	};
 
 	componentDidMount = () => {
