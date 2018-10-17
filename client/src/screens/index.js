@@ -10,6 +10,7 @@ import UserListScreen from "./users/UserListScreen";
 import UserDetailScreen from "./users/UserDetailScreen";
 import UserEditingScreen from "./users/UserEditingScreen";
 import { AboutScreen } from "./AboutScreen";
+import { PrivateScreen } from "./PrivateScreen";
 import ContactScreen from "./ContactScreen";
 import { LicenseScreen } from "./LicenseScreen";
 
@@ -27,5 +28,6 @@ export {
 	UserListScreen,
 	AboutScreen,
 	ContactScreen,
-	LicenseScreen
+	LicenseScreen,
+	PrivateScreen
 };

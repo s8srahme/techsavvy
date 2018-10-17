@@ -30,7 +30,7 @@ export class UserForm extends React.Component {
 					});
 				} else {
 					this.setState({ isLoadingLogin: false, loginPassword: "", loginEmail: "" }, () => {
-						nextProps.onClose();
+						nextProps.onClose(true);
 						this.props.getOne({ id: "self" });
 					});
 				}

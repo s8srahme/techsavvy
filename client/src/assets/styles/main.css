@@ -2497,3 +2497,8 @@ html {
         display: block;
         content: "";
         margin-bottom: 1.6rem; }
+
+.private-content {
+  background-color: #f2f2f2;
+  height: 100vh;
+  width: 100%; }

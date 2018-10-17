@@ -12,6 +12,30 @@ import { Loader, LazyLoad } from "components";
 import { Dropdown } from "..";
 import { iconMale } from "assets";
 import { AppContext } from "../../AppProvider";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import actions from "redux/actions";
+import _ from "lodash";
+import queryString from "query-string";
+
+const links = [
+	{
+		name: "home",
+		path: "/"
+	},
+	{
+		name: "blog",
+		path: "/blog"
+	},
+	{
+		name: "about",
+		path: "/about"
+	},
+	{
+		name: "contact",
+		path: "/contact"
+	}
+];
 
 class Header extends Component {
 	static propTypes = {
@@ -25,54 +49,95 @@ class Header extends Component {
 		this.state = {
 			isMenuVisible: false,
 			isModalOpen: false,
-			isDropdownActive: false
+			isDropdownActive: false,
+			isOnline: true
 		};
+		this.mounted = false;
 	}
 
-	// componentWillMount = () => {
-	// 	const state = this.props.location.state;
-	// 	if (state && state.isModalOpen) {
-	// 		this.setState({ isModalOpen: state.isModalOpen });
-	// 	}
-	// };
+	componentDidMount = () => {
+		if (this.props.location.pathname === "/login") {
+			if (JSON.parse(localStorage.getItem("user"))) this.props.history.goBack();
+			else this.setState({ isModalOpen: true });
+		}
+		this.mounted = true;
+		this._updateOnlineStatus();
+
+		window.addEventListener("online", this._updateOnlineStatus);
+		window.addEventListener("offline", this._updateOnlineStatus);
+	};
+
+	componentWillMount = () => {
+		const user = JSON.parse(localStorage.getItem("user"));
+		if (user && user.token) {
+			this.props.getOne({ id: "self" });
+		}
+	};
+
+	componentWillUnmount = () => {
+		this.mounted = false;
+		window.removeEventListener("online");
+		window.removeEventListener("offline");
+	};
 
 	componentWillReceiveProps = nextProps => {
-		if (this.props !== nextProps) {
-			const state = nextProps.location.state;
-			if (state && state.isModalOpen) {
-				this.setState({ isModalOpen: state.isModalOpen });
+		if (
+			this.props.location.pathname !== nextProps.location.pathname &&
+			this.props.location.pathname !== "/login" &&
+			!this.props.isPushingHistory
+		) {
+			let { pathname } = this.props.location,
+				offsetTop = window.pageYOffset;
+			this.props.pushHistory({ from: pathname, offsetTop });
+			if (nextProps.location.pathname === "/login") {
+				if (JSON.parse(localStorage.getItem("user"))) this.props.history.goBack();
+				else this.setState({ isModalOpen: true });
 			}
 		}
 	};
 
+	_updateOnlineStatus = event => {
+		if (this.mounted) this.setState({ isOnline: navigator.onLine });
+	};
+
 	_toggleMenu = () => {
-		this.setState({ isMenuVisible: !this.state.isMenuVisible });
+		if (this.mounted) this.setState({ isMenuVisible: !this.state.isMenuVisible });
 	};
 
 	// _toggleModal = () => {
-	// 	this.setState({
+	// 	if (this.mounted) this.setState({
 	// 		isModalOpen: !this.state.isModalOpen
 	// 	});
 	// };
 
 	_handleModalClickIn = () => {
-		this.setState({
-			isModalOpen: true
-		});
+		if (this.mounted)
+			this.setState({
+				isModalOpen: true
+			});
 	};
 
-	_handleModalClickOut = () => {
-		const state = this.props.location.state;
-		if (state && state.isModalOpen) {
-			this.props.history.replace({ pathname: "/", state: {} });
-		}
-		this.setState({
-			isModalOpen: false
-		});
+	_handleModalClickOut = shouldRedirect => {
+		if (this.mounted)
+			this.setState(
+				{
+					isModalOpen: false
+				},
+				() => {
+					const { from, location, history } = this.props;
+					if (location.pathname === "/login") {
+						if (shouldRedirect) {
+							const values = queryString.parse(this.props.location.search);
+							history.push(_.isEmpty(values) ? "/" : values.redirect);
+						} else if (from.length) history.goBack();
+						else history.push("/");
+					}
+				}
+			);
 	};
 
 	_handleDropdownClick = () => {
-		this.setState({ isDropdownActive: !this.state.isDropdownActive });
+		if (this.mounted) this.setState({ isDropdownActive: !this.state.isDropdownActive });
 	};
 
 	_renderDropdownContent = (user, isLoading) => {
@@ -116,10 +181,11 @@ class Header extends Component {
 											isLoadingSelf: false,
 											isLoadingSibling: this.props.isLoadingLogout,
 											onClick: () => {
-												this.setState({ isDropdownActive: false }, () => {
-													if (this.props.location.pathname !== `/user/${user._id}`)
-														this.props.history.push(`/user/${user._id}`);
-												});
+												if (this.mounted)
+													this.setState({ isDropdownActive: false }, () => {
+														if (this.props.location.pathname !== `/user/${user._id}`)
+															this.props.history.push(`/user/${user._id}`);
+													});
 											}
 										},
 										// {
@@ -128,7 +194,7 @@ class Header extends Component {
 										// 	isLoadingSelf: false,
 										// 	isLoadingSibling: this.props.isLoadingLogout,
 										// 	onClick: () => {
-										// 		this.setState({ isDropdownActive: false });
+										// 		if (this.mounted) this.setState({ isDropdownActive: false });
 										// 	}
 										// },
 										{
@@ -136,14 +202,7 @@ class Header extends Component {
 											title: "Sign out",
 											isLoadingSelf: this.props.isLoadingLogout,
 											isLoadingSibling: false,
-											onClick: () => {
-												this.props.onLogout(() => {
-													this.setState({ isDropdownActive: false }, () => {
-														this.props.onClear();
-														this.props.history.push("/");
-													});
-												});
-											}
+											onClick: this._handleLogout
 										}
 									]}
 								/>
@@ -154,37 +213,20 @@ class Header extends Component {
 		);
 	};
 
+	_handleLogout = () => {
+		this.props.logout(() => {
+			if (this.mounted)
+				this.setState({ isDropdownActive: false }, () => {
+					this.props.clearUser();
+					if (this.props.location.pathname.includes("/blog") || this.props.location.pathname.includes("/user"))
+						this.props.history.push("/");
+				});
+		});
+	};
+
 	render = () => {
-		const {
-			// match,
-			location
-			// history
-		} = this.props;
-		const links = [
-			{
-				name: "home",
-				path: "/"
-			},
-			{
-				name: "blog",
-				path: "/blog"
-			},
-			{
-				name: "about",
-				path: "/about"
-			},
-			{
-				name: "contact",
-				path: "/contact"
-			}
-			// {
-			// 	name: "join us",
-			// 	path: location.pathname,
-			// 	onClick: this._handleModalClickIn
-			// }
-		];
-		// console.log(location.pathname);
-		const { user = {}, isLoadingUser, isOnline } = this.props;
+		const { location, user = {}, isLoadingUser } = this.props;
+		const { isOnline } = this.state;
 
 		return (
 			<AppContext.Consumer>
@@ -228,7 +270,6 @@ class Header extends Component {
 										<Link
 											to={{
 												pathname: obj.path
-												// state: { prevPath: location.pathname }
 											}}
 											key={i}
 											className={`header-link ${context.offsetTop > 100 ? "shrink" : ""}`}
@@ -249,4 +290,42 @@ class Header extends Component {
 	};
 }
 
-export default withRouter(Header);
+const mapStateToProps = ({ articles, users, authentication, history }) => ({
+		isFetchingArticles: articles.isFetchingArticles,
+
+		isFetchingUsers: users.isLoadingUsers,
+		user: authentication.user,
+		isLoadingUser: authentication.isLoadingUser,
+		hasErroredUser: authentication.hasErroredUser,
+		userError: authentication.userError,
+
+		isLoadingLogout: authentication.isLoadingLogout,
+		hasErroredLogout: authentication.hasErroredLogout,
+		logoutError: authentication.logoutError,
+
+		isModalOpen: history.isModalOpen,
+		from: history.from,
+		offsetTop: history.offsetTop,
+		isPushingHistory: history.isPushingHistory
+	}),
+	mapDispatchToProps = dispatch =>
+		bindActionCreators(
+			{
+				getOne: actions.authentication.getOne,
+				logout: actions.authentication.logout,
+				clearUser: () => dispatch => {
+					dispatch({ type: "CLEAR_ONE" });
+					dispatch({ type: "CLEAR_SELF" });
+				},
+				pushHistory: actions.history.pushHistory,
+				clearHistory: actions.history.clear
+			},
+			dispatch
+		);
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Header)
+);

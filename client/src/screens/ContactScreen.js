@@ -4,14 +4,15 @@ import actions from "redux/actions";
 import { Contact } from "components";
 
 export class ContactScreen extends Component {
-	componentWillMount = () => {
+	componentDidMount = () => {
 		window.scrollTo(0, 0);
 	};
 
 	render = () => {
-		const { onCreate, onCreateData, isFetchingCreateData, onCreateError, history } = this.props;
+		const { onCreate, onCreateData, isFetchingCreateData, onCreateError, history, location } = this.props;
 		return (
 			<Contact
+				location={location}
 				history={history}
 				onCreate={onCreate}
 				onCreateData={onCreateData}
@@ -22,11 +23,13 @@ export class ContactScreen extends Component {
 	};
 }
 
-const mapStateToProps = ({ mails }) => {
+const mapStateToProps = ({ mails, history }) => {
 		return {
 			isFetchingCreateData: mails.isFetchingCreateData,
 			onCreateData: mails.onCreateData,
-			onCreateError: mails.onCreateError
+			onCreateError: mails.onCreateError,
+
+			offsetTop: history.offsetTop
 		};
 	},
 	mapDispatchToProps = dispatch => {

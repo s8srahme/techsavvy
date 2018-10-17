@@ -3,6 +3,36 @@ import { Link } from "react-router-dom";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Heart } from "react-feather";
 import GA from "utils";
 
+const socials = [
+		{ name: Twitter, href: "" },
+		{ name: Facebook, href: "" },
+		{ name: Instagram, href: "" },
+		{ name: Linkedin, href: "" },
+		{ name: Github, href: "" }
+	],
+	links = [
+		{
+			name: "Blog",
+			href: "/blog"
+		},
+		{
+			name: "About",
+			href: "/about"
+		},
+		{
+			name: "Contact",
+			href: "/contact"
+		},
+		{
+			name: "License",
+			href: "/license"
+		},
+		{
+			name: "Privacy policy",
+			href: "/privacy"
+		}
+	];
+
 export class Footer extends Component {
 	_handleClick = (event, index) => {
 		event.preventDefault();
@@ -10,36 +40,6 @@ export class Footer extends Component {
 	};
 
 	render = () => {
-		const socials = [
-				{ name: Twitter, href: "" },
-				{ name: Facebook, href: "" },
-				{ name: Instagram, href: "" },
-				{ name: Linkedin, href: "" },
-				{ name: Github, href: "" }
-			],
-			links = [
-				{
-					name: "Blog",
-					href: "/blog"
-				},
-				{
-					name: "About",
-					href: "/about"
-				},
-				{
-					name: "Contact",
-					href: "/contact"
-				},
-				{
-					name: "License",
-					href: "/license"
-				},
-				{
-					name: "Privacy policy",
-					href: "/privacy"
-				}
-			];
-
 		return (
 			<div className="footer">
 				<div className="container">
@@ -60,11 +60,19 @@ export class Footer extends Component {
 						</article>
 						<article className="column _20">
 							<ul>
-								{links.map((link, index) => (
-									<li key={index}>
-										<Link to={link.href}>{link.name}</Link>
-									</li>
-								))}
+								{links.map((link, index) => {
+									return (
+										<li key={index}>
+											<Link
+												to={{
+													pathname: link.href
+												}}
+											>
+												{link.name}
+											</Link>
+										</li>
+									);
+								})}
 							</ul>
 						</article>
 						<article className="column _25">

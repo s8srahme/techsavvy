@@ -38,11 +38,12 @@ class UserDetailScreen extends Component {
 			unfollow,
 			isLoadingFollowData,
 			onFollowData,
-			onUnfollowData
+			onUnfollowData,
+			history
 		} = this.props;
 
 		if (userError && userError.response.status === 404) {
-			return <NotFound />;
+			return <NotFound history={history} />;
 		}
 		return (
 			<UserDetail

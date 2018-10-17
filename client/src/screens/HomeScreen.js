@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
 	bgImgJeshootsCom,
 	// iconRedux,
@@ -28,6 +29,8 @@ import {
 import { Loader, LazyLoad } from "../components";
 import { ArticleListScreen, UserListScreen } from "screens";
 import { ellipsizeTextBox } from "../utils";
+import { AppContext } from "../AppProvider";
+import actions from "redux/actions";
 
 const // socials = [
 	// 		{ name: Twitter, href: "" },
@@ -161,56 +164,76 @@ const // socials = [
 		}
 	];
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			slideCount: 0,
 			translateValue: 0,
-			offsetTop: 0,
 			isNewsletterLoading: false,
 			errorInputIndex: -1,
 			newsletterEmail: "",
 			windowHeight: window.innerHeight,
 			windowWidth: window.innerWidth,
-			hasExpandedSlide: false
+			hasExpandedSlide: false,
+			shouldScrollWindow: false,
+			isFetchingArticles: true,
+			isFetchingUsers: true
 		};
 		this.aboutRef = React.createRef();
+		this.mounted = false;
 	}
 
-	_handleResize = e => {
-		this.setState((previousState, currentProps) => {
-			return {
-				windowHeight: window.innerHeight,
-				windowWidth: window.innerWidth,
-				hasExpandedSlide: previousState.windowWidth < window.innerWidth
-			};
-		}, this._handleEllipsis(testimonials));
-	};
-
-	_handleScroll = e => {
-		let offsetTop = this.instance.getBoundingClientRect().top;
-		this.setState({ offsetTop });
-	};
-
-	componentWillMount = () => {
-		const state = this.props.location.state;
-		// console.log(state);
-		if (state && state.isModalOpen) {
-			this.setState({ offsetTop: state.offsetTop });
-		}
+	componentDidUpdate = (prevProps, prevState, snapshot) => {
+		if (prevProps.isFetchingArticles && !this.props.isFetchingArticles)
+			this.setState({ isFetchingArticles: false }, this._handleScroll);
+		if (prevProps.isFetchingUsers && !this.props.isFetchingUsers)
+			this.setState({ isFetchingUsers: false }, this._handleScroll);
 	};
 
 	componentDidMount = () => {
-		window.scrollTo(0, this.state.offsetTop);
-		window.addEventListener("resize", this._handleResize);
-		window.addEventListener("scroll", this._handleScroll);
+		this.mounted = true;
 		this._handleEllipsis(testimonials);
+
+		window.scrollTo(0, 0);
+		window.addEventListener("resize", this._handleResize);
 	};
 
 	componentWillUnmount = () => {
+		const { isFetchingArticles, isFetchingUsers } = this.state;
+		this.mounted = false;
+		if (isFetchingArticles || isFetchingUsers) {
+			clearTimeout(this._scrollTo);
+		}
 		window.removeEventListener("resize", this._handleResize);
-		window.removeEventListener("scroll", this._handleScroll);
+	};
+
+	_scrollTo = () => {
+		const { offsetTop, from } = this.props;
+		if (from.length && from[0] === "/login" && offsetTop && offsetTop < this.instance.clientHeight)
+			window.scrollTo(0, offsetTop);
+	};
+
+	_handleScroll = () => {
+		const { isFetchingArticles, isFetchingUsers } = this.state;
+		// const offsetTop = this.instance.getBoundingClientRect().top * -1;
+		if (!isFetchingArticles && !isFetchingUsers) {
+			setTimeout(this._scrollTo, 500);
+		}
+	};
+
+	_handleResize = e => {
+		if (this.mounted)
+			this.setState(
+				(previousState, currentProps) => {
+					return {
+						windowHeight: window.innerHeight,
+						windowWidth: window.innerWidth,
+						hasExpandedSlide: previousState.windowWidth < window.innerWidth
+					};
+				},
+				() => this._handleEllipsis(testimonials)
+			);
 	};
 
 	render = () => {
@@ -252,7 +275,11 @@ export default class HomeScreen extends Component {
 					hasHeaderButton={false}
 					hasHeaderTabs={false}
 					limit={4}
-					onFetchMore={() => this.props.history.push("/blog")}
+					onFetchMore={() => {
+						this.props.history.push({
+							pathname: "/blog"
+						});
+					}}
 				/>
 				{this._renderFeatureContent(features)}
 				{this._renderAboutContent(about)}
@@ -264,9 +291,7 @@ export default class HomeScreen extends Component {
 	};
 
 	_handleButtonClick = () => {
-		// const list = this.listRef.current;
 		window.scrollTo({
-			// top: list.offsetTop - 50,
 			top: this.state.windowHeight - 50,
 			left: 0,
 			behavior: "smooth"
@@ -274,29 +299,36 @@ export default class HomeScreen extends Component {
 	};
 
 	_renderLandingContent = () => (
-		<LazyLoad
-			figure
-			className={`landing-content ${this.state.offsetTop < 0 ? "shrink" : ""}`}
-			style={{
-				backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
+		<AppContext.Consumer>
+			{context => {
+				// console.log(context);
+				return (
+					<LazyLoad
+						figure
+						className={`landing-content ${context.offsetTop - 100 > 0 ? "shrink" : ""}`}
+						style={{
+							backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
 							url(${bgImgJeshootsCom})`
+						}}
+						src={bgImgJeshootsCom}
+						background="dark"
+					>
+						<div className="container">
+							<section className="row">
+								<article className="landing-message-wrapper column">
+									<figcaption className="landing-message">Open content publishing for all industries</figcaption>
+									<span className="separator" />
+									<h4>Document your insights and grow an audience around the things you are passionate about.</h4>
+									<button className="btn" onClick={this._handleButtonClick}>
+										Explore
+									</button>
+								</article>
+							</section>
+						</div>
+					</LazyLoad>
+				);
 			}}
-			src={bgImgJeshootsCom}
-			background="dark"
-		>
-			<div className="container">
-				<section className="row">
-					<article className="landing-message-wrapper column">
-						<figcaption className="landing-message">Open content publishing for all industries</figcaption>
-						<span className="separator" />
-						<h4>Document your insights and grow an audience around the things you are passionate about.</h4>
-						<button className="btn" onClick={this._handleButtonClick}>
-							Explore
-						</button>
-					</article>
-				</section>
-			</div>
-		</LazyLoad>
+		</AppContext.Consumer>
 	);
 
 	_handleFormSubmit = event => {
@@ -573,3 +605,24 @@ const Socials = ({ data }) => (
 		})}
 	</div>
 );
+
+const mapStateToProps = ({ articles, users, history }) => {
+		return {
+			isFetchingArticles: articles.isFetchingArticles,
+			isFetchingUsers: users.isLoadingUsers,
+
+			isPushingHistory: history.isPushingHistory,
+			offsetTop: history.offsetTop,
+			from: history.from
+		};
+	},
+	mapDispatchToProps = dispatch => {
+		return {
+			pushHistory: actions.history.pushHistory
+		};
+	};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(HomeScreen);

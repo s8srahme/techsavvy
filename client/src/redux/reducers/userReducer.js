@@ -85,7 +85,13 @@ export const userReducer = (state = initialState, { type, payload, error }) => {
 			};
 
 		case "CLEAR_ONE":
-			return initialState;
+			return {
+				...initialState,
+				users: state.users,
+				isLoadingUsers: state.isLoadingUsers,
+				hasErroredUsers: state.hasErroredUsers,
+				usersError: state.usersError
+			};
 
 		case userConstants.FOLLOW_REQUEST:
 			return {
