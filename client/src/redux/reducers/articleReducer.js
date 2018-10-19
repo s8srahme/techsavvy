@@ -165,7 +165,8 @@ export const articleReducer = (state = initialState, action) => {
 		case FETCH_ARTICLE:
 			return {
 				...state,
-				isFetchingArticle: true
+				isFetchingArticle: true,
+				article: {}
 			};
 		case FETCH_ARTICLE_SUCCESS:
 			return {

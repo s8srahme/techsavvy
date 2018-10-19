@@ -11,7 +11,6 @@ export class ArticleForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			editor: null,
 			title: "",
 			description: "",
 			// isDescriptionEmpty: true,
@@ -26,6 +25,7 @@ export class ArticleForm extends Component {
 			isFetchingUpdateData: false,
 			isFetchingArticle: true
 		};
+		this.editor = null;
 	}
 
 	// componentDidMount = () => {
@@ -33,9 +33,15 @@ export class ArticleForm extends Component {
 	// 	editor.subscribe("editableInput", this._handleEditableInput);
 	// };
 
-	// componentWillUnmount = () => {
-	// 	editor.unsubscribe("editableInput", this._handleEditableInput);
-	// };
+	componentWillUnmount = () => {
+		if (this.editor) {
+			this.editor.unsubscribe("editableInput", this._handleEditableInput);
+			const body = document.querySelector("body"),
+				anchor = document.getElementById("medium-editor-anchor-preview-1"),
+				toolbar = document.getElementById("medium-editor-toolbar-1");
+			for (let el of [anchor, toolbar]) body.removeChild(el);
+		}
+	};
 
 	componentWillReceiveProps = async nextProps => {
 		if (this.props !== nextProps) {
@@ -64,9 +70,9 @@ export class ArticleForm extends Component {
 					) {
 						// await this._sleep(() => {
 						setTimeout(() => {
-							const editor = this._createEditorInstance();
-							editor.subscribe("editableInput", this._handleEditableInput);
-							this.setState({ editor }, () => this._setContent(articleData));
+							this.editor = this._createEditorInstance();
+							this.editor.subscribe("editableInput", this._handleEditableInput);
+							this._setContent(articleData);
 						}, 300);
 					}
 				});
@@ -97,7 +103,7 @@ export class ArticleForm extends Component {
 	// };
 
 	_setContent = articleData => {
-		if (this.state.editor && Object.keys(articleData).length) {
+		if (this.editor && Object.keys(articleData).length) {
 			let activeTagIndex = 0;
 			tags.forEach((currentValue, index) => {
 				if (currentValue.name.toLowerCase() === articleData.category.toLowerCase()) activeTagIndex = index;
@@ -114,7 +120,7 @@ export class ArticleForm extends Component {
 					// console.log(this.state);
 					this._handleTitleResize();
 					// document.getElementById("title").innerHTML = this.state.title;
-					this.state.editor.setContent(this.state.description, 0);
+					this.editor.setContent(this.state.description, 0);
 				}
 			);
 		}

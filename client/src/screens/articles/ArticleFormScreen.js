@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import actions from "redux/actions";
 import { ArticleForm } from "../../components";
-import { extractId } from "../../utils";
 
 class ArticleFormScreen extends Component {
 	componentWillMount = () => {
 		const { authenticationData, isFetchingArticle } = this.props;
 
 		if (Object.keys(authenticationData).length && !isFetchingArticle) {
-			let id = extractId(this.props.match.params.slug);
-			this.props.onFetchOne(id);
+			let urlSlug = this.props.match.params.slug;
+			this.props.onFetchOne(urlSlug);
 			window.scrollTo(0, 0);
 		}
 	};
@@ -20,8 +19,8 @@ class ArticleFormScreen extends Component {
 			const { isLoadingAuthentication } = nextProps;
 
 			if (this.props.isLoadingAuthentication && !isLoadingAuthentication) {
-				let id = extractId(this.props.match.params.slug);
-				this.props.onFetchOne(id);
+				let urlSlug = this.props.match.params.slug;
+				this.props.onFetchOne(urlSlug);
 			}
 		}
 	};
@@ -48,8 +47,9 @@ class ArticleFormScreen extends Component {
 			<ArticleForm
 				history={this.props.history}
 				onFetchOne={() => {
-					let id = extractId(this.props.match.params.slug);
-					onFetchOne(id);
+					let urlSlug = this.props.match.params.slug;
+					this.props.onFetchOne(urlSlug);
+					onFetchOne(urlSlug);
 				}}
 				isLoadingAuthentication={isLoadingAuthentication}
 				authenticationData={authenticationData}
@@ -84,7 +84,7 @@ const mapStateToProps = ({ articles, authentication }) => {
 	mapDispatchToProps = dispatch => {
 		return {
 			onUpdate: (id, updateData) => dispatch(actions.articles.update(id, updateData)),
-			onFetchOne: id => dispatch(actions.articles.fetchOne(id))
+			onFetchOne: urlSlug => dispatch(actions.articles.fetchOne(urlSlug))
 		};
 	};
 

@@ -4,6 +4,7 @@ const articleSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	// text: String,
 	title: { type: String, required: true },
+	slug: { type: String, required: true },
 	description: { type: String, required: true },
 	featured_image_url: String,
 	claps: { type: Number, default: 0 },

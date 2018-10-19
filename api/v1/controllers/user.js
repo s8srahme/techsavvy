@@ -206,6 +206,7 @@ module.exports = {
 											_id: record._id,
 											title: record.title,
 											description: record.description,
+											slug: record.slug,
 											category: record.category,
 											claps: record.claps,
 											author_id: record.author_id,

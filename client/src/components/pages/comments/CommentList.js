@@ -10,19 +10,33 @@ export class CommentList extends Component {
 			isFetchingComments: true
 			// comments: {}
 		};
+		this.mounted = false;
 	}
 
 	_handleDropdownClick = index => {
-		this.setState({ activeDropdownIndex: this.state.activeDropdownIndex === index ? -1 : index });
+		if (this.mounted) this.setState({ activeDropdownIndex: this.state.activeDropdownIndex === index ? -1 : index });
 	};
 
 	_handleEditClick = index => {
-		this.setState({ activeEditingIndex: index });
+		if (this.mounted) this.setState({ activeEditingIndex: index });
+	};
+
+	componentDidMount = () => {
+		this.mounted = true;
+	};
+
+	componentWillUnmount = () => {
+		this.mounted = false;
 	};
 
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
-			if (this.state.isFetchingComments && this.props.isFetchingComments && !nextProps.isFetchingComments) {
+			if (
+				this.mounted &&
+				this.state.isFetchingComments &&
+				this.props.isFetchingComments &&
+				!nextProps.isFetchingComments
+			) {
 				this.setState({
 					isFetchingComments: false
 					//  comments: nextProps.comments

@@ -1,7 +1,7 @@
 export default (url, instance) => {
 	return {
-		getOne: id =>
-			instance.get(`${url}/${id}`, {
+		getOne: urlSlug =>
+			instance.get(`${url}/${urlSlug}`, {
 				// timeout: 5000
 			}),
 		getAll: (seed, page, limit) => instance.get(`${url}?page=${page}&limit=${limit}`),

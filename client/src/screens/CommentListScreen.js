@@ -16,9 +16,9 @@ class CommentListScreen extends Component {
 	}
 
 	componentWillMount = () => {
-		const { isFetchingComments, limit, articleId, onFetchAll } = this.props;
+		const { isFetchingArticle, isFetchingComments, limit, onFetchAll, article } = this.props;
 
-		if (!isFetchingComments) {
+		if (!isFetchingComments && !isFetchingArticle) {
 			// this.setState(
 			// 	{
 			// 		page: 1,
@@ -27,13 +27,15 @@ class CommentListScreen extends Component {
 			// 	},
 			// 	() => {
 			window.scrollTo(0, 0);
-			onFetchAll(articleId, this.state.seed, this.state.page, limit || this.state.limit);
+			onFetchAll(article._id, this.state.seed, this.state.page, limit || this.state.limit);
 			// 	}
 			// );
 		}
 	};
 
 	componentWillReceiveProps = nextProps => {
+		const { limit, onFetchAll, article } = this.props;
+
 		if (this.state.isFetchingMoreComments && this.props.isFetchingMoreComments && !nextProps.isFetchingMoreComments) {
 			this.setState({ isFetchingMoreComments: false }, () => {
 				// console.log(this.state.offsetTop);
@@ -43,6 +45,9 @@ class CommentListScreen extends Component {
 					behavior: "instant"
 				});
 			});
+		}
+		if (this.props.isFetchingArticle && !nextProps.isFetchingArticle) {
+			onFetchAll(article._id, this.state.seed, this.state.page, limit || this.state.limit);
 		}
 	};
 
@@ -75,7 +80,7 @@ class CommentListScreen extends Component {
 			hasErroredComments,
 			isFetchingComments,
 			commentsError,
-			articleId,
+			article,
 			// onDeleteAllData,
 			// onDeleteAllError,
 			isFetchingDeleteAllData
@@ -98,7 +103,7 @@ class CommentListScreen extends Component {
 		// ];
 		return (
 			<CommentList
-				articleId={articleId}
+				articleId={article._id}
 				authenticationData={authenticationData}
 				isLoadingAuthentication={isLoadingAuthentication}
 				comments={comments}
@@ -125,6 +130,11 @@ const mapStateToProps = state => {
 		return {
 			authenticationData: state.authentication.user,
 			isLoadingAuthentication: state.authentication.isLoadingUser,
+
+			article: state.articles.article,
+			hasErroredArticle: state.articles.hasErroredArticle,
+			articleError: state.articles.articleError,
+			isFetchingArticle: state.articles.isFetchingArticle,
 
 			comments: state.comments.comments,
 			hasErroredComments: state.comments.hasErroredComments,

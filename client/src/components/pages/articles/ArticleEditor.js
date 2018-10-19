@@ -24,6 +24,7 @@ export class ArticleEditor extends Component {
 			isFetchingCreateData: false,
 			isLoadingFeaturedImage: true
 		};
+		this.editor = null;
 	}
 
 	// componentDidMount = () => {
@@ -31,9 +32,15 @@ export class ArticleEditor extends Component {
 	// 	editor.subscribe("editableInput", this._handleEditableInput);
 	// };
 
-	// componentWillUnmount = () => {
-	// 	editor.unsubscribe("editableInput", this._handleEditableInput);
-	// };
+	componentWillUnmount = () => {
+		if (this.editor) {
+			this.editor.unsubscribe("editableInput", this._handleEditableInput);
+			const body = document.querySelector("body"),
+				anchor = document.getElementById("medium-editor-anchor-preview-1"),
+				toolbar = document.getElementById("medium-editor-toolbar-1");
+			for (let el of [anchor, toolbar]) body.removeChild(el);
+		}
+	};
 
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
@@ -41,8 +48,8 @@ export class ArticleEditor extends Component {
 
 			if (Object.keys(authenticationData).length || (this.props.isLoadingAuthentication && !isLoadingAuthentication)) {
 				setTimeout(() => {
-					const editor = this._createEditorInstance();
-					editor.subscribe("editableInput", this._handleEditableInput);
+					this.editor = this._createEditorInstance();
+					this.editor.subscribe("editableInput", this._handleEditableInput);
 				}, 300);
 			}
 			if (this.props.isFetchingCreateData && !isFetchingCreateData) {

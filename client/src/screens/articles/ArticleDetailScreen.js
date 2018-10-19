@@ -3,26 +3,25 @@ import { connect } from "react-redux";
 import actions from "redux/actions";
 import { ArticleDetail } from "../../components";
 import { CommentListScreen } from "..";
-import { extractId } from "../../utils";
+// import { extractId } from "../../utils";
 
 class ArticleDetailScreen extends Component {
 	componentWillMount = () => {
 		const { isFetchingArticle } = this.props;
 
 		if (!isFetchingArticle) {
-			// let id = extractId(this.props.slug);
-			let id = extractId(this.props.match.params.slug);
-			this.props.onFetchOne(id);
+			// let id = extractId(this.props.match.params.slug);
+			let urlSlug = this.props.match.params.slug;
+			this.props.onFetchOne(urlSlug);
 			window.scrollTo(0, 0);
 		}
 	};
 
 	render = () => {
-		let id = extractId(this.props.match.params.slug);
 		return (
 			<div>
 				<ArticleDetail {...this.props} />
-				{this.props.articleData.author_id && <CommentListScreen articleId={id} />}
+				{this.props.articleData.author_id && <CommentListScreen />}
 			</div>
 		);
 	};
@@ -49,7 +48,7 @@ const mapStateToProps = ({ comments, articles, authentication }) => {
 	},
 	mapDispatchToProps = dispatch => {
 		return {
-			onFetchOne: id => dispatch(actions.articles.fetchOne(id)),
+			onFetchOne: urlSlug => dispatch(actions.articles.fetchOne(urlSlug)),
 			onDeleteArticle: (id, cb) => dispatch(actions.articles.remove(id, cb)),
 			onDeleteComments: id => dispatch(actions.comments.removeAll(id))
 		};

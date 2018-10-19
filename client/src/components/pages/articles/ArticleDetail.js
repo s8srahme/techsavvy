@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Loader, LazyLoad } from "components";
 import { ChevronDown, Edit2, Delete } from "react-feather";
-import { slugify } from "../../../utils";
 import { Dropdown } from "../..";
 import moment from "moment";
 
@@ -121,9 +120,7 @@ export class ArticleDetail extends Component {
 																isLoadingSelf: false,
 																isLoadingSibling: isFetchingDeleteArticleData || isFetchingDeleteAllCommentsData,
 																onClick: event => {
-																	this.props.history.push(
-																		`/blog/${slugify(articleData.title)}-${articleData._id}/edit`
-																	);
+																	this.props.history.push(`/blog/${articleData.slug}/edit`);
 																}
 															},
 															{

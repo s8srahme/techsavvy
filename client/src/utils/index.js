@@ -3,10 +3,10 @@ import http from "http";
 import https from "https";
 import GA from "./GoogleAnalytics";
 
-export const extractId = str => {
-	let params = str.split("-");
-	return params[params.length - 1];
-};
+// export const extractId = str => {
+// 	let params = str.split("-");
+// 	return params[params.length - 1];
+// };
 
 export const truncate = (string, maxLength, separator) => {
 	if (string.length > maxLength) {

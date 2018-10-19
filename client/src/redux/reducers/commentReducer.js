@@ -133,12 +133,9 @@ export const commentReducer = (state = initialState, action) => {
 				onCreateData: action.payload,
 				onCreateError: null,
 				comments: {
-					meta: state.comments.meta,
+					meta: state.comments.meta || {},
 					data: {
-						comments: [
-							action.payload.data.createdComment,
-							...(Object.keys(state.comments).length ? state.comments.data.comments : {})
-						]
+						comments: [action.payload.data.createdComment, ...(state.comments.data ? state.comments.data.comments : {})]
 					}
 				}
 			};

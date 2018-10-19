@@ -7,10 +7,11 @@ const User = require("./../models/user");
 const Comment = require("./../models/comment");
 
 const querify = require("./../helpers/queryString");
+const generateUrlSlug = require("./../helpers/urlSlug");
 
 exports.articles_get_all = (req, res, next) => {
 	const { page, limit, sort, filter } = querify(req);
-	Article.find(filter, "_id text title description category author_id featured_image_url claps created_at", {
+	Article.find(filter, "_id text title description slug category author_id featured_image_url claps created_at", {
 		skip: limit * (page - 1),
 		limit,
 		sort
@@ -38,6 +39,7 @@ exports.articles_get_all = (req, res, next) => {
 										text: doc.text,
 										title: doc.title,
 										category: doc.category,
+										slug: doc.slug,
 										description: doc.description,
 										author_id: doc.author_id,
 										featured_image_url: doc.featured_image_url,
@@ -61,9 +63,9 @@ exports.articles_get_all = (req, res, next) => {
 		});
 };
 exports.articles_get_article = (req, res, next) => {
-	const id = req.params.articleId;
-	Article.findById(id)
-		.select("_id text title description category author_id featured_image_url claps created_at")
+	const slug = req.params.articleSlug;
+	Article.findOne({ slug })
+		.select("_id text title description category slug author_id featured_image_url claps created_at")
 		.populate("author_id", "name email")
 		.exec()
 		.then(article => {
@@ -76,7 +78,7 @@ exports.articles_get_article = (req, res, next) => {
 						url: "http://localhost:5000/api/articles"
 					}
 				});
-			else res.status(404).json({ message: "No valid entry found for provided ID" });
+			else res.status(404).json({ message: "No valid entry found for provided slug" });
 		})
 		.catch(err => res.status(500).json({ error: err }));
 };
@@ -114,6 +116,7 @@ exports.articles_create_article = (req, res, next) => {
 				description,
 				author_id,
 				// author_id: mongoose.Types.ObjectId(author_id),
+				slug: generateUrlSlug(title),
 				featured_image_url,
 				category,
 				created_at: new Date().toString()
@@ -130,6 +133,7 @@ exports.articles_create_article = (req, res, next) => {
 							_id: article._id,
 							category: article.category,
 							title: article.title,
+							slug: article.slug,
 							description: article.description,
 							author_id: article.author_id,
 							featured_image_url: article.featured_image_url,

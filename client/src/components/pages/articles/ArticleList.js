@@ -177,7 +177,7 @@ export class ArticleList extends Component {
 									key={colKey}
 									className="column"
 									to={{
-										pathname: `/blog/${slugify(col.title)}-${col._id}`
+										pathname: `/blog/${col.slug || slugify(col.title) + "-" + col._id}`
 									}}
 								>
 									<figure className={`news-card ${cols.length === 1 && "full"}`}>

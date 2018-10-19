@@ -16,7 +16,16 @@ export class CommentDetail extends Component {
 			errorInputIndex: -1,
 			errorInputMessage: ""
 		};
+		this.mounted = false;
 	}
+
+	componentDidMount = () => {
+		this.mounted = true;
+	};
+
+	componentWillUnmount = () => {
+		this.mounted = false;
+	};
 
 	componentWillMount = () => {
 		const { commentData } = this.props;
@@ -26,7 +35,7 @@ export class CommentDetail extends Component {
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
 			if (!nextProps.isEditingActive) this._handleEditClickOut();
-			if (Object.keys(nextProps.commentData).length && !nextProps.isFetchingUpdateData)
+			if (this.mounted && Object.keys(nextProps.commentData).length && !nextProps.isFetchingUpdateData)
 				this.setState({ description: nextProps.commentData.text });
 		}
 	};
@@ -36,23 +45,25 @@ export class CommentDetail extends Component {
 		this.setState({ isLoadingDelete: true }, () => {
 			onDelete(commentData._id, {
 				onSuccessCb: () => {
-					this.setState(
-						{
-							isLoadingDelete: false,
-							errorInputIndex: -1,
-							errorInputMessage: ""
-						},
-						() => {
-							onDropdownClick(-1);
-						}
-					);
+					if (this.mounted)
+						this.setState(
+							{
+								isLoadingDelete: false,
+								errorInputIndex: -1,
+								errorInputMessage: ""
+							},
+							() => {
+								onDropdownClick(-1);
+							}
+						);
 				},
 				onFailureCb: err => {
-					this.setState({
-						isLoadingDelete: false,
-						errorInputIndex: 0,
-						errorInputMessage: err.response.commentData.message || "There was a problem deleting the user"
-					});
+					if (this.mounted)
+						this.setState({
+							isLoadingDelete: false,
+							errorInputIndex: 0,
+							errorInputMessage: err.response.commentData.message || "There was a problem deleting the user"
+						});
 				}
 			});
 		});
@@ -61,17 +72,18 @@ export class CommentDetail extends Component {
 	_handleEditClickIn = async () => {
 		const { index, onDropdownClick, onEditClick } = this.props;
 		await onEditClick(index);
-		this.setState({ isEditing: true }, () => {
-			onDropdownClick(-1);
-		});
+		if (this.mounted)
+			this.setState({ isEditing: true }, () => {
+				onDropdownClick(-1);
+			});
 	};
 
 	_handleEditClickOut = () => {
-		this.setState({ isEditing: false });
+		if (this.mounted) this.setState({ isEditing: false });
 	};
 
 	_handleChange = event => {
-		this.setState({ description: event.target.value });
+		if (this.mounted) this.setState({ description: event.target.value });
 	};
 
 	_handleSubmit = event => {
@@ -85,25 +97,27 @@ export class CommentDetail extends Component {
 				{ text: description },
 				{
 					onSuccessCb: () => {
-						this.setState(
-							{
-								isLoadingSubmit: false,
-								description: "",
-								errorInputIndex: -1,
-								errorInputMessage: ""
-							},
-							() => {
-								this._handleEditClickOut();
-								onEditClick(-1);
-							}
-						);
+						if (this.mounted)
+							this.setState(
+								{
+									isLoadingSubmit: false,
+									description: "",
+									errorInputIndex: -1,
+									errorInputMessage: ""
+								},
+								() => {
+									this._handleEditClickOut();
+									onEditClick(-1);
+								}
+							);
 					},
 					onFailureCb: err => {
-						this.setState({
-							isLoadingSubmit: false,
-							errorInputIndex: 1,
-							errorInputMessage: err.response.data.message || "There was a problem updating the comment"
-						});
+						if (this.mounted)
+							this.setState({
+								isLoadingSubmit: false,
+								errorInputIndex: 1,
+								errorInputMessage: err.response.data.message || "There was a problem updating the comment"
+							});
 					}
 				}
 			);
