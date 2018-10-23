@@ -2,6 +2,7 @@ import React from "react";
 import { Camera } from "react-feather";
 import { Loader, LazyLoad } from "../..";
 import { bgImgEmptyStreet } from "assets/images";
+import { iconMale } from "../../../assets";
 
 export class UserEditing extends React.Component {
 	constructor(props) {
@@ -346,7 +347,11 @@ export class UserEditing extends React.Component {
 						<header className="row">
 							<figure className="column user-heading-wrapper">
 								<div className="user-img-wrapper" onClick={this._triggerFileInput}>
-									<LazyLoad src={this.state.userImage} alt="User infographic" className="user-thumbnail" />
+									<LazyLoad
+										src={this.state.userImage ? this.state.userImage : iconMale}
+										alt="User infographic"
+										className="user-thumbnail"
+									/>
 									<div className="user-img-overlay">
 										<Camera className="user-img-overlay-icon" />
 									</div>

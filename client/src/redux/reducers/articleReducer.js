@@ -2,6 +2,9 @@ import {
 	FETCH_ARTICLES,
 	FETCH_ARTICLES_SUCCESS,
 	FETCH_ARTICLES_FAILURE,
+	FETCH_HOME_ARTICLES,
+	FETCH_HOME_ARTICLES_SUCCESS,
+	FETCH_HOME_ARTICLES_FAILURE,
 	FETCH_MORE_ARTICLES,
 	FETCH_MORE_ARTICLES_SUCCESS,
 	FETCH_MORE_ARTICLES_FAILURE,
@@ -30,6 +33,11 @@ const initialState = {
 	isFetchingArticles: false,
 	hasErroredArticles: false,
 	articlesError: null,
+
+	homeArticles: {},
+	isFetchingHomeArticles: false,
+	hasErroredHomeArticles: false,
+	homeArticlesError: null,
 
 	userArticles: {},
 	isFetchingUserArticles: false,
@@ -83,6 +91,27 @@ export const articleReducer = (state = initialState, action) => {
 				isFetchingArticles: false,
 				hasErroredArticles: true,
 				articlesError: action.error
+			};
+
+		case FETCH_HOME_ARTICLES:
+			return {
+				...state,
+				isFetchingHomeArticles: true,
+				homeArticles: {}
+			};
+		case FETCH_HOME_ARTICLES_SUCCESS:
+			return {
+				...state,
+				isFetchingHomeArticles: false,
+				homeArticles: action.payload,
+				homeArticlesError: null
+			};
+		case FETCH_HOME_ARTICLES_FAILURE:
+			return {
+				...state,
+				isFetchingHomeArticles: false,
+				hasErroredHomeArticles: true,
+				homeArticlesError: action.error
 			};
 
 		case FETCH_USER_ARTICLES:

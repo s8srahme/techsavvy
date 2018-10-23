@@ -2,6 +2,9 @@ import {
 	FETCH_ARTICLES,
 	FETCH_ARTICLES_SUCCESS,
 	FETCH_ARTICLES_FAILURE,
+	FETCH_HOME_ARTICLES,
+	FETCH_HOME_ARTICLES_SUCCESS,
+	FETCH_HOME_ARTICLES_FAILURE,
 	FETCH_MORE_ARTICLES,
 	FETCH_MORE_ARTICLES_SUCCESS,
 	FETCH_MORE_ARTICLES_FAILURE,
@@ -46,16 +49,36 @@ const getFailure = (type, error) => {
 
 export const fetchAll = (seed, page, limit) => {
 	return dispatch => {
-		dispatch(get(seed === page ? FETCH_ARTICLES : FETCH_MORE_ARTICLES));
+		dispatch(
+			get(seed === page && limit !== 4 ? FETCH_ARTICLES : limit === 4 ? FETCH_HOME_ARTICLES : FETCH_MORE_ARTICLES)
+		);
 		return services.articles
 			.getAll(seed, page, limit)
 			.then(res => {
-				dispatch(getSuccess(seed === page ? FETCH_ARTICLES_SUCCESS : FETCH_MORE_ARTICLES_SUCCESS, res.data));
+				dispatch(
+					getSuccess(
+						seed === page && limit !== 4
+							? FETCH_ARTICLES_SUCCESS
+							: limit === 4
+								? FETCH_HOME_ARTICLES_SUCCESS
+								: FETCH_MORE_ARTICLES_SUCCESS,
+						res.data
+					)
+				);
 				return res;
 			})
 			.catch(err => {
 				console.log("err:", err);
-				dispatch(getFailure(seed === page ? FETCH_ARTICLES_FAILURE : FETCH_MORE_ARTICLES_FAILURE, err));
+				dispatch(
+					getFailure(
+						seed === page && limit !== 4
+							? FETCH_ARTICLES_FAILURE
+							: limit === 4
+								? FETCH_HOME_ARTICLES_FAILURE
+								: FETCH_MORE_ARTICLES_FAILURE,
+						err
+					)
+				);
 				return err;
 			});
 	};

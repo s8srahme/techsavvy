@@ -93,6 +93,10 @@
 		}
 		&.fixed {
 			padding-top: 15rem !important;
+			min-height: 70vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 		@include breakpoint(md) {
 			padding-top: 30rem;

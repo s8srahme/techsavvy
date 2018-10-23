@@ -31,16 +31,18 @@ class ArticleListScreen extends Component {
 		const {
 			isFetchingArticles,
 			isFetchingUserArticles,
+			isFetchingHomeArticles,
 			limit,
 			hasHeaderButton = true,
 			hasHeaderTabs = true,
-			articles
+			// articles,
+			homeArticles
 		} = this.props;
 
-		if (!isFetchingArticles && !isFetchingUserArticles) {
+		if (!isFetchingArticles && !isFetchingUserArticles && !isFetchingHomeArticles) {
 			window.scrollTo(0, 0);
 			if (
-				(!hasHeaderButton && !hasHeaderTabs && Object.keys(articles).length === 0) ||
+				(!hasHeaderButton && !hasHeaderTabs && Object.keys(homeArticles).length === 0) ||
 				(hasHeaderButton && hasHeaderTabs)
 			) {
 				let promisesToMake = [
@@ -131,12 +133,16 @@ class ArticleListScreen extends Component {
 	render = () => {
 		const {
 			articles,
+			homeArticles,
 			userArticles,
 			hasErroredArticles,
+			hasErroredHomeArticles,
 			hasErroredUserArticles,
 			isFetchingArticles,
+			isFetchingHomeArticles,
 			isFetchingUserArticles,
 			articlesError,
+			homeArticlesError,
 			userArticlesError,
 			hasHeaderButton = true,
 			hasHeaderTabs = true,
@@ -148,15 +154,19 @@ class ArticleListScreen extends Component {
 				onFetchMore={onFetchMore || this._handleFetchMore}
 				onFetchMoreUserArticles={this._handleFetchMoreUserArticles}
 				articles={articles}
+				homeArticles={homeArticles}
 				userArticles={userArticles}
 				hasErroredArticles={hasErroredArticles}
 				hasErroredUserArticles={hasErroredUserArticles}
+				hasErroredHomeArticles={hasErroredHomeArticles}
 				isFetchingArticles={isFetchingArticles}
 				isFetchingUserArticles={isFetchingUserArticles}
+				isFetchingHomeArticles={isFetchingHomeArticles}
 				isFetchingAllArticles={this.state.isFetchingAllArticles}
 				isFetchingMoreArticles={this.state.isFetchingMoreArticles}
 				isFetchingMoreUserArticles={this.state.isFetchingMoreUserArticles}
 				articlesError={articlesError}
+				homeArticlesError={homeArticlesError}
 				userArticlesError={userArticlesError}
 				hasHeaderButton={hasHeaderButton}
 				hasHeaderTabs={hasHeaderTabs}
@@ -169,6 +179,11 @@ const mapStateToProps = state => {
 		return {
 			authenticationData: state.authentication.user,
 			isLoadingAuthentication: state.authentication.isLoadingUser,
+
+			homeArticles: state.articles.homeArticles,
+			hasErroredHomeArticles: state.articles.hasErroredHomeArticles,
+			isFetchingHomeArticles: state.articles.isFetchingHomeArticles,
+			homeArticlesError: state.articles.homeArticlesError,
 
 			articles: state.articles.articles,
 			hasErroredArticles: state.articles.hasErroredArticles,

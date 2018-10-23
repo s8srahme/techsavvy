@@ -69,8 +69,9 @@ export class ArticleList extends Component {
 	};
 
 	_handleEllipsis = () => {
-		let articles = this.props.articles;
+		let { articles, homeArticles, hasHeaderButton = false, hasHeaderTabs = false } = this.props;
 		if (this.state.activeTabIndex === 1) articles = this.props.userArticles;
+		else if (!hasHeaderButton && !hasHeaderTabs) articles = homeArticles;
 
 		articles = Object.keys(articles).length && articles.data ? articles.data.articles : [];
 		articles = articles.slice(0);
@@ -104,7 +105,9 @@ export class ArticleList extends Component {
 	};
 
 	componentDidMount = () => {
+		let { homeArticles, hasHeaderButton = false, hasHeaderTabs = false } = this.props;
 		this.mounted = true;
+		if (!hasHeaderButton && !hasHeaderTabs && Object.keys(homeArticles).length) this._handleEllipsis();
 		window.addEventListener("resize", this._handleResize);
 	};
 
@@ -120,6 +123,7 @@ export class ArticleList extends Component {
 		let {
 			articles,
 			userArticles,
+			homeArticles,
 			isFetchingAllArticles,
 			// hasErroredArticles,
 			// isFetchingArticles,
@@ -129,6 +133,7 @@ export class ArticleList extends Component {
 			hasHeaderTabs = false
 		} = this.props;
 		if (this.state.activeTabIndex === 1) articles = userArticles;
+		else if (!hasHeaderButton && !hasHeaderTabs) articles = homeArticles;
 
 		return (
 			<div className="wrapper" ref={this.listRef}>
@@ -139,13 +144,7 @@ export class ArticleList extends Component {
 				) : (
 					<div className="news-list-wrapper">
 						{this._renderNewsHeader(hasHeaderButton, hasHeaderTabs)}
-						{this._renderNewsContent(
-							Object.keys(articles).length && articles.data
-								? !hasHeaderButton && !hasHeaderTabs
-									? articles.data.articles.slice(0, 4)
-									: articles.data.articles
-								: []
-						)}
+						{this._renderNewsContent(Object.keys(articles).length && articles.data ? articles.data.articles : [])}
 					</div>
 				)}
 			</div>
@@ -158,9 +157,7 @@ export class ArticleList extends Component {
 
 		for (let rowKey = 0, rowIndex = 0; rowKey < articles.length; rowKey = rowKey + 3, rowIndex += 1) {
 			let cols = articles.slice(rowKey, rowKey === 0 ? 1 : rowKey + 3);
-			if (rowKey !== 0 && cols.length < 3) {
-				cols = [...cols, ...(cols.length === 1 ? [{}, {}] : {})];
-			}
+			if (rowKey !== 0 && cols.length < 3) cols = [...cols, ...(cols.length === 1 ? [{}, {}] : [{}])];
 			if (rowKey === 0) rowKey = -2;
 
 			rows.push(
@@ -280,8 +277,15 @@ export class ArticleList extends Component {
 
 	_renderNewsContent = articles => {
 		let { activeTabIndex } = this.state,
-			meta = activeTabIndex === 0 ? this.props.articles.meta : this.props.userArticles.meta,
-			{ hasHeaderButton = false, hasHeaderTabs = false } = this.props;
+			{ hasHeaderButton = false, hasHeaderTabs = false } = this.props,
+			meta =
+				activeTabIndex === 0
+					? !hasHeaderButton && !hasHeaderTabs
+						? this.props.homeArticles.meta
+						: this.props.articles.meta
+					: this.props.userArticles.meta;
+		articles = articles.slice(0);
+
 		return (
 			<div
 				className={`news-list-content ${articles.length > 0 ? "" : "clear"} ${
@@ -298,7 +302,7 @@ export class ArticleList extends Component {
 					) : articles.length > 0 ? (
 						<section className="news-cards-wrapper">
 							{this._handleNewsRowsAndCols(articles).map(row => row)}
-							{meta.page !== meta.pages && (
+							{meta.page < meta.pages && (
 								<div className="row news-cards-btn-wrapper">
 									{activeTabIndex === 0 ? (
 										this.props.isFetchingMoreArticles ? (

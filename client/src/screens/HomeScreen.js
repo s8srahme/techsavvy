@@ -101,22 +101,22 @@ const // socials = [
 		{
 			description:
 				"Whatever your interest, you can always find fresh thinking and unique perspectives here. Also, the platform is ad free which encourages many avid readers who are tired of viewing constant ads. It also has a sleek, user friendly design, allowing writers to focus on publishing content and not worry about design/presentation.",
-			author: "Casey Botticello"
+			author: "Daario Naharis"
 		},
 		{
 			description:
 				"It is an engaging platform where anybody can document their journey and grow an audience around the things they're passionate about.",
-			author: "Steve Campbell"
+			author: "Oberyn Martell"
 		},
 		{
 			description:
 				"This is like a blogging platform that is great to revive your old posts or for gaining some traction if you are still a newbie.",
-			author: "Pascal Thellmann"
+			author: "Jojen Reed"
 		},
 		{
 			description:
 				"If you aspire to be an influnecer, this is one of the places to develop your writing skills and learn how to tailor a message in story-telling.",
-			author: "Michael Spencer"
+			author: "Myrcella Baratheon"
 		}
 	],
 	features = [
@@ -176,9 +176,9 @@ class HomeScreen extends Component {
 			windowHeight: window.innerHeight,
 			windowWidth: window.innerWidth,
 			hasExpandedSlide: false,
-			shouldScrollWindow: false,
-			isFetchingArticles: true,
-			isFetchingUsers: true
+			shouldScrollWindow: false
+			// isFetchingArticles: true,
+			// isFetchingUsers: true
 		};
 		this.aboutRef = React.createRef();
 		this.mounted = false;
@@ -194,17 +194,18 @@ class HomeScreen extends Component {
 	componentDidMount = () => {
 		this.mounted = true;
 		this._handleEllipsis(testimonials);
+		if (Object.keys(this.props.homeArticles).length) this._scrollTo();
+		else window.scrollTo(0, 0);
 
-		window.scrollTo(0, 0);
 		window.addEventListener("resize", this._handleResize);
 	};
 
 	componentWillUnmount = () => {
-		const { isFetchingArticles, isFetchingUsers } = this.state;
+		// const { isFetchingArticles, isFetchingUsers } = this.state;
 		this.mounted = false;
-		if (isFetchingArticles || isFetchingUsers) {
-			clearTimeout(this._scrollTo);
-		}
+		// if (isFetchingArticles || isFetchingUsers) {
+		// 	clearTimeout(this._scrollTo);
+		// }
 		window.removeEventListener("resize", this._handleResize);
 	};
 
@@ -214,13 +215,13 @@ class HomeScreen extends Component {
 			window.scrollTo(0, offsetTop);
 	};
 
-	_handleScroll = () => {
-		const { isFetchingArticles, isFetchingUsers } = this.state;
-		// const offsetTop = this.instance.getBoundingClientRect().top * -1;
-		if (!isFetchingArticles && !isFetchingUsers) {
-			setTimeout(this._scrollTo, 500);
-		}
-	};
+	// _handleScroll = () => {
+	// 	const { isFetchingArticles, isFetchingUsers } = this.state;
+	// 	// const offsetTop = this.instance.getBoundingClientRect().top * -1;
+	// 	if (!isFetchingArticles && !isFetchingUsers) {
+	// 		setTimeout(this._scrollTo, 500);
+	// 	}
+	// };
 
 	_handleResize = e => {
 		if (this.mounted)
@@ -609,6 +610,10 @@ const Socials = ({ data }) => (
 const mapStateToProps = ({ articles, users, history }) => {
 		return {
 			isFetchingArticles: articles.isFetchingArticles,
+			articles: articles.articles,
+			userArticles: articles.userArticles,
+			homeArticles: articles.homeArticles,
+
 			isFetchingUsers: users.isLoadingUsers,
 
 			isPushingHistory: history.isPushingHistory,

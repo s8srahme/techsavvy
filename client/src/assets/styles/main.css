@@ -959,7 +959,11 @@ html {
       justify-content: center;
       max-width: 100%; }
     .news-list-wrapper .news-list-content.fixed {
-      padding-top: 15rem !important; }
+      padding-top: 15rem !important;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
     @media (min-width: 768px) {
       .news-list-wrapper .news-list-content {
         padding-top: 30rem; } }
@@ -1840,7 +1844,7 @@ html {
           right: 0;
           top: 0;
           z-index: 1;
-          background-image: linear-gradient(to bottom, rgba(19, 19, 21, 0.1), rgba(19, 19, 21, 0.8)); }
+          background-image: linear-gradient(to bottom, rgba(19, 19, 21, 0.1), rgba(19, 19, 21, 0.3)); }
     .wrapper .user-view-content .container .row .btn-wrapper {
       display: flex;
       align-items: center;
