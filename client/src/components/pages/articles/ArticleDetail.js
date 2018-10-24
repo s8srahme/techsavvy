@@ -9,7 +9,8 @@ export class ArticleDetail extends Component {
 		super(props);
 		this.state = {
 			isDropdownActive: false,
-			isFetchingArticle: true
+			isFetchingArticle: true,
+			createdAt: null
 		};
 	}
 
@@ -17,7 +18,7 @@ export class ArticleDetail extends Component {
 		if (this.props !== nextProps) {
 			const { isFetchingArticle } = nextProps;
 			if (this.props.isFetchingArticle && !isFetchingArticle) {
-				this.setState({ isFetchingArticle: false });
+				this.setState({ isFetchingArticle: false, createdAt: nextProps.articleData.created_at });
 			}
 		}
 	};
@@ -103,7 +104,7 @@ export class ArticleDetail extends Component {
 										<div className="news-meta">
 											<span>{articleData.author_id.name.toLowerCase()}</span>
 											<span>{"\u00b7"}</span>
-											<time>{moment(articleData.created_at).fromNow()}</time>
+											<time>{moment(this.state.createdAt).fromNow()}</time>
 										</div>
 										{articleData.author_id._id === authenticationData._id && (
 											<div className="news-meta-dropdown-wrapper">

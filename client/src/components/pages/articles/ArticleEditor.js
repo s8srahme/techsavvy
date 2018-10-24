@@ -5,7 +5,15 @@ import { iconPicture, iconEdit, iconMale } from "../../../assets";
 import "../../../../node_modules/medium-editor/dist/css/medium-editor.css";
 import "../../../../node_modules/medium-editor/dist/css/themes/beagle.css";
 
-const tags = [{ name: "tech" }, { name: "ENTERTAINMENT" }, { name: "Sports" }, { name: "others" }];
+const tags = [
+	{ name: "tech" },
+	{ name: "Startups" },
+	{ name: "ENTERTAINMENT" },
+	{ name: "Culture" },
+	{ name: "Sports" },
+	{ name: "lifehacks" },
+	{ name: "others" }
+];
 
 export class ArticleEditor extends Component {
 	constructor(props) {
@@ -27,19 +35,23 @@ export class ArticleEditor extends Component {
 		this.editor = null;
 	}
 
-	// componentDidMount = () => {
-	// 	const editor = this._createEditorInstance();
-	// 	editor.subscribe("editableInput", this._handleEditableInput);
-	// };
+	componentDidMount = () => {
+		// const editor = this._createEditorInstance();
+		// editor.subscribe("editableInput", this._handleEditableInput);
+
+		window.addEventListener("resize", this._handleTitleResize);
+	};
 
 	componentWillUnmount = () => {
 		if (this.editor) {
 			this.editor.unsubscribe("editableInput", this._handleEditableInput);
 			const body = document.querySelector("body"),
-				anchor = document.getElementById("medium-editor-anchor-preview-1"),
-				toolbar = document.getElementById("medium-editor-toolbar-1");
-			for (let el of [anchor, toolbar]) body.removeChild(el);
+				anchor = document.getElementsByClassName("medium-editor-anchor-preview"),
+				toolbar = document.getElementsByClassName("medium-editor-toolbar");
+			if (anchor && toolbar) for (let el of [anchor[0], toolbar[0]]) body.removeChild(el);
 		}
+
+		window.removeEventListener("resize", this._handleTitleResize);
 	};
 
 	componentWillReceiveProps = nextProps => {
@@ -114,7 +126,11 @@ export class ArticleEditor extends Component {
 
 	_handleTitleResize = () => {
 		let element = this.hidden;
-		this.setState({ titleHeight: element.clientHeight, shouldTitleResize: element.clientHeight <= 75 ? false : true });
+		if (element)
+			this.setState({
+				titleHeight: element.clientHeight,
+				shouldTitleResize: element.clientHeight <= 75 ? false : true
+			});
 	};
 
 	// _handleDescriptionChange = () => {
