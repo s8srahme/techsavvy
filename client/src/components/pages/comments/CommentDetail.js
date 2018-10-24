@@ -141,7 +141,7 @@ export class CommentDetail extends Component {
 					<header className="comment-card-heading-wrapper">
 						<div className="comment-card-img-wrapper">
 							<img
-								src={commentData.image_url ? commentData.image_url : iconMale}
+								src={commentData.author_id.image_url ? commentData.author_id.image_url : iconMale}
 								alt="Card infographic"
 								className="comment-thumbnail"
 							/>

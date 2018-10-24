@@ -1,9 +1,9 @@
 import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import {
-	iconMale,
+	iconMale
 	// iconFemale,
-	bgImgEmptyStreet
+	// bgImgEmptyStreet
 } from "assets";
 import { Loader, LazyLoad } from "components";
 import { MapPin } from "react-feather";
@@ -92,9 +92,10 @@ export class UserDetail extends PureComponent {
 						className="news-featured-image"
 						style={{
 							backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
-				url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
+				url("https://source.unsplash.com/collection/2203755/1600x900")`
 						}}
-						src={userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}
+						overlayClassName="push"
+						src="https://source.unsplash.com/collection/2203755/1600x900"
 						background="darken-light"
 					/>
 				</div>

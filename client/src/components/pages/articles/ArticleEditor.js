@@ -48,7 +48,8 @@ export class ArticleEditor extends Component {
 			const body = document.querySelector("body"),
 				anchor = document.getElementsByClassName("medium-editor-anchor-preview"),
 				toolbar = document.getElementsByClassName("medium-editor-toolbar");
-			if (anchor && toolbar) for (let el of [anchor[0], toolbar[0]]) body.removeChild(el);
+			// console.log(anchor.length, typeof toolbar[0]);
+			if (anchor.length || toolbar.length) for (let el of [anchor[0], toolbar[0]]) body.removeChild(el);
 		}
 
 		window.removeEventListener("resize", this._handleTitleResize);

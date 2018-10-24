@@ -1,7 +1,7 @@
 import React from "react";
 import { Camera } from "react-feather";
 import { Loader, LazyLoad } from "../..";
-import { bgImgEmptyStreet } from "assets/images";
+// import { bgImgEmptyStreet } from "assets/images";
 import { iconMale } from "../../../assets";
 
 export class UserEditing extends React.Component {
@@ -321,7 +321,10 @@ export class UserEditing extends React.Component {
 	};
 
 	render = () => {
-		const { userData, isLoadingUser } = this.props;
+		const {
+			// userData,
+			isLoadingUser
+		} = this.props;
 		return isLoadingUser ? (
 			<div className="wrapper">
 				<div className="news-loader-content">
@@ -336,10 +339,11 @@ export class UserEditing extends React.Component {
 						className="news-featured-image"
 						style={{
 							backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.1)),
-				url("${userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}")`
+				url("https://source.unsplash.com/collection/2203755/1600x900")`
 						}}
-						src={userData.featured_image_url ? userData.featured_image_url : bgImgEmptyStreet}
 						background="darken-light"
+						overlayClassName="push"
+						src="https://source.unsplash.com/collection/2203755/1600x900"
 					/>
 				</div>
 				<div className="user-editing-content">

@@ -71,7 +71,7 @@ export class ArticleDetail extends Component {
 		) : articleError || !articleData.author_id ? (
 			<div className="wrapper">
 				<div className="news-loader-content">
-					<p>We couldn’t find this article.</p>
+					<p>We couldn't find this article.</p>
 				</div>
 			</div>
 		) : (
