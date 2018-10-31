@@ -1518,10 +1518,12 @@ html {
           justify-content: space-between; }
           @media (max-width: 479px) {
             .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper {
-              flex-direction: column; } }
+              flex-direction: column; }
+              .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper span {
+                margin-left: 0 !important; } }
           .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper span {
             display: block;
-            margin: 1.2rem 0;
+            margin: 1.2rem 0 1.2rem 1.6rem;
             color: #ed5565; }
           .news-editor-content .container .row #news-editor-form .news-editor-inputs-wrapper .news-editor-inputs {
             display: flex;

@@ -69,7 +69,6 @@ export class ArticleEditor extends Component {
 
 			if (this.props.isLoadingAuthentication && !isLoadingAuthentication) {
 				setTimeout(() => {
-					console.log("willReceiveProps");
 					this.editor = this._createEditorInstance();
 					this.editor.subscribe("editableInput", this._handleEditableInput);
 				}, 300);
@@ -79,8 +78,9 @@ export class ArticleEditor extends Component {
 					this.setState({
 						isFetchingCreateData: false,
 						errorInputIndex: 2,
-						errorInputMessage:
-							onCreateError.response.data.message || "There was a problem adding the information to the database"
+						errorInputMessage: onCreateError.response
+							? onCreateError.response.data.error
+							: "There was a problem adding the information to the database"
 					});
 				} else {
 					this.setState({ isFetchingCreateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {

@@ -83,7 +83,7 @@ exports.articles_get_article = (req, res, next) => {
 		.catch(err => res.status(500).json({ error: err }));
 };
 exports.articles_create_article = (req, res, next) => {
-	// console.log(req.file);
+	// console.log(req.files);
 	let { title, description, author_id, category } = req.body;
 	let featured_image_url = "";
 
@@ -92,7 +92,6 @@ exports.articles_create_article = (req, res, next) => {
 			if (!user) {
 				return res.status(404).json({ message: "User not found" });
 			}
-
 			if (req.files.length) {
 				await cloudinary.uploader.upload(req.files[0].path, result => {
 					// console.log(result);

@@ -209,11 +209,15 @@
 					justify-content: space-between;
 					@include breakpoint(xs) {
 						flex-direction: column;
+
+						span {
+							margin-left: 0 !important;
+						}
 					}
 
 					span {
 						display: block;
-						margin: $gutter-sm 0;
+						margin: $gutter-sm 0 $gutter-sm $gutter-md;
 						color: $color-grapefruit;
 					}
 					.news-editor-inputs {

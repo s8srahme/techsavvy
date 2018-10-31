@@ -39,7 +39,10 @@ module.exports = {
 	uploadFile: (req, res, next) => {
 		uploadFile(req, res, err => {
 			if (err) {
-				console.log("A Multer error occurred when uploading.");
+				console.log("A Multer error occurred when uploading");
+				return res.status(422).json({
+					error: "Uploaded image format is not supported"
+				});
 			}
 			next();
 		});
@@ -47,7 +50,10 @@ module.exports = {
 	uploadFiles: (req, res, next) => {
 		uploadFiles(req, res, err => {
 			if (err) {
-				console.log(err);
+				console.log(err.message);
+				return res.status(422).json({
+					error: "Uploaded image format is not supported"
+				});
 			}
 			next();
 		});

@@ -93,8 +93,9 @@ export class ArticleForm extends Component {
 					this.setState({
 						isFetchingUpdateData: false,
 						errorInputIndex: 2,
-						errorInputMessage:
-							onUpdateError.response.data.message || "There was a problem adding the information to the database"
+						errorInputMessage: onUpdateError.response
+							? onUpdateError.response.data.error
+							: "There was a problem adding the information to the database"
 					});
 				} else {
 					this.setState({ isFetchingUpdateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {
