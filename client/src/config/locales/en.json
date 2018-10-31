@@ -1,7 +1,23 @@
 {
-	"product": {
-		"welcome": "Welcome {{name}} to our localized app!",
-		"login_button": "Login",
-		"signup_button": "Sign Up"
+	"footer": {
+		"title": "Techsavvy",
+		"description": "Open content publishing for all industries. Enjoy a beautifully simple space to write your thoughts, and engage in a wide variety of topics ranging between business, startups, culture, technology, politics, and life learning.",
+		"copyright": ["2018 Made with", "by", "NanoSoldier7"],
+		"links": {
+			"blog": "Blog",
+			"about": "About",
+			"contact": "Contact",
+			"license": "License",
+			"privacy_policy": "Privacy Policy",
+			"language": "Language"
+		},
+		"social": "Stay Connected",
+		"picker": {
+			"title": "Select your preferred language",
+			"langs": {
+				"en": "English",
+				"bn": "Bengali"
+			}
+		}
 	}
 }

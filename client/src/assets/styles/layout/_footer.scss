@@ -1,7 +1,9 @@
 .footer {
 	background-color: $color-dark-gray;
+
 	.container {
 		padding: $gutter-xxxl 0;
+
 		.row {
 			.column._55 {
 				@include breakpoint(md) {
@@ -41,8 +43,8 @@
 						width: $font-size-regular;
 						margin: 0 $gutter-xs;
 					}
-					b {
-						font-weight: $font-weight-bold;
+					i {
+						// font-weight: $font-weight-bold;
 						margin-left: $gutter-xs;
 					}
 				}
@@ -119,6 +121,58 @@
 							@include breakpoint(0, $breakpoint-sm) {
 								height: $font-size-large;
 								width: $font-size-large;
+							}
+						}
+					}
+				}
+			}
+			.language-picker-content {
+				background-color: $color-light-gray;
+				height: 550px;
+				position: relative;
+
+				.container {
+					position: relative;
+					top: 50%;
+					transform: translateY(-50%);
+					max-width: 100%;
+					padding: 0 $gutter-md;
+
+					.row {
+						padding: 0 1.6rem;
+					}
+					.language-picker-heading-wrapper {
+						h2 {
+							font-weight: $font-weight-bold;
+						}
+					}
+					.language-picker-list {
+						margin-top: $gutter-xl;
+						display: flex;
+						flex-direction: column;
+
+						.language-picker-item {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							padding: $gutter-xs 0;
+							&:hover {
+								cursor: pointer;
+							}
+
+							.language-picker-item-icon {
+								color: $color-dark-gray;
+								height: $font-size-large;
+								width: $font-size-large;
+								margin-left: $gutter-md;
+							}
+							h3 {
+								text-transform: capitalize;
+								color: $color-medium-gray;
+								font-weight: $font-weight-bold;
+								&.active {
+									color: $color-dark-gray;
+								}
 							}
 						}
 					}

@@ -1,18 +1,20 @@
 import React, { Component } from "react";
+import { BrowserRouter } from "react-router-dom";
 import { _renderRoutes } from "./config";
-import { Header, Footer } from "components";
-import GA from "./utils";
-import AppProvider from "./AppProvider";
+import { Footer, Header } from "components";
+import { GA, CombinedContextProvider } from "utils";
 
 class App extends Component {
 	render = () => (
 		<main>
-			<AppProvider>
-				<Header />
-			</AppProvider>
-			{GA.init() && <GA.TrackerRoute />}
-			{_renderRoutes()}
-			<Footer />
+			<BrowserRouter>
+				<CombinedContextProvider>
+					<Header />
+					{GA.init() && <GA.TrackerRoute />}
+					{_renderRoutes()}
+					<Footer />
+				</CombinedContextProvider>
+			</BrowserRouter>
 		</main>
 	);
 }

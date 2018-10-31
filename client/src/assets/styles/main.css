@@ -377,8 +377,7 @@ span {
         height: 1.6rem;
         width: 1.6rem;
         margin: 0 0.4rem; }
-      .footer .container .row .column._55 span b {
-        font-weight: 700;
+      .footer .container .row .column._55 span i {
         margin-left: 0.4rem; }
     .footer .container .row .column._20 {
       display: flex;
@@ -449,6 +448,42 @@ span {
               .footer .container .row .column._25 .footer-socials-wrapper .footer-social .footer-icon {
                 height: 2.4rem;
                 width: 2.4rem; } }
+    .footer .container .row .language-picker-content {
+      background-color: #ffffff;
+      height: 550px;
+      position: relative; }
+      .footer .container .row .language-picker-content .container {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 100%;
+        padding: 0 1.6rem; }
+        .footer .container .row .language-picker-content .container .row {
+          padding: 0 1.6rem; }
+        .footer .container .row .language-picker-content .container .language-picker-heading-wrapper h2 {
+          font-weight: 700; }
+        .footer .container .row .language-picker-content .container .language-picker-list {
+          margin-top: 3.2rem;
+          display: flex;
+          flex-direction: column; }
+          .footer .container .row .language-picker-content .container .language-picker-list .language-picker-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 0.4rem 0; }
+            .footer .container .row .language-picker-content .container .language-picker-list .language-picker-item:hover {
+              cursor: pointer; }
+            .footer .container .row .language-picker-content .container .language-picker-list .language-picker-item .language-picker-item-icon {
+              color: #131315;
+              height: 2.4rem;
+              width: 2.4rem;
+              margin-left: 1.6rem; }
+            .footer .container .row .language-picker-content .container .language-picker-list .language-picker-item h3 {
+              text-transform: capitalize;
+              color: #a8aaaf;
+              font-weight: 700; }
+              .footer .container .row .language-picker-content .container .language-picker-list .language-picker-item h3.active {
+                color: #131315; }
 
 * {
   margin: 0;

@@ -1,7 +1,10 @@
+import React from "react";
 import axios from "axios";
 import http from "http";
 import https from "https";
 import GA from "./GoogleAnalytics";
+import EventContextProvider, { EventContext } from "./EventContext";
+import LocaleContextProvider, { LocaleContext } from "./LocaleContext";
 
 // export const extractId = str => {
 // 	let params = str.split("-");
@@ -136,4 +139,22 @@ export const ellipsizeTextBox = (id, text, hasExpanded) => {
 	}
 };
 
-export default GA;
+export { GA };
+
+export const CombinedContextProvider = ({ children }) => (
+	<EventContextProvider>
+		<LocaleContextProvider>{children}</LocaleContextProvider>
+	</EventContextProvider>
+);
+
+export const CombinedContextConsumer = ({ children }) => (
+	<EventContext.Consumer>
+		{context => (
+			<LocaleContext.Consumer>
+				{({ preferredLocale, onChangeLanguage, langs }) =>
+					children({ context, preferredLocale, onChangeLanguage, langs })
+				}
+			</LocaleContext.Consumer>
+		)}
+	</EventContext.Consumer>
+);

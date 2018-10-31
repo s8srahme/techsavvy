@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-import { ChevronDown, Edit2, Delete } from "react-feather";
+import { ChevronDown, Edit2, X } from "react-feather";
 import { Dropdown, Loader } from "../..";
 import { iconMale } from "../../../assets";
 
@@ -14,7 +14,8 @@ export class CommentDetail extends Component {
 			description: "",
 			isLoadingSubmit: false,
 			errorInputIndex: -1,
-			errorInputMessage: ""
+			errorInputMessage: "",
+			createdAt: ""
 		};
 		this.mounted = false;
 	}
@@ -29,7 +30,7 @@ export class CommentDetail extends Component {
 
 	componentWillMount = () => {
 		const { commentData } = this.props;
-		this.setState({ description: commentData.text });
+		this.setState({ description: commentData.text, createdAt: moment(commentData.created_at).fromNow() });
 	};
 
 	componentWillReceiveProps = nextProps => {
@@ -149,7 +150,7 @@ export class CommentDetail extends Component {
 						</div>
 						<div className="comment-card-title-wrapper">
 							<h3>{commentData.author_id.name ? commentData.author_id.name : "unnamed author"}</h3>
-							<time>{moment(commentData.created_at).fromNow()}</time>
+							<time>{this.state.createdAt}</time>
 						</div>
 						{commentData.author_id._id === authenticationData._id && (
 							<div className="comment-card-dropdown-wrapper">
@@ -176,7 +177,7 @@ export class CommentDetail extends Component {
 												onClick: () => this._handleEditClickIn()
 											},
 											{
-												icon: Delete,
+												icon: X,
 												title: "Delete",
 												isLoadingSelf: isLoadingDelete,
 												isLoadingSibling: isLoadingUpdate,

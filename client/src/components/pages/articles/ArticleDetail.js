@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Loader, LazyLoad } from "components";
-import { ChevronDown, Edit2, Delete } from "react-feather";
+import { ChevronDown, Edit2, X } from "react-feather";
 import { Dropdown } from "../..";
 import moment from "moment";
 
@@ -18,7 +18,7 @@ export class ArticleDetail extends Component {
 		if (this.props !== nextProps) {
 			const { isFetchingArticle } = nextProps;
 			if (this.props.isFetchingArticle && !isFetchingArticle) {
-				this.setState({ isFetchingArticle: false, createdAt: nextProps.articleData.created_at });
+				this.setState({ isFetchingArticle: false, createdAt: moment(nextProps.articleData.created_at).fromNow() });
 			}
 		}
 	};
@@ -97,14 +97,14 @@ export class ArticleDetail extends Component {
 							<article className="column">
 								<header className="news-info-wrapper">
 									<div className="news-tag-wrapper">
-										<span className="tag active">{articleData.category}</span>
+										<span className="tag active">{articleData.category.toLowerCase()}</span>
 									</div>
 									<h1>{articleData.title}</h1>
 									<div className="news-meta-wrapper">
 										<div className="news-meta">
 											<span>{articleData.author_id.name.toLowerCase()}</span>
 											<span>{"\u00b7"}</span>
-											<time>{moment(this.state.createdAt).fromNow()}</time>
+											<time>{this.state.createdAt}</time>
 										</div>
 										{articleData.author_id._id === authenticationData._id && (
 											<div className="news-meta-dropdown-wrapper">
@@ -125,7 +125,7 @@ export class ArticleDetail extends Component {
 																}
 															},
 															{
-																icon: Delete,
+																icon: X,
 																title: "Delete",
 																isLoadingSelf: isFetchingDeleteArticleData,
 																isLoadingSibling: false,

@@ -189,7 +189,7 @@ export class ArticleList extends Component {
 										</div>
 										<figcaption className="news-card-info-wrapper">
 											<div className="news-tag-wrapper">
-												<span className="tag active">{col.category ? col.category : "others"}</span>
+												<span className="tag active">{col.category ? col.category.toLowerCase() : "others"}</span>
 											</div>
 											<hgroup>
 												<h2 id={"news-title-" + colIndex}>{title}</h2>

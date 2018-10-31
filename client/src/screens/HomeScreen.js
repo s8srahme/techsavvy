@@ -29,7 +29,7 @@ import {
 import { Loader, LazyLoad } from "../components";
 import { ArticleListScreen, UserListScreen } from "screens";
 import { ellipsizeTextBox } from "../utils";
-import { AppContext } from "../AppProvider";
+import { CombinedContextConsumer } from "utils";
 import actions from "redux/actions";
 
 const // socials = [
@@ -300,7 +300,7 @@ class HomeScreen extends Component {
 	};
 
 	_renderLandingContent = () => (
-		<AppContext.Consumer>
+		<CombinedContextConsumer>
 			{context => {
 				// console.log(context);
 				return (
@@ -329,7 +329,7 @@ class HomeScreen extends Component {
 					</LazyLoad>
 				);
 			}}
-		</AppContext.Consumer>
+		</CombinedContextConsumer>
 	);
 
 	_handleFormSubmit = event => {

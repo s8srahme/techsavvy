@@ -39,6 +39,14 @@ export class ArticleEditor extends Component {
 		// const editor = this._createEditorInstance();
 		// editor.subscribe("editableInput", this._handleEditableInput);
 
+		const { authenticationData } = this.props;
+		if (Object.keys(authenticationData).length) {
+			setTimeout(() => {
+				this.editor = this._createEditorInstance();
+				this.editor.subscribe("editableInput", this._handleEditableInput);
+			}, 300);
+		}
+
 		window.addEventListener("resize", this._handleTitleResize);
 	};
 
@@ -57,10 +65,11 @@ export class ArticleEditor extends Component {
 
 	componentWillReceiveProps = nextProps => {
 		if (this.props !== nextProps) {
-			const { authenticationData, isLoadingAuthentication, isFetchingCreateData, onCreateError } = nextProps;
+			const { isLoadingAuthentication, isFetchingCreateData, onCreateError } = nextProps;
 
-			if (Object.keys(authenticationData).length || (this.props.isLoadingAuthentication && !isLoadingAuthentication)) {
+			if (this.props.isLoadingAuthentication && !isLoadingAuthentication) {
 				setTimeout(() => {
+					console.log("willReceiveProps");
 					this.editor = this._createEditorInstance();
 					this.editor.subscribe("editableInput", this._handleEditableInput);
 				}, 300);

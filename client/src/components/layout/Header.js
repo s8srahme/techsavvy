@@ -11,7 +11,7 @@ import { UserFormScreen } from "screens";
 import { Loader, LazyLoad } from "components";
 import { Dropdown } from "..";
 import { iconMale } from "assets";
-import { AppContext } from "../../AppProvider";
+import { CombinedContextConsumer, exportBreakpoint } from "utils";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "redux/actions";
@@ -49,8 +49,7 @@ class Header extends Component {
 		this.state = {
 			isMenuVisible: false,
 			isModalOpen: false,
-			isDropdownActive: false,
-			isOnline: true
+			isDropdownActive: false
 		};
 		this.mounted = false;
 	}
@@ -61,23 +60,16 @@ class Header extends Component {
 			else this.setState({ isModalOpen: true });
 		}
 		this.mounted = true;
-		this._updateOnlineStatus();
-
-		window.addEventListener("online", this._updateOnlineStatus);
-		window.addEventListener("offline", this._updateOnlineStatus);
 	};
 
 	componentWillMount = () => {
-		const user = JSON.parse(localStorage.getItem("user"));
-		if (user && user.token) {
-			this.props.getOne({ id: "self" });
-		}
+		const user = JSON.parse(localStorage.getItem("user")),
+			userData = this.props.user;
+		if (user && user.token && Object.keys(userData).length === 0) this.props.getOne({ id: "self" });
 	};
 
 	componentWillUnmount = () => {
 		this.mounted = false;
-		window.removeEventListener("online");
-		window.removeEventListener("offline");
 	};
 
 	componentWillReceiveProps = nextProps => {
@@ -95,10 +87,6 @@ class Header extends Component {
 			}
 			this.props.pushHistory({ from: pathname, ...(offsetTop ? { offsetTop } : {}) });
 		}
-	};
-
-	_updateOnlineStatus = event => {
-		if (this.mounted) this.setState({ isOnline: navigator.onLine });
 	};
 
 	_toggleMenu = () => {
@@ -144,17 +132,17 @@ class Header extends Component {
 	_renderDropdownContent = (user, isLoading) => {
 		if (isLoading)
 			return (
-				<AppContext.Consumer>
-					{context => (
+				<CombinedContextConsumer>
+					{({ context }) => (
 						<div className={`header-dropdown-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
 							<Loader inverse={context.offsetTop <= 100} />
 						</div>
 					)}
-				</AppContext.Consumer>
+				</CombinedContextConsumer>
 			);
 		return (
-			<AppContext.Consumer>
-				{context => (
+			<CombinedContextConsumer>
+				{({ context }) => (
 					<div className={`header-dropdown-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
 						<span className={`${context.offsetTop > 100 ? "shrink" : ""}`}>
 							{Object.keys(user).length ? user.name.toLowerCase() : "sign in"}
@@ -210,7 +198,7 @@ class Header extends Component {
 							)}
 					</div>
 				)}
-			</AppContext.Consumer>
+			</CombinedContextConsumer>
 		);
 	};
 
@@ -227,17 +215,15 @@ class Header extends Component {
 
 	render = () => {
 		const { location, user = {}, isLoadingUser } = this.props;
-		const { isOnline } = this.state;
-
 		return (
-			<AppContext.Consumer>
-				{context => (
+			<CombinedContextConsumer>
+				{({ context }) => (
 					<div
 						className={`header-content ${context.offsetTop > 100 ? "shrink" : ""}${
 							location.pathname === "/" ? " transparent" : ""
 						}`}
 					>
-						<div className={`header-status-wrapper ${isOnline ? "" : "offline"}`}>
+						<div className={`header-status-wrapper ${context.isOnline ? "" : "offline"}`}>
 							<p>No internet connection found. App is running in offline mode.</p>
 						</div>
 						<header className={`header-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
@@ -258,15 +244,19 @@ class Header extends Component {
 							>
 								{links.map((obj, i) => {
 									let props = {};
-									if (obj.onClick)
+									if (context.windowWidth <= exportBreakpoint("tablet").max)
 										props = {
-											onClick: () => {
-												obj.onClick();
+											onClick: e => {
 												this._toggleMenu();
+												if (location.pathname === obj.path) e.preventDefault();
 											}
 										};
-									else props = { onClick: this._toggleMenu };
-
+									else
+										props = {
+											onClick: e => {
+												if (location.pathname === obj.path) e.preventDefault();
+											}
+										};
 									return (
 										<Link
 											to={{
@@ -286,7 +276,7 @@ class Header extends Component {
 						</header>
 					</div>
 				)}
-			</AppContext.Consumer>
+			</CombinedContextConsumer>
 		);
 	};
 }

@@ -1,5 +1,5 @@
 import Header from "./layout/Header";
-import { Footer } from "./layout/Footer";
+import Footer from "./layout/Footer";
 import { Modal } from "./common/Modal";
 import { Loader } from "./common/Loader";
 import { Dropdown } from "./common/Dropdown";
