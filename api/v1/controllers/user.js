@@ -205,7 +205,7 @@ module.exports = {
 										return {
 											_id: record._id,
 											title: record.title,
-											description: record.description,
+											description: record.description.substring(0, 1000),
 											slug: record.slug,
 											category: record.category,
 											claps: record.claps,

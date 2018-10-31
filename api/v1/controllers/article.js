@@ -40,7 +40,7 @@ exports.articles_get_all = (req, res, next) => {
 										title: doc.title,
 										category: doc.category,
 										slug: doc.slug,
-										description: doc.description,
+										description: doc.description.substring(0, 1000),
 										author_id: doc.author_id,
 										featured_image_url: doc.featured_image_url,
 										claps: doc.claps,

@@ -55,7 +55,9 @@ export class ArticleList extends Component {
 			(prevProps.isFetchingAllArticles && !this.props.isFetchingAllArticles) ||
 			(!this.props.isFetchingAllArticles && prevProps.isFetchingUserArticles && !this.props.isFetchingUserArticles)
 		)
-			setTimeout(this._handleEllipsis, 300);
+			// setTimeout(
+			this._handleEllipsis();
+		// , 300);
 		if (snapshot !== null) {
 			// const list = this.listRef.current;
 			// list.scrollTop = list.scrollHeight - snapshot;
@@ -114,7 +116,7 @@ export class ArticleList extends Component {
 	componentWillUnmount = () => {
 		this.mounted = false;
 		// if (!this.state.hasHandledEllipsis) {
-		clearTimeout(this._handleEllipsis);
+		// clearTimeout(this._handleEllipsis);
 		// }
 		window.removeEventListener("resize", this._handleResize);
 	};
