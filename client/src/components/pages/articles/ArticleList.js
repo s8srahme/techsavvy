@@ -53,7 +53,9 @@ export class ArticleList extends Component {
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
 		if (
 			(prevProps.isFetchingAllArticles && !this.props.isFetchingAllArticles) ||
-			(!this.props.isFetchingAllArticles && prevProps.isFetchingUserArticles && !this.props.isFetchingUserArticles)
+			(!this.props.isFetchingAllArticles && prevProps.isFetchingUserArticles && !this.props.isFetchingUserArticles) ||
+			(prevProps.isFetchingMoreArticles && !this.props.isFetchingMoreArticles) ||
+			(prevProps.isFetchingMoreUserArticles && !this.props.isFetchingMoreUserArticles)
 		)
 			// setTimeout(
 			this._handleEllipsis();
