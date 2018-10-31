@@ -19,5 +19,19 @@
 				"bn": "Bengali"
 			}
 		}
+	},
+	"header": {
+		"title": "Techsavvy",
+		"status": "No internet connection found. App is running in offline mode.",
+		"links": {
+			"home": "Home",
+			"blog": "Blog",
+			"about": "About",
+			"contact": "Contact"
+		},
+		"dropdown": {
+			"profile": "Profile",
+			"sign_out": "Sign out"
+		}
 	}
 }

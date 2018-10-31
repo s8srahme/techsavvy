@@ -142,7 +142,7 @@ class Header extends Component {
 			);
 		return (
 			<CombinedContextConsumer>
-				{({ context }) => (
+				{({ context, preferredLocale, langs }) => (
 					<div className={`header-dropdown-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
 						<span className={`${context.offsetTop > 100 ? "shrink" : ""}`}>
 							{Object.keys(user).length ? user.name.toLowerCase() : "sign in"}
@@ -166,7 +166,7 @@ class Header extends Component {
 									items={[
 										{
 											icon: User,
-											title: "Profile",
+											title: langs[preferredLocale].header.dropdown["profile"],
 											isLoadingSelf: false,
 											isLoadingSibling: this.props.isLoadingLogout,
 											onClick: () => {
@@ -188,7 +188,7 @@ class Header extends Component {
 										// },
 										{
 											icon: Power,
-											title: "Sign out",
+											title: langs[preferredLocale].header.dropdown["sign_out"],
 											isLoadingSelf: this.props.isLoadingLogout,
 											isLoadingSibling: false,
 											onClick: this._handleLogout
@@ -217,14 +217,14 @@ class Header extends Component {
 		const { location, user = {}, isLoadingUser } = this.props;
 		return (
 			<CombinedContextConsumer>
-				{({ context }) => (
+				{({ context, preferredLocale, langs }) => (
 					<div
 						className={`header-content ${context.offsetTop > 100 ? "shrink" : ""}${
 							location.pathname === "/" ? " transparent" : ""
 						}`}
 					>
 						<div className={`header-status-wrapper ${context.isOnline ? "" : "offline"}`}>
-							<p>No internet connection found. App is running in offline mode.</p>
+							<p>{langs[preferredLocale].header.status}</p>
 						</div>
 						<header className={`header-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
 							<figure className={`header-logo-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
@@ -234,7 +234,9 @@ class Header extends Component {
 										onClick={this._toggleMenu}
 									/>
 								</div>
-								<figcaption className={`header-logo ${context.offsetTop > 100 ? "shrink" : ""}`}>Techsavvy</figcaption>
+								<figcaption className={`header-logo ${context.offsetTop > 100 ? "shrink" : ""}`}>
+									{langs[preferredLocale].header.title}
+								</figcaption>
 								{this._renderDropdownContent(user)}
 							</figure>
 							<nav
@@ -266,7 +268,7 @@ class Header extends Component {
 											className={`header-link ${context.offsetTop > 100 ? "shrink" : ""}`}
 											{...props}
 										>
-											{obj.name}
+											{langs[preferredLocale].header.links[obj.name]}
 										</Link>
 									);
 								})}
