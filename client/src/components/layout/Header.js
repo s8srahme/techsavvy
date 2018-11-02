@@ -11,12 +11,11 @@ import { UserFormScreen } from "screens";
 import { Loader, LazyLoad } from "components";
 import { Dropdown } from "..";
 import { iconMale } from "assets";
-import { CombinedContextConsumer, exportBreakpoint } from "utils";
+import { CombinedContextConsumer, exportBreakpoint, parseQueryString } from "utils";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "redux/actions";
 import _ from "lodash";
-import queryString from "query-string";
 
 const links = [
 	{
@@ -125,7 +124,7 @@ class Header extends Component {
 					const { from, location, history } = this.props;
 					if (location.pathname === "/login") {
 						if (shouldRedirect) {
-							const values = queryString.parse(this.props.location.search);
+							const values = parseQueryString(this.props.location.search);
 							history.push(_.isEmpty(values) ? "/" : values.redirect);
 						} else if (from.length) history.goBack();
 						else history.push("/");

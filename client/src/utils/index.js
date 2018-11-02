@@ -139,6 +139,19 @@ export const ellipsizeTextBox = (id, text, hasExpanded) => {
 	}
 };
 
+export const parseQueryString = search => {
+	let query = search.substring(1),
+		pairs = query.split("&"),
+		obj = {};
+
+	for (let i = 0; i < pairs.length; i++) {
+		let pair = pairs[i].split("=");
+		obj[pair[0]] = pair[1];
+	}
+
+	return obj;
+};
+
 export { GA };
 
 export const CombinedContextProvider = ({ children }) => (
