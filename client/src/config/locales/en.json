@@ -29,6 +29,7 @@
 			"about": "About",
 			"contact": "Contact"
 		},
+		"auth": "Sign in",
 		"dropdown": {
 			"profile": "Profile",
 			"sign_out": "Sign out"

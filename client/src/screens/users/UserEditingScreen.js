@@ -22,14 +22,15 @@ export class UserEditingScreen extends Component {
 			onUpdateData,
 			isLoadingUpdateData,
 			onUpdateError,
-			getOneAuthentication
+			getOneAuthentication,
+			history
 		} = this.props;
 
 		if (
 			!isLoadingAuthentication &&
 			(this.props.match.params.userId !== authenticationData._id || (userError && userError.response.status === 404))
 		) {
-			return <NotFound />;
+			return <NotFound history={history} />;
 		}
 		return (
 			<UserEditing

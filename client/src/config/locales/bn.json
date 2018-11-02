@@ -29,6 +29,7 @@
 			"about": "সম্বন্ধে",
 			"contact": "যোগাযোগ"
 		},
+		"auth": "সাইন ইন",
 		"dropdown": {
 			"profile": "প্রোফাইল",
 			"sign_out": "সাইন আউট"

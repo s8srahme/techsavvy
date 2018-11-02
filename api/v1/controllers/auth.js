@@ -114,7 +114,7 @@ module.exports = {
 			.exec()
 			.then(user => {
 				if (user.length < 1) {
-					return res.status(401).json({ message: "Mail does not exist" });
+					return res.status(401).json({ message: "User does not exist" });
 				}
 				bcrypt.compare(req.body.password, user[0].password, (err, result) => {
 					if (err) {
@@ -123,17 +123,35 @@ module.exports = {
 						});
 					}
 					if (result) {
-						const token = jwt.sign({ email: user[0].email, userId: user[0]._id }, process.env.JWT_KEY, {
-							expiresIn: "30d"
-						});
-						return res.status(200).json({
-							success: true,
-							message: "Auth successful",
-							token: token
+						let token = user[0].session_token;
+						return jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+							if (err) {
+								const token = jwt.sign({ email: user[0].email, userId: user[0]._id }, process.env.JWT_KEY, {
+									expiresIn: "7d"
+								});
+								return user[0]
+									.addToken(token)
+									.then(result => {
+										res.status(200).json({
+											success: true,
+											message: "Authentication successful",
+											token
+										});
+									})
+									.catch(err => {
+										console.log(err);
+										res.status(500).json({
+											error: err.message
+										});
+									});
+							}
+							return res.status(401).json({
+								message: "You are logged into another device"
+							});
 						});
 					}
 					return res.status(401).json({
-						message: "Auth failed"
+						message: "Authentication failed"
 					});
 				});
 			})
@@ -156,7 +174,7 @@ module.exports = {
 				}
 				// console.log(user);
 				user
-					.revokeToken(token)
+					.deleteToken()
 					.then(result => {
 						res.status(200).json({
 							success: true,

@@ -57,6 +57,7 @@ const LanguagePicker = ({ showModal, onClose }) => {
 											key={index}
 											onClick={() => {
 												onChangeLanguage({ code });
+												onClose();
 											}}
 											className="language-picker-item"
 										>

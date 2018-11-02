@@ -1,7 +1,7 @@
 import { userConstants } from "../constants";
 import services from "services";
 
-const getAll = () => {
+const getAll = ({ page, limit }) => {
 	const request = () => {
 		return { type: userConstants.GET_ALL_REQUEST };
 	};
@@ -14,7 +14,7 @@ const getAll = () => {
 
 	return dispatch => {
 		dispatch(request());
-		services.users.getAll().then(
+		services.users.getAll({ page, limit }).then(
 			({ data }) => dispatch(success(data)),
 			error => {
 				dispatch(failure(error));

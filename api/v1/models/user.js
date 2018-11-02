@@ -30,7 +30,8 @@ const userSchema = new mongoose.Schema({
 			ref: "User"
 		}
 	],
-	revoked_tokens: [{ type: String, unique: true }]
+	session_token: { type: String, unique: true }
+	// revoked_tokens: [{ type: String, unique: true }]
 	// articles: [
 	// 	{
 	// 		type: mongoose.Schema.Types.ObjectId,
@@ -101,20 +102,26 @@ userSchema.methods.deleteFollower = function(follower_id) {
 	});
 };
 
-userSchema.methods.revokeToken = function(token) {
-	this.revoked_tokens.push(token);
+userSchema.methods.deleteToken = function() {
+	// this.revoked_tokens.push(token);
+	this.session_token = "";
 	return this.save();
 };
 
-userSchema.methods.isValidToken = function(token) {
-	if (this.revoked_tokens.indexOf(token) === -1) {
-		return new Promise(resolve => {
-			resolve(false);
-		});
-	}
-	return new Promise(resolve => {
-		resolve(true);
-	});
+userSchema.methods.addToken = function(token) {
+	this.session_token = token;
+	return this.save();
 };
+
+// userSchema.methods.isValidToken = function(token) {
+// 	if (this.revoked_tokens.indexOf(token) === -1) {
+// 		return new Promise(resolve => {
+// 			resolve(false);
+// 		});
+// 	}
+// 	return new Promise(resolve => {
+// 		resolve(true);
+// 	});
+// };
 
 module.exports = mongoose.model("User", userSchema);

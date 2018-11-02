@@ -7,7 +7,8 @@ import { UserList } from "../../components";
 class UserListScreen extends Component {
 	componentWillMount = () => {
 		window.scrollTo(0, 0);
-		if (!this.props.isLoadingUsers && Object.keys(this.props.users).length === 0) this.props.getAll();
+		if (!this.props.isLoadingUsers && Object.keys(this.props.users).length === 0)
+			this.props.getAll({ page: 1, limit: 5 });
 	};
 
 	render = () => {

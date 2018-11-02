@@ -73,6 +73,15 @@ class Header extends Component {
 	};
 
 	componentWillReceiveProps = nextProps => {
+		const isSessionExpired = nextProps.logoutData.message === "Session expired";
+		if (Object.keys(this.props.user).length && Object.keys(nextProps.user).length === 0 && isSessionExpired) {
+			if (nextProps.location.pathname.includes("/blog") || nextProps.location.pathname.includes("/user")) {
+				this.props.history.push({
+					pathname: "/login",
+					search: `?redirect=${nextProps.location.pathname.substring(1)}`
+				});
+			}
+		}
 		if (
 			this.props.location.pathname !== nextProps.location.pathname &&
 			// this.props.location.pathname !== "/login" &&
@@ -145,7 +154,7 @@ class Header extends Component {
 				{({ context, preferredLocale, langs }) => (
 					<div className={`header-dropdown-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}>
 						<span className={`${context.offsetTop > 100 ? "shrink" : ""}`}>
-							{Object.keys(user).length ? user.name.toLowerCase() : "sign in"}
+							{Object.keys(user).length ? user.name.toLowerCase() : langs[preferredLocale].header["auth"]}
 						</span>
 						<div
 							className={`header-dropdown-img-wrapper ${context.offsetTop > 100 ? "shrink" : ""}`}
@@ -293,6 +302,7 @@ const mapStateToProps = ({ articles, users, authentication, history }) => ({
 		userError: authentication.userError,
 
 		isLoadingLogout: authentication.isLoadingLogout,
+		logoutData: authentication.logoutData,
 		hasErroredLogout: authentication.hasErroredLogout,
 		logoutError: authentication.logoutError,
 

@@ -14,25 +14,15 @@ module.exports = (req, res, next) => {
 				if (!user) {
 					return res.status(401).json({ message: "User not found" });
 				}
-				user
-					.isValidToken(token)
-					.then(result => {
-						if (result) {
-							res.status(401).json({
-								message: "Validation failed"
-							});
-						} else {
-							decoded.token = token;
-							req.userData = decoded;
-							next();
-						}
-					})
-					.catch(err => {
-						console.log(err);
-						res.status(500).json({
-							error: err.message
-						});
+				if (token !== user.session_token)
+					res.status(401).json({
+						message: "Token revoked"
 					});
+				else {
+					decoded.token = token;
+					req.userData = decoded;
+					next();
+				}
 			})
 			.catch(err => {
 				console.log(err);
@@ -41,8 +31,14 @@ module.exports = (req, res, next) => {
 				});
 			});
 	} catch (error) {
-		return res.status(401).json({
-			message: "Validation failed"
-		});
+		console.log(error);
+		if (error.name === "TokenExpiredError")
+			return res.status(401).json({
+				message: "Token expired"
+			});
+		else if (error.name === "JsonWebTokenError")
+			return res.status(401).json({
+				message: "Invalid signature"
+			});
 	}
 };
