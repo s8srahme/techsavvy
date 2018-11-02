@@ -33,11 +33,11 @@ import { CombinedContextConsumer } from "utils";
 import actions from "redux/actions";
 
 const // socials = [
-	// 		{ name: Twitter, href: "" },
-	// 		{ name: Facebook, href: "" },
-	// 		{ name: Instagram, href: "" },
-	// 		{ name: Linkedin, href: "" },
-	// 		{ name: Github, href: "" }
+	// 	{ name: Twitter, href: "https://twitter.com/" },
+	// { name: Facebook, href: "https://www.facebook.com/" },
+	// { name: Instagram, href: "https://www.instagram.com/" },
+	// { name: Linkedin, href: "https://www.linkedin.com/" },
+	// { name: Github, href: "https://github.com" }
 	// ],
 	// team = [
 	// 	{
@@ -599,7 +599,7 @@ const Socials = ({ data }) => (
 		{data.map((social, index) => {
 			const Icon = social["name"];
 			return (
-				<a key={index} className="team-social">
+				<a key={index} className="team-social" href={social.href} target="_blank" rel="noopener noreferrer">
 					<Icon className="team-icon" />
 				</a>
 			);

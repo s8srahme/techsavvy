@@ -5,11 +5,11 @@ import { GA, CombinedContextConsumer } from "utils";
 import { Modal } from "components";
 
 const socials = [
-		{ name: Twitter, href: "" },
-		{ name: Facebook, href: "" },
-		{ name: Instagram, href: "" },
-		{ name: Linkedin, href: "" },
-		{ name: Github, href: "" }
+		{ name: Twitter, href: "https://twitter.com/" },
+		{ name: Facebook, href: "https://www.facebook.com/" },
+		{ name: Instagram, href: "https://www.instagram.com/" },
+		{ name: Linkedin, href: "https://www.linkedin.com/" },
+		{ name: Github, href: "https://github.com" }
 	],
 	links = [
 		{
@@ -83,7 +83,7 @@ class Footer extends Component {
 	};
 
 	_handleSocialClick = (event, index) => {
-		event.preventDefault();
+		// event.preventDefault();
 		GA.trackEvent(index);
 	};
 
@@ -146,6 +146,9 @@ class Footer extends Component {
 													key={index}
 													className="footer-social"
 													onClick={event => this._handleSocialClick(event, index)}
+													href={social.href}
+													target="_blank"
+													rel="noopener noreferrer"
 												>
 													<Icon className="footer-icon" />
 												</a>
