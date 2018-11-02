@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import MediumEditor from "medium-editor";
 import { Loader, LazyLoad } from "components";
 import { iconPicture, iconEdit, iconMale } from "../../../assets";
-import "../../../../node_modules/medium-editor/dist/css/medium-editor.css";
-import "../../../../node_modules/medium-editor/dist/css/themes/beagle.css";
+require("../../../../node_modules/medium-editor/dist/css/medium-editor.css");
+require("../../../../node_modules/medium-editor/dist/css/themes/beagle.css");
 
 const tags = [
 	{ name: "tech" },

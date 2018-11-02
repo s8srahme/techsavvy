@@ -1,41 +1,41 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "ajv": "^6.0.0",
-    "axios": "^0.18.0",
-    "lodash": "^4.17.11",
-    "medium-editor": "^5.23.3",
-    "moment": "^2.22.2",
-    "node-sass-chokidar": "0.0.3",
-    "query-string": "^6.2.0",
-    "react": "^16.3.1",
-    "react-dom": "^16.3.1",
-    "react-feather": "^1.0.8",
-    "react-ga": "^2.5.3",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "^2.0.3",
-    "react-transition-group": "^2.2.1",
-    "redux": "^4.0.0",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
-  },
-  "scripts": {
-    "deploy": "pushstate-server build",
-    "postbuild": "echo 'Your app is ready to be deployed.'",
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "PORT=3006 react-scripts start",
-    "build": "rm -rf build && GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+	"name": "client",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"ajv": "^6.0.0",
+		"axios": "^0.18.0",
+		"lodash": "^4.17.11",
+		"medium-editor": "^5.23.3",
+		"moment": "^2.22.2",
+		"node-sass-chokidar": "0.0.3",
+		"query-string": "^6.2.0",
+		"react": "^16.3.1",
+		"react-dom": "^16.3.1",
+		"react-feather": "^1.0.8",
+		"react-ga": "^2.5.3",
+		"react-redux": "^5.0.7",
+		"react-router-dom": "^4.2.2",
+		"react-scripts": "^2.0.3",
+		"react-transition-group": "^2.2.1",
+		"redux": "^4.0.0",
+		"redux-logger": "^3.0.6",
+		"redux-thunk": "^2.3.0"
+	},
+	"scripts": {
+		"deploy": "pushstate-server build",
+		"postbuild": "echo 'Your app is ready to be deployed.'",
+		"build-css": "node-sass-chokidar src/ -o src/",
+		"watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+		"start": "PORT=3006 react-scripts start",
+		"build": "rm -rf build && GENERATE_SOURCEMAP=false react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	]
 }
