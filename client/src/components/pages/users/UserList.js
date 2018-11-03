@@ -109,23 +109,23 @@ export class UserList extends PureComponent {
 
 	render = () => {
 		const { isLoadingUsers } = this.state;
+		const users = Object.keys(this.props.users).length ? this.props.users.data.users : [];
 
-		if (isLoadingUsers) {
-			return (
-				<div className="wrapper">
-					<div className="news-loader-content darken pull">
-						<Loader />
-					</div>
-				</div>
-			);
-		} else {
-			const {
-				users: {
-					data
-					// meta
-				}
-			} = this.props;
-			return <div className="wrapper">{this._renderWorkContent(data.users.slice(0, 5))}</div>;
+		if (!isLoadingUsers) {
+			// const {
+			// 	users: {
+			// 		data
+			// 		// meta
+			// 	}
+			// } = this.props;
+			return <div className="wrapper">{this._renderWorkContent(users)}</div>;
 		}
+		return (
+			<div className="wrapper">
+				<div className="news-loader-content darken pull">
+					<Loader />
+				</div>
+			</div>
+		);
 	};
 }
