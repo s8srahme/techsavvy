@@ -51,7 +51,7 @@ export const exportBreakpoint = size => {
 };
 
 export const createRequestInstance = () => {
-	let apiUrl = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
+	let apiUrl = process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL : "http://localhost:5000";
 	// console.log("apiUrl: %s", apiUrl);
 	let instance = axios.create({
 		baseURL: `${apiUrl}/api/v1`,
