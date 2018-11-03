@@ -51,10 +51,10 @@ export const exportBreakpoint = size => {
 };
 
 export const createRequestInstance = () => {
-	let port = process.env.REACT_APP_PORT || 5000;
-	// console.log("PORT: %s", port);
+	let apiUrl = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
+	// console.log("apiUrl: %s", apiUrl);
 	let instance = axios.create({
-		baseURL: `http://localhost:${port}/api/v1`,
+		baseURL: `${apiUrl}/api/v1`,
 		timeout: 60000,
 		httpAgent: new http.Agent({ keepAlive: true }),
 		httpsAgent: new https.Agent({ keepAlive: true }),
