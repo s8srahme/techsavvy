@@ -36,7 +36,7 @@ export class UserEditing extends React.Component {
 					this.setState({
 						isLoadingUpdateData: false,
 						errorInputIndex: 6,
-						errorInputMessage: this.props.onUpdateError.response.data.message || "There was a problem updating the user"
+						errorInputMessage: this.props.onUpdateError.response.data.error || "There was a problem updating the user"
 					});
 				} else {
 					this.setState({ isLoadingUpdateData: false, errorInputIndex: -1, errorInputMessage: "" }, () => {
