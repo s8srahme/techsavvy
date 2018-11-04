@@ -25,6 +25,7 @@
 						border: 3px solid $color-light-gray;
 						margin-bottom: $gutter-xxxl;
 						background-color: $color-medium-gray;
+						-webkit-mask-image: -webkit-radial-gradient($color-light-gray, $color-light-gray);
 						@include box-shadow(all);
 						&:hover {
 							cursor: pointer;

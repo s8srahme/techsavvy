@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Loader } from "../..";
+import { ArrowLeft } from "react-feather";
 
 export class UserForm extends React.Component {
 	constructor(props) {
@@ -243,6 +244,9 @@ export class UserForm extends React.Component {
 			<Modal showModal={showModal} onClose={onClose}>
 				<div className="user-form-content">
 					<section className="container">
+						<div className="row">
+							<ArrowLeft className="user-form-icon" onClick={onClose} />
+						</div>
 						<header className="row user-form-heading-wrapper">
 							<h2 className={`${activeTabIndex === 0 ? "active" : ""}`} onClick={() => this._handleTabClick(0)}>
 								Sign in

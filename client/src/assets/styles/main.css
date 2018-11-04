@@ -314,6 +314,7 @@ span {
         border-radius: 50%;
         overflow: hidden;
         position: relative;
+        -webkit-mask-image: -webkit-radial-gradient(#ffffff, #ffffff);
         transition: all 0.4s ease-in-out 0s; }
         .header-content .header-wrapper .header-dropdown-wrapper .header-dropdown-img-wrapper:hover {
           cursor: pointer; }
@@ -460,6 +461,14 @@ span {
         padding: 0 1.6rem; }
         .footer .container .row .language-picker-content .container .row {
           padding: 0 1.6rem; }
+        .footer .container .row .language-picker-content .container .language-picker-icon {
+          color: #a8aaaf;
+          height: 2.4rem;
+          width: 2.4rem;
+          transition: color 0.2s ease-in 0s; }
+          .footer .container .row .language-picker-content .container .language-picker-icon:hover {
+            color: #131315;
+            cursor: pointer; }
         .footer .container .row .language-picker-content .container .language-picker-heading-wrapper h2 {
           font-weight: 700; }
         .footer .container .row .language-picker-content .container .language-picker-list {
@@ -694,6 +703,8 @@ html {
   outline: 0.6rem solid #a8aaaf;
   outline-offset: -0.6rem;
   cursor: pointer;
+  appearance: none;
+  backface-visibility: hidden;
   transition: transform 0.4s ease-out 0s; }
   .radio-btn:checked {
     outline-color: #131315; }
@@ -1767,6 +1778,14 @@ html {
     padding: 0 1.6rem; }
     .user-form-content .container .row {
       padding: 0 1.6rem; }
+    .user-form-content .container .user-form-icon {
+      color: #a8aaaf;
+      height: 2.4rem;
+      width: 2.4rem;
+      transition: color 0.2s ease-in 0s; }
+      .user-form-content .container .user-form-icon:hover {
+        color: #131315;
+        cursor: pointer; }
     .user-form-content .container .user-form-heading-wrapper {
       align-items: center; }
       @media (max-width: 319px) {
@@ -1876,6 +1895,7 @@ html {
         position: relative;
         border: 3px solid #ffffff;
         background-color: #a8aaaf;
+        -webkit-mask-image: -webkit-radial-gradient(#ffffff, #ffffff);
         box-shadow: 0 0 5px #a8aaaf; }
         .wrapper .user-view-content .container .row .user-heading-wrapper .user-img-wrapper:hover img {
           transform: scale(1.2); }
@@ -1943,6 +1963,7 @@ html {
         border: 3px solid #ffffff;
         margin-bottom: 6.4rem;
         background-color: #a8aaaf;
+        -webkit-mask-image: -webkit-radial-gradient(#ffffff, #ffffff);
         box-shadow: 0 0 5px #a8aaaf; }
         .wrapper .user-editing-content .container .row .user-heading-wrapper .user-img-wrapper:hover {
           cursor: pointer; }

@@ -71,6 +71,7 @@
 						position: relative;
 						border: 3px solid $color-light-gray;
 						background-color: $color-medium-gray;
+						-webkit-mask-image: -webkit-radial-gradient($color-light-gray, $color-light-gray);
 						@include box-shadow(all);
 						&:hover img {
 							transform: scale(1.2);

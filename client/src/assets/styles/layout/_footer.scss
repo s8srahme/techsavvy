@@ -140,6 +140,20 @@
 
 					.row {
 						padding: 0 1.6rem;
+						// &:nth-child(2) {
+						// margin-top: $gutter-xxl;
+						// }
+					}
+
+					.language-picker-icon {
+						color: $color-medium-gray;
+						height: $font-size-large;
+						width: $font-size-large;
+						@include transition(color 0.2s ease-in 0s);
+						&:hover {
+							color: $color-dark-gray;
+							cursor: pointer;
+						}
 					}
 					.language-picker-heading-wrapper {
 						h2 {

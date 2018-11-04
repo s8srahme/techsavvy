@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Twitter, Facebook, Instagram, Linkedin, Github, Heart, Check } from "react-feather";
 import { GA, CombinedContextConsumer } from "utils";
 import { Modal } from "components";
+import { ArrowLeft } from "react-feather";
 
 const socials = [
 		{ name: Twitter, href: "https://twitter.com/" },
@@ -48,6 +49,9 @@ const LanguagePicker = ({ showModal, onClose }) => {
 					<Modal showModal={showModal} onClose={onClose}>
 						<div className="language-picker-content">
 							<section className="container">
+								<div className="row">
+									<ArrowLeft className="language-picker-icon" onClick={onClose} />
+								</div>
 								<header className="row language-picker-heading-wrapper">
 									<h2>{langs[preferredLocale].footer.picker.title}</h2>
 								</header>

@@ -12,13 +12,32 @@
 
 		.row {
 			padding: 0 1.6rem;
+			// &:nth-child(2) {
+			// margin-top: $gutter-xxl;
+			// }
+			// &:first-child {
+			// 	@include breakpoint(0, $breakpoint-xs) {
+			// justify-content: center;
+			// 	}
+			// }
 		}
 
+		.user-form-icon {
+			color: $color-medium-gray;
+			height: $font-size-large;
+			width: $font-size-large;
+			@include transition(color 0.2s ease-in 0s);
+			&:hover {
+				color: $color-dark-gray;
+				cursor: pointer;
+			}
+		}
 		.user-form-heading-wrapper {
 			align-items: center;
 			// justify-content: center;
 			@include breakpoint(0, $breakpoint-xs) {
 				flex-direction: column;
+
 				h2 {
 					&:nth-child(2) {
 						padding-bottom: 0;

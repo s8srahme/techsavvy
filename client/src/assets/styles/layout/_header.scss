@@ -240,6 +240,7 @@
 				border-radius: 50%;
 				overflow: hidden;
 				position: relative;
+				-webkit-mask-image: -webkit-radial-gradient($color-light-gray, $color-light-gray);
 				@include transition(all 0.4s ease-in-out 0s);
 				&:hover {
 					cursor: pointer;
