@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 	fileFilter = (req, file, cb) => {
 		if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/svg+xml")
 			cb(null, true);
-		else cb(new Error("Invalid mimetype", file.mimetype), false);
+		else cb(new Error("Invalid mimetype"), false);
 	},
 	uploadFile = multer({
 		storage,
@@ -39,10 +39,12 @@ module.exports = {
 	uploadFile: (req, res, next) => {
 		uploadFile(req, res, err => {
 			if (err) {
-				console.log("A Multer error occurred when uploading");
-				return res.status(422).json({
-					error: "Uploaded image format is not supported"
-				});
+				console.log("A Multer error occurred when uploading", err.message);
+				if (err.message === "Invalid mimetype")
+					return res.status(422).json({
+						error: "Uploaded image format is not supported"
+					});
+				return res.status(500).json({ error: err });
 			}
 			next();
 		});
@@ -51,9 +53,11 @@ module.exports = {
 		uploadFiles(req, res, err => {
 			if (err) {
 				console.log(err.message);
-				return res.status(422).json({
-					error: "Uploaded image format is not supported"
-				});
+				if (err.message === "Invalid mimetype")
+					return res.status(422).json({
+						error: "Uploaded image format is not supported"
+					});
+				return res.status(500).json({ error: err });
 			}
 			next();
 		});
