@@ -123,11 +123,15 @@ class Header extends Component {
 				() => {
 					const { from, location, history } = this.props;
 					if (location.pathname === "/login") {
-						if (shouldRedirect) {
+						// console.log(shouldRedirect, from.length);
+						if (shouldRedirect === true) {
 							const values = parseQueryString(this.props.location.search);
 							history.push(_.isEmpty(values) ? "/" : values.redirect);
-						} else if (from.length) history.goBack();
-						else history.push("/");
+						} else if (from.length) {
+							history.goBack();
+						} else {
+							history.push("/");
+						}
 					}
 				}
 			);
