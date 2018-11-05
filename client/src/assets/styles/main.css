@@ -461,6 +461,8 @@ span {
         padding: 0 1.6rem; }
         .footer .container .row .language-picker-content .container .row {
           padding: 0 1.6rem; }
+          .footer .container .row .language-picker-content .container .row:nth-child(2) {
+            margin-top: 4.8rem; }
         .footer .container .row .language-picker-content .container .language-picker-icon {
           color: #a8aaaf;
           height: 2.4rem;
@@ -1778,6 +1780,8 @@ html {
     padding: 0 1.6rem; }
     .user-form-content .container .row {
       padding: 0 1.6rem; }
+      .user-form-content .container .row:nth-child(2) {
+        margin-top: 4.8rem; }
     .user-form-content .container .user-form-icon {
       color: #a8aaaf;
       height: 2.4rem;
@@ -1814,7 +1818,7 @@ html {
     .user-form-content .container #user-login-form,
     .user-form-content .container #user-register-form {
       margin-top: 0;
-      padding-top: 4.8rem; }
+      padding-top: 3.2rem; }
       .user-form-content .container #user-login-form fieldset,
       .user-form-content .container #user-register-form fieldset {
         width: 100%; }

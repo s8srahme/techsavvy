@@ -12,9 +12,9 @@
 
 		.row {
 			padding: 0 1.6rem;
-			// &:nth-child(2) {
-			// margin-top: $gutter-xxl;
-			// }
+			&:nth-child(2) {
+				margin-top: $gutter-xxl;
+			}
 			// &:first-child {
 			// 	@include breakpoint(0, $breakpoint-xs) {
 			// justify-content: center;
@@ -76,7 +76,7 @@
 		#user-register-form {
 			margin-top: 0;
 			// padding-top: $gutter-xl;
-			padding-top: $gutter-xxl;
+			padding-top: $gutter-xl;
 
 			fieldset {
 				width: 100%;
