@@ -21,6 +21,6 @@ export class ErrorBoundary extends React.Component {
 
 	render = () => {
 		if (this.state.hasError) return <NotFound hasError {...this.props} />;
-		return <div>{this.props.children}</div>;
+		return <React.Fragment>{this.props.children}</React.Fragment>;
 	};
 }

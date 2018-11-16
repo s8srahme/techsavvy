@@ -28,8 +28,8 @@ export class UserDetail extends PureComponent {
 				isFollowing: hasOnFollowData
 					? true
 					: hasOnUnfollowData
-						? false
-						: userData.followers.includes(authenticationData._id),
+					? false
+					: userData.followers.includes(authenticationData._id),
 				stats: [
 					{ label: "Stories", value: userData.counts["articles"] },
 					{
@@ -79,13 +79,11 @@ export class UserDetail extends PureComponent {
 			{ isFollowing, stats } = this.state;
 
 		return isLoadingUser ? (
-			<div className="wrapper">
-				<div className="news-loader-content">
-					<Loader />
-				</div>
+			<div className="news-loader-content">
+				<Loader />
 			</div>
 		) : (
-			<div className="wrapper">
+			<React.Fragment>
 				<div className="news-masthead">
 					<LazyLoad
 						figure
@@ -159,7 +157,7 @@ export class UserDetail extends PureComponent {
 						</footer>
 					</section>
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	};
 }

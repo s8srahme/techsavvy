@@ -63,19 +63,15 @@ export class ArticleDetail extends Component {
 		} = this.props;
 
 		return isLoadingAuthentication || this.state.isFetchingArticle ? (
-			<div className="wrapper">
-				<div className="news-loader-content">
-					<Loader />
-				</div>
+			<div className="news-loader-content">
+				<Loader />
 			</div>
 		) : articleError || !articleData.author_id ? (
-			<div className="wrapper">
-				<div className="news-loader-content">
-					<p>We couldn't find this article.</p>
-				</div>
+			<div className="news-loader-content">
+				<p>We couldn't find this article.</p>
 			</div>
 		) : (
-			<div className="wrapper">
+			<React.Fragment>
 				{articleData.featured_image_url && (
 					<div className="news-masthead">
 						<LazyLoad
@@ -143,7 +139,7 @@ export class ArticleDetail extends Component {
 						</section>
 					</div>
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	};
 }

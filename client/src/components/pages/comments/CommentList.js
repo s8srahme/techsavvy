@@ -82,10 +82,8 @@ export class CommentList extends Component {
 		let commentsData = Object.keys(comments).length && comments.data ? comments.data.comments : [];
 
 		return this.state.isFetchingComments || isLoadingAuthentication ? (
-			<div className="wrapper">
-				<div className={"news-loader-content darken pull"}>
-					<Loader />
-				</div>
+			<div className={"news-loader-content darken pull"}>
+				<Loader />
 			</div>
 		) : (
 			<section

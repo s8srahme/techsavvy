@@ -1,142 +1,140 @@
-.wrapper {
-	.user-editing-content {
-		margin-top: -100px;
-		background-color: $color-light-gray;
+.user-editing-content {
+	margin-top: -100px;
+	background-color: $color-light-gray;
 
-		.container {
-			max-width: $breakpoint-md;
+	.container {
+		max-width: $breakpoint-md;
 
-			.row {
-				@include breakpoint(md) {
-					padding: 0;
-				}
-				.user-heading-wrapper {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
+		.row {
+			@include breakpoint(md) {
+				padding: 0;
+			}
+			.user-heading-wrapper {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				overflow: hidden;
+
+				.user-img-wrapper {
+					width: 200px;
+					height: 200px;
+					border-radius: 50%;
 					overflow: hidden;
+					position: relative;
+					border: 3px solid $color-light-gray;
+					margin-bottom: $gutter-xxxl;
+					background-color: $color-medium-gray;
+					-webkit-mask-image: -webkit-radial-gradient($color-light-gray, $color-light-gray);
+					@include box-shadow(all);
+					&:hover {
+						cursor: pointer;
 
-					.user-img-wrapper {
-						width: 200px;
-						height: 200px;
-						border-radius: 50%;
-						overflow: hidden;
-						position: relative;
-						border: 3px solid $color-light-gray;
-						margin-bottom: $gutter-xxxl;
-						background-color: $color-medium-gray;
-						-webkit-mask-image: -webkit-radial-gradient($color-light-gray, $color-light-gray);
-						@include box-shadow(all);
-						&:hover {
-							cursor: pointer;
-
-							.user-img-overlay {
-								opacity: 1;
-
-								.user-img-overlay-icon {
-									transform: scale(1.2);
-								}
-							}
-						}
-
-						.user-thumbnail {
-							display: block;
-							width: 100%;
-							height: 100%;
-							object-fit: cover;
-						}
 						.user-img-overlay {
-							position: absolute;
-							bottom: 0;
-							left: 0;
-							right: 0;
-							top: 0;
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							z-index: 1;
-							background-color: rgba($color-dark-gray, 0.7);
-							opacity: 0;
-							@include transition(opacity 0.4s ease-in-out 0s);
+							opacity: 1;
 
 							.user-img-overlay-icon {
-								color: darken($color-light-gray, 10%);
-								height: 64px;
-								width: 64px;
-								@include transition(transform 0.4s ease-in-out 0s);
+								transform: scale(1.2);
 							}
 						}
-						input[type="file"] {
-							display: none;
+					}
+
+					.user-thumbnail {
+						display: block;
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+					.user-img-overlay {
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						top: 0;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						z-index: 1;
+						background-color: rgba($color-dark-gray, 0.7);
+						opacity: 0;
+						@include transition(opacity 0.4s ease-in-out 0s);
+
+						.user-img-overlay-icon {
+							color: darken($color-light-gray, 10%);
+							height: 64px;
+							width: 64px;
+							@include transition(transform 0.4s ease-in-out 0s);
 						}
+					}
+					input[type="file"] {
+						display: none;
 					}
 				}
 			}
-			#user-form {
-				fieldset {
-					width: 100%;
-					&:nth-child(2) {
-						margin: $gutter-xxxl 0;
+		}
+		#user-form {
+			fieldset {
+				width: 100%;
+				&:nth-child(2) {
+					margin: $gutter-xxxl 0;
+				}
+
+				legend {
+					@include font($font-size-large, $font-weight-bold, $font-style-regular, $color-dark-gray, 1.1);
+					text-transform: capitalize;
+					margin-bottom: $gutter-md;
+				}
+				.user-form-inputs-wrapper {
+					display: flex;
+					flex-direction: row;
+					@include breakpoint(0, $breakpoint-xs) {
+						flex-direction: column;
 					}
 
-					legend {
-						@include font($font-size-large, $font-weight-bold, $font-style-regular, $color-dark-gray, 1.1);
-						text-transform: capitalize;
-						margin-bottom: $gutter-md;
-					}
-					.user-form-inputs-wrapper {
-						display: flex;
-						flex-direction: row;
-						@include breakpoint(0, $breakpoint-xs) {
-							flex-direction: column;
-						}
-
-						.user-form-input-wrapper {
-							flex: 1;
-							@include breakpoint($breakpoint-xs) {
-								&:last-child {
-									margin-left: $gutter-md;
-								}
-							}
-						}
-					}
 					.user-form-input-wrapper {
-						margin-bottom: $gutter-md;
-
-						.txt-input[name="location"] {
-							&::placeholder {
-								text-transform: none;
+						flex: 1;
+						@include breakpoint($breakpoint-xs) {
+							&:last-child {
+								margin-left: $gutter-md;
 							}
-						}
-						span,
-						label {
-							display: block;
-							margin-top: $gutter-sm;
-							color: $color-grapefruit;
 						}
 					}
 				}
-				.user-form-btn-wrapper {
-					margin-bottom: $gutter-xxxl;
-					width: 100%;
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
+				.user-form-input-wrapper {
+					margin-bottom: $gutter-md;
 
+					.txt-input[name="location"] {
+						&::placeholder {
+							text-transform: none;
+						}
+					}
 					span,
 					label {
 						display: block;
-						margin-bottom: $gutter-md;
+						margin-top: $gutter-sm;
 						color: $color-grapefruit;
 					}
-					.user-form-loader-wrapper {
-						margin: 0 0 $gutter-md;
-					}
-					.btn {
-						margin-bottom: $gutter-md;
-						@include breakpoint(0, $breakpoint-xs) {
-							width: 100%;
-						}
+				}
+			}
+			.user-form-btn-wrapper {
+				margin-bottom: $gutter-xxxl;
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+				span,
+				label {
+					display: block;
+					margin-bottom: $gutter-md;
+					color: $color-grapefruit;
+				}
+				.user-form-loader-wrapper {
+					margin: 0 0 $gutter-md;
+				}
+				.btn {
+					margin-bottom: $gutter-md;
+					@include breakpoint(0, $breakpoint-xs) {
+						width: 100%;
 					}
 				}
 			}

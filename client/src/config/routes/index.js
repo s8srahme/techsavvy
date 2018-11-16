@@ -71,7 +71,7 @@ export const _renderRoutes = () => (
 	<Route
 		render={({ location, history, match }) => {
 			return (
-				<TransitionGroup>
+				<TransitionGroup className="page-wrapper">
 					<CSSTransition key={location.pathname} classNames="fade" timeout={{ enter: 500, exit: 300 }} unmountOnExit>
 						<ErrorBoundary hasError location={location} history={history}>
 							<Switch location={location}>

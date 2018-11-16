@@ -1,87 +1,85 @@
-.wrapper {
-	.work-content {
-		background-color: darken($color-light-gray, 5%);
+.work-content {
+	background-color: darken($color-light-gray, 5%);
 
-		.container {
-			padding: $gutter-xxxl 0;
+	.container {
+		padding: $gutter-xxxl 0;
 
-			.row:nth-child(2) {
-				margin-top: 0;
-			}
-			.work-info-wrapper {
-				min-height: 30vh;
-				align-items: center;
+		.row:nth-child(2) {
+			margin-top: 0;
+		}
+		.work-info-wrapper {
+			min-height: 30vh;
+			align-items: center;
 
-				.column {
-					p {
-						text-align: center;
-					}
-				}
-			}
-			.work-heading-wrapper {
-				margin-bottom: $gutter-xxxl;
-				justify-content: center;
-
-				h1 {
+			.column {
+				p {
 					text-align: center;
-					text-transform: uppercase;
 				}
 			}
-			.work-cards-wrapper {
-				.column {
-					.work-card {
+		}
+		.work-heading-wrapper {
+			margin-bottom: $gutter-xxxl;
+			justify-content: center;
+
+			h1 {
+				text-align: center;
+				text-transform: uppercase;
+			}
+		}
+		.work-cards-wrapper {
+			.column {
+				.work-card {
+					display: flex;
+					flex-direction: column;
+					background-color: $color-light-gray;
+					overflow: hidden;
+					position: relative;
+					@include box-shadow(all);
+
+					.work-card-info-wrapper {
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						top: 0;
+						z-index: 1;
+						background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.4), rgba($color-dark-gray, 0.8));
 						display: flex;
 						flex-direction: column;
-						background-color: $color-light-gray;
+						justify-content: center;
+						align-items: center;
+						opacity: 0;
+						@include transition(opacity 0.4s ease-in-out 0s);
+
+						h2 {
+							font-weight: $font-weight-bold;
+							color: $color-light-gray;
+						}
+						h4 {
+							margin-top: $gutter-sm;
+							color: $color-light-gray;
+						}
+					}
+					.work-card-img-wrapper {
+						width: 100%;
+						height: 350px;
 						overflow: hidden;
-						position: relative;
-						@include box-shadow(all);
 
-						.work-card-info-wrapper {
-							position: absolute;
-							bottom: 0;
-							left: 0;
-							right: 0;
-							top: 0;
-							z-index: 1;
-							background-image: linear-gradient(to bottom, rgba($color-dark-gray, 0.4), rgba($color-dark-gray, 0.8));
-							display: flex;
-							flex-direction: column;
-							justify-content: center;
-							align-items: center;
-							opacity: 0;
-							@include transition(opacity 0.4s ease-in-out 0s);
-
-							h2 {
-								font-weight: $font-weight-bold;
-								color: $color-light-gray;
-							}
-							h4 {
-								margin-top: $gutter-sm;
-								color: $color-light-gray;
-							}
-						}
-						.work-card-img-wrapper {
+						.work-thumbnail {
+							display: block;
+							@include transition(transform 0.4s ease-in-out 0s);
 							width: 100%;
-							height: 350px;
-							overflow: hidden;
-
-							.work-thumbnail {
-								display: block;
-								@include transition(transform 0.4s ease-in-out 0s);
-								width: 100%;
-								height: 100%;
-								object-fit: cover;
-							}
+							height: 100%;
+							object-fit: cover;
 						}
+					}
 
-						&:hover {
-							.work-card-info-wrapper {
-								opacity: 1;
-							}
-							.work-card-img-wrapper img {
-								transform: scale(1.2);
-							}
+					&:hover {
+						.work-card-info-wrapper {
+							opacity: 1;
+						}
+						.work-card-img-wrapper img {
+							transform: scale(1.2);
 						}
 					}
 				}

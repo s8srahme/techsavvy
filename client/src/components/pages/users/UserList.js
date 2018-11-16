@@ -118,13 +118,11 @@ export class UserList extends PureComponent {
 			// 		// meta
 			// 	}
 			// } = this.props;
-			return <div className="wrapper">{this._renderWorkContent(users)}</div>;
+			return this._renderWorkContent(users);
 		}
 		return (
-			<div className="wrapper">
-				<div className="news-loader-content darken pull">
-					<Loader />
-				</div>
+			<div className="news-loader-content darken pull">
+				<Loader />
 			</div>
 		);
 	};
