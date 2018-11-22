@@ -1,6 +1,7 @@
 const fs = require("fs");
 const bcrypt = require("bcrypt");
 const cloudinary = require("cloudinary");
+const mongoose = require("mongoose");
 
 const User = require("./../models/user");
 const Article = require("./../models/article");
@@ -189,9 +190,30 @@ module.exports = {
 				if (error) res.status(500).json({ error: error });
 				else if (records.length === 0) res.status(200).json({ message: "No entries found" });
 				else {
-					Article.countDocuments({ ...{ author_id: id }, ...filter })
+					const ids = [mongoose.Types.ObjectId(id)];
+					Article.aggregate([
+						{
+							$match: {
+								author_id: { $in: ids }
+							}
+						},
+						{
+							$group: {
+								_id: "$author_id",
+								count: { $sum: 1 }
+							}
+						},
+						{
+							$sort: {
+								created_at: -1
+							}
+						}
+					])
+						// Article.countDocuments({ ...{ author_id: id }, ...filter })
 						.exec()
-						.then(count => {
+						.then(result => {
+							console.log(result);
+							let count = result[0].count;
 							const response = {
 								meta: {
 									count: records.length,
