@@ -79,9 +79,9 @@ const startServer = () => {
 	// app.use("/api/v2", apiV2Router);
 
 	if (process.env.NODE_ENV === "production" && !fs.existsSync(".env.production")) {
-		app.use(express.static(path.join(__dirname, "client/build")));
+		app.use(express.static(path.join(__dirname, "../client/build")));
 		app.get("*", (req, res) => {
-			res.sendFile(path.join(__dirname, "client/build", "index.html"));
+			res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 		});
 	} else {
 		app.use((req, res, next) => {
@@ -114,7 +114,7 @@ try {
 		if (error) {
 			throw error;
 		}
-	} else if (name === "develop" && fs.existsSync(".env.development")) {
+	} else if (name === "client-server" && fs.existsSync(".env.development")) {
 		console.log("Detected development environment");
 		let { parsed, error } = dotenv.config({ path: ".env.development" });
 		if (error) {

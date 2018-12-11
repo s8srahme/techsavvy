@@ -20,9 +20,9 @@ export class ErrorBoundary extends React.Component {
 		});
 	};
 
-	// componentWillMount = () => {
-	// 	console.log(this.props.location);
-	// };
+	componentWillMount = () => {
+		console.log(this.props.location);
+	};
 
 	render = () => {
 		if (this.state.hasError) return <NotFound hasError {...this.props} />;
@@ -30,9 +30,9 @@ export class ErrorBoundary extends React.Component {
 		return (
 			<div>
 				{this.props.children}
-				{/* <a target="_blank" href="www.google.com">
+				<a target="_blank" href="www.google.com">
 					hello
-				</a> */}
+				</a>
 			</div>
 		);
 	};

@@ -30,12 +30,12 @@
 		"node": "11.2.0"
 	},
 	"scripts": {
-		"watch-js": "cd client && npm start",
-		"watch-css": "cd client && npm run watch-css",
+		"watch-js": "cd ../client && npm start",
+		"watch-css": "cd ../client && npm run watch-css",
 		"watch-node": "nodemon server.js",
 		"dev": "concurrently --kill-others-on-fail \"npm:watch-*\"",
 		"start": "node server.js",
-		"heroku-postbuild": "cd client && npm install && npm run build"
+		"heroku-postbuild": "cd ../client && npm install && npm run build"
 	},
 	"devDependencies": {
 		"concurrently": "^4.0.1",
