@@ -114,7 +114,7 @@ try {
 		if (error) {
 			throw error;
 		}
-	} else if (name === "client-server" && fs.existsSync(".env.development")) {
+	} else if (name === "develop" && fs.existsSync(".env.development")) {
 		console.log("Detected development environment");
 		let { parsed, error } = dotenv.config({ path: ".env.development" });
 		if (error) {
