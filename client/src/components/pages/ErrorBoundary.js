@@ -1,6 +1,7 @@
 import React from "react";
 import { NotFound } from "./NotFound";
 import { GA } from "utils";
+// import PropTypes from "prop-types";
 
 export class ErrorBoundary extends React.Component {
 	constructor(props) {
@@ -19,8 +20,24 @@ export class ErrorBoundary extends React.Component {
 		});
 	};
 
+	// componentWillMount = () => {
+	// 	console.log(this.props.location);
+	// };
+
 	render = () => {
 		if (this.state.hasError) return <NotFound hasError {...this.props} />;
-		return <React.Fragment>{this.props.children}</React.Fragment>;
+		// return <React.Fragment>{this.props.children}</React.Fragment>;
+		return (
+			<div>
+				{this.props.children}
+				{/* <a target="_blank" href="www.google.com">
+					hello
+				</a> */}
+			</div>
+		);
 	};
 }
+
+// ErrorBoundary.propTypes = {
+// location: PropTypes.object.isRequired
+// };

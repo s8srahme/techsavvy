@@ -4,7 +4,7 @@ module.exports = {
 		node: true,
 		browser: true
 	},
-	extends: ["eslint:recommended", "react-app"],
+	extends: ["eslint:recommended", "plugin:react/recommended"],
 	parser: "babel-eslint",
 	parserOptions: {
 		ecmaFeatures: {
@@ -25,7 +25,6 @@ module.exports = {
 		"no-unused-vars": 1,
 		"constructor-super": 1,
 		"valid-typeof": 1,
-		indent: ["error", "tab"],
 		"linebreak-style": ["error", "unix"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"],
@@ -37,6 +36,10 @@ module.exports = {
 		"import/named": 2,
 		"import/namespace": 2,
 		"import/default": 2,
-		"import/export": 2
-	}
+		"import/export": 2,
+		"react/prop-types": ["warn"],
+		"react/no-deprecated": ["warn"],
+		"react/jsx-no-target-blank": ["warn"]
+	},
+	settings: { react: { version: "16.3.1" } }
 };
