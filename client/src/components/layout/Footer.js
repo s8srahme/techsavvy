@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Twitter, Facebook, Instagram, Linkedin, Github, Heart, Check } from "react-feather";
+import { Twitter, Facebook, Instagram, Linkedin, GitHub, Heart, Check } from "react-feather";
 import { GA, CombinedContextConsumer } from "utils";
 import { Modal } from "components";
 import { ArrowLeft } from "react-feather";
@@ -10,7 +10,7 @@ const socials = [
 		{ name: Facebook, href: "https://www.facebook.com/" },
 		{ name: Instagram, href: "https://www.instagram.com/" },
 		{ name: Linkedin, href: "https://www.linkedin.com/" },
-		{ name: Github, href: "https://github.com" }
+		{ name: GitHub, href: "https://github.com" }
 	],
 	links = [
 		{
