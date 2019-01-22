@@ -1,11 +1,11 @@
 const sgMail = require("@sendgrid/mail");
 
-const getHtmlString = require("./../views");
+const getHtmlString = require("./../templates");
 
-exports.mails_create_mail = async (req, res, next) => {
+exports.contact = async (req, res, next) => {
 	const { to, from, subject, name, message } = req.body;
 	try {
-		const htmlString = await getHtmlString({ name });
+		const htmlString = await getHtmlString({ type: "contact", data: { to, from, subject, name, message } });
 		if (htmlString instanceof Error) throw htmlString;
 		// console.log(htmlString);
 
@@ -31,7 +31,7 @@ exports.mails_create_mail = async (req, res, next) => {
 			message: "Mail sent",
 			request: {
 				type: "POST",
-				url: "http://localhost:5000/api/mails/create"
+				url: "http://localhost:5000/api/mails/contact"
 			}
 		});
 	} catch (e) {

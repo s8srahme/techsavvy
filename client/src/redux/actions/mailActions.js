@@ -1,4 +1,4 @@
-import { CREATE_MAIL, CREATE_MAIL_SUCCESS, CREATE_MAIL_FAILURE } from "../constants";
+import { CONTACT_REQUEST, CONTACT_SUCCESS, CONTACT_FAILURE } from "../constants";
 import services from "services";
 
 const get = type => {
@@ -19,18 +19,18 @@ const getFailure = (type, error) => {
 	};
 };
 
-export const create = (createData, cbs) => {
+export const contact = (contactData, cbs) => {
 	return dispatch => {
-		dispatch(get(CREATE_MAIL));
+		dispatch(get(CONTACT_REQUEST));
 		services.mails
-			.create(createData)
+			.contact(contactData)
 			.then(res => {
-				dispatch(getSuccess(CREATE_MAIL_SUCCESS, res));
+				dispatch(getSuccess(CONTACT_SUCCESS, res));
 				cbs.onSuccessCb();
 			})
 			.catch(err => {
 				console.log("err:", err);
-				dispatch(getFailure(CREATE_MAIL_FAILURE, err));
+				dispatch(getFailure(CONTACT_FAILURE, err));
 				cbs.onFailureCb(err);
 			});
 	};

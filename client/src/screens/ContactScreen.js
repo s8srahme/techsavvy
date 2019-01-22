@@ -9,15 +9,15 @@ export class ContactScreen extends Component {
 	};
 
 	render = () => {
-		const { onCreate, onCreateData, isFetchingCreateData, onCreateError, history, location } = this.props;
+		const { onContact, onContactData, isFetchingContactData, onContactError, history, location } = this.props;
 		return (
 			<Contact
 				location={location}
 				history={history}
-				onCreate={onCreate}
-				onCreateData={onCreateData}
-				isFetchingCreateData={isFetchingCreateData}
-				onCreateError={onCreateError}
+				onContact={onContact}
+				onContactData={onContactData}
+				isFetchingContactData={isFetchingContactData}
+				onContactError={onContactError}
 			/>
 		);
 	};
@@ -25,16 +25,16 @@ export class ContactScreen extends Component {
 
 const mapStateToProps = ({ mails, history }) => {
 		return {
-			isFetchingCreateData: mails.isFetchingCreateData,
-			onCreateData: mails.onCreateData,
-			onCreateError: mails.onCreateError,
+			isFetchingContactData: mails.isFetchingContactData,
+			onContactData: mails.onContactData,
+			onContactError: mails.onContactError,
 
 			offsetTop: history.offsetTop
 		};
 	},
 	mapDispatchToProps = dispatch => {
 		return {
-			onCreate: (createData, cbs) => dispatch(actions.mails.create(createData, cbs))
+			onContact: (contactData, cbs) => dispatch(actions.mails.contact(contactData, cbs))
 		};
 	};
 

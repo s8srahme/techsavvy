@@ -1,31 +1,31 @@
-import { CREATE_MAIL, CREATE_MAIL_SUCCESS, CREATE_MAIL_FAILURE } from "../constants";
+import { CONTACT_REQUEST, CONTACT_SUCCESS, CONTACT_FAILURE } from "../constants";
 
 const initialState = {
-	onCreateData: {},
-	isFetchingCreateData: false,
-	onCreateError: null
+	onContactData: {},
+	isFetchingContactData: false,
+	onContactError: null
 };
 
 export const mailReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case CREATE_MAIL:
+		case CONTACT_REQUEST:
 			return {
 				...state,
-				onCreateData: [],
-				isFetchingCreateData: true
+				onContactData: [],
+				isFetchingContactData: true
 			};
-		case CREATE_MAIL_SUCCESS:
+		case CONTACT_SUCCESS:
 			return {
 				...state,
-				isFetchingCreateData: false,
-				onCreateData: action.payload,
-				onCreateError: null
+				isFetchingContactData: false,
+				onContactData: action.payload,
+				onContactError: null
 			};
-		case CREATE_MAIL_FAILURE:
+		case CONTACT_FAILURE:
 			return {
 				...state,
-				isFetchingCreateData: false,
-				onCreateError: action.error
+				isFetchingContactData: false,
+				onContactError: action.error
 			};
 
 		default:

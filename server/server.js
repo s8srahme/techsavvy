@@ -10,11 +10,10 @@ const fs = require("fs");
 const dotenv = require("dotenv");
 const branch = require("git-branch");
 
-const startServer = () => {
-	const setRoutes = require("./api/v1/routes/");
-	// setApiV2Routes = require("./api/v1/routes/");
-	// const templateRoutes = require("./api/v1/routes/template");
+const setRoutes = require("./api/v1/routes/");
+// setApiV2Routes = require("./api/v1/routes/");
 
+const startServer = () => {
 	const app = express();
 	const router = express.Router();
 	// apiV2Router = express.Router();
@@ -72,7 +71,6 @@ const startServer = () => {
 	app.use(helmet());
 	app.set("view engine", "ejs");
 
-	// app.use("/templates", templateRoutes.router);
 	setRoutes(router);
 	// setApiV2Routes(apiV2Router);
 	app.use("/api/v1", router);
