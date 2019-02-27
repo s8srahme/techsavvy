@@ -47,6 +47,10 @@
 			"*.{js,json}": [
 				"prettier --write",
 				"git add"
+			],
+			"../client/src/**/*.{js,jsx,json,css}": [
+				"prettier --write",
+				"git add"
 			]
 		},
 		"ignore": [
