@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
-import { _renderRoutes } from "./config";
+import { _renderRoutes } from "config";
 import { Footer, Header } from "components";
 import { GA, CombinedContextProvider } from "utils";
 

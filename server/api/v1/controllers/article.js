@@ -155,7 +155,7 @@ exports.articles_create_article = (req, res, next) => {
 };
 exports.articles_delete_article = (req, res, next) => {
 	const id = req.params.articleId;
-	Article.remove({ _id: id })
+	Article.deleteOne({ _id: id })
 		.exec()
 		.then(result => {
 			res.status(204).json({
@@ -209,7 +209,7 @@ exports.articles_update_article = async (req, res, next) => {
 		if (propName !== "photos") updateOps[propName] = req.body[propName];
 	}
 
-	Article.update({ _id: id }, { $set: updateOps })
+	Article.updateOne({ _id: id }, { $set: updateOps })
 		.exec()
 		.then(result => {
 			res.status(200).json({

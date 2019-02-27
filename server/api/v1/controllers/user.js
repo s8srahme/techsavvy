@@ -10,7 +10,7 @@ const querify = require("./../helpers/queryString");
 
 module.exports = {
 	deleteUser: (req, res, next) => {
-		User.remove({ _id: req.params.id })
+		User.deleteOne({ _id: req.params.id })
 			.exec()
 			.then(result => {
 				if (!result) {
@@ -112,7 +112,7 @@ module.exports = {
 		}
 
 		// console.log("updateOps:", updateOps);
-		User.update({ _id: id }, { $set: updateOps })
+		User.updateOne({ _id: id }, { $set: updateOps })
 			.exec()
 			.then(result => {
 				res.status(200).json({

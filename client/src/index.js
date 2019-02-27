@@ -5,8 +5,8 @@ import registerServiceWorker from "./registerServiceWorker";
 import configureStore from "./redux/configureStore";
 import App from "./App";
 
-const store = configureStore(),
-	rootElement = document.getElementById("root");
+const store = configureStore();
+const rootElement = document.getElementById("root");
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -15,4 +15,3 @@ ReactDOM.render(
 	rootElement
 );
 registerServiceWorker();
-// unregister();
