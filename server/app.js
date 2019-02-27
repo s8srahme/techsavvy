@@ -1,4 +1,5 @@
 const express = require("express");
+
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -8,13 +9,12 @@ const morgan = require("morgan");
 const cloudinary = require("cloudinary");
 const path = require("path");
 const fs = require("fs");
-const dotenv = require("dotenv");
 
 const routes = require("./api/v1/routes/");
 // const v2Routes = require("./api/v2/routes/");
 
-let uri = process.env.MONGODB_URI;
-let config = {
+const uri = process.env.MONGODB_URI;
+const config = {
 	cloud_name: process.env.CLOUDINARY_NAME,
 	api_key: process.env.CLOUDINARY_API_KEY,
 	api_secret: process.env.CLOUDINARY_API_SECRET
@@ -35,8 +35,14 @@ app.use(
 	(options => (req, res, next) => {
 		if (req.method === "OPTIONS") {
 			res.header("Access-Control-Allow-Origin", "*");
-			res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-			res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+			res.header(
+				"Access-Control-Allow-Headers",
+				"Origin, X-Requested-With, Content-Type, Accept, Authorization"
+			);
+			res.header(
+				"Access-Control-Allow-Methods",
+				"PUT, POST, PATCH, DELETE, GET"
+			);
 			return res.status(200).json({});
 		}
 		cors(options)(req, res, next);
@@ -50,7 +56,13 @@ app.use(
 			// }
 			return callback(null, true);
 		},
-		allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"], // Configures the 'Access-Control-Allow-Headers' CORS header
+		allowedHeaders: [
+			"Origin",
+			"X-Requested-With",
+			"Content-Type",
+			"Accept",
+			"Authorization"
+		], // Configures the 'Access-Control-Allow-Headers' CORS header
 		methods: "GET,PUT,POST,PATCH,DELETE" // Configures the 'Access-Control-Allow-Methods' CORS header
 	})
 );
@@ -66,7 +78,10 @@ app.use("/api/v1", routes);
 // app.use("/api/v2", v2Routes);
 
 // Make sure that the React files are being served by the Express server in production mode
-if (process.env.NODE_ENV === "production" && !fs.existsSync(".env.production")) {
+if (
+	process.env.NODE_ENV === "production" &&
+	!fs.existsSync(".env.production")
+) {
 	app.use(express.static(path.join(__dirname, "../client/build")));
 	app.get("*", (req, res, next) => {
 		res.sendFile(path.join(__dirname, "../client/build", "index.html"));
@@ -87,4 +102,4 @@ if (process.env.NODE_ENV === "production" && !fs.existsSync(".env.production")) 
 	});
 }
 
-module.exports = app     ;
+module.exports = app;
