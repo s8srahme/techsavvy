@@ -1,0 +1,11 @@
+{
+	"extends": "stylelint-config-standard",
+	"rules": {
+		"at-rule-no-unknown": null,
+		"color-named": "never",
+		"indentation": "tab",
+		"property-no-vendor-prefix": true,
+		"selector-max-universal": 0,
+		"string-quotes": "double"
+	}
+}

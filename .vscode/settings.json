@@ -5,11 +5,15 @@
 	"[javascriptreact]": {
 		"editor.formatOnSave": false
 	},
+	"css.validate": false,
 	"eslint.alwaysShowStatus": true,
 	"eslint.autoFixOnSave": true,
 	"eslint.enable": true,
 	"files.associations": {
 		"*.js": "javascriptreact"
 	},
-	"prettier.disableLanguages": ["javascript", "javascriptreact"]
+	"less.validate": false,
+	"prettier.disableLanguages": ["javascript", "javascriptreact"],
+	"scss.validate": false,
+	"stylelint.enable": true
 }

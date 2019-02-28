@@ -48,7 +48,7 @@
 				"prettier --write",
 				"git add"
 			],
-			"../client/src/**/*.{js,jsx,json,css}": [
+			"../client/src/**/*.{js,jsx,json,css,scss}": [
 				"prettier --write",
 				"git add"
 			]

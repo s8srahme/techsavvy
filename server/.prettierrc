@@ -1,3 +1,4 @@
 {
-  "useTabs": true
+	"arrowParens": "always",
+	"useTabs": true
 }
