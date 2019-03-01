@@ -28,11 +28,11 @@ mongoose
 		useCreateIndex: true
 	})
 	.then(() => console.log("Connected to database successfully"))
-	.catch(err => console.error("Could not connect to database", err));
+	.catch((err) => console.error("Could not connect to database", err));
 
 // Implement the middleware function based on the 'options' object
 app.use(
-	(options => (req, res, next) => {
+	((options) => (req, res, next) => {
 		if (req.method === "OPTIONS") {
 			res.header("Access-Control-Allow-Origin", "*");
 			res.header(
@@ -77,15 +77,15 @@ app.set("view engine", "ejs");
 app.use("/api/v1", routes);
 // app.use("/api/v2", v2Routes);
 
-// Make sure that the React files are being served by the Express server in production mode
+// Serve up our React files by the Express server in production mode
 if (
 	process.env.NODE_ENV === "production" &&
 	!fs.existsSync(".env.production")
 ) {
-	app.use(express.static(path.join(__dirname, "../client/build")));
+	app.use(express.static(path.join(__dirname, "../client/build"))); // Serve static files from the React frontend app
 	app.get("*", (req, res, next) => {
 		res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-	});
+	}); // Anything that doesn't match the above, send back index.html
 } else {
 	app.use((req, res, next) => {
 		const error = new Error("Not found");

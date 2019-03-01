@@ -14,4 +14,4 @@ ReactDOM.render(
 	</Provider>,
 	rootElement
 );
-registerServiceWorker();
+registerServiceWorker(); // Makes your app work offline and load faster
