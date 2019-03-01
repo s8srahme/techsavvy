@@ -1,5 +1,5 @@
 export default (url, instance) => {
 	return {
-		create: toCreate => instance.post(`${url}/create`, toCreate)
+		contact: toContact => instance.post(`${url}/contact`, toContact)
 	};
 };

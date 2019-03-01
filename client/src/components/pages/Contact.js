@@ -21,12 +21,12 @@ export class Contact extends React.Component {
 		event.preventDefault();
 		const { email, fullName, subject, message } = this.state;
 		const {
-			onCreate
-			// onCreateData, isFetchingCreateData, onCreateError
+			onContact
+			// onContactData, isFetchingContactData, onContactError
 		} = this.props;
 
 		this.setState({ isLoading: true }, () => {
-			onCreate(
+			onContact(
 				{ to: "trickster0179@gmail.com", from: email, subject, name: fullName, message },
 				{
 					onSuccessCb: () => {

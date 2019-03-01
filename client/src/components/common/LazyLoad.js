@@ -16,6 +16,13 @@ class LazyLoad extends React.Component {
 		defaultImage: PropTypes.string
 	};
 
+	static defaultProps = {
+		className: "",
+		wrapperClassName: "",
+		overlayClassName: "",
+		background: ""
+	};
+
 	state = {
 		loaded: false,
 		errored: false

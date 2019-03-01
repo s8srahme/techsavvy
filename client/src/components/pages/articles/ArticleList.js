@@ -139,18 +139,14 @@ export class ArticleList extends Component {
 		if (this.state.activeTabIndex === 1) articles = userArticles;
 		else if (!hasHeaderButton && !hasHeaderTabs) articles = homeArticles;
 
-		return (
-			<div className="wrapper" ref={this.listRef}>
-				{isFetchingAllArticles ? (
-					<div className={`news-loader-content ${!hasHeaderTabs && "darken pull"}`}>
-						<Loader />
-					</div>
-				) : (
-					<div className="news-list-wrapper">
-						{this._renderNewsHeader(hasHeaderButton, hasHeaderTabs)}
-						{this._renderNewsContent(Object.keys(articles).length && articles.data ? articles.data.articles : [])}
-					</div>
-				)}
+		return isFetchingAllArticles ? (
+			<div className={`news-loader-content ${!hasHeaderTabs && "darken pull"}`}>
+				<Loader />
+			</div>
+		) : (
+			<div className="news-list-wrapper" ref={this.listRef}>
+				{this._renderNewsHeader(hasHeaderButton, hasHeaderTabs)}
+				{this._renderNewsContent(Object.keys(articles).length && articles.data ? articles.data.articles : [])}
 			</div>
 		);
 	};

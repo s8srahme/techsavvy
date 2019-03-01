@@ -269,7 +269,7 @@ class HomeScreen extends Component {
 		];
 
 		return (
-			<div className="wrapper" ref={el => (this.instance = el)}>
+			<div className="home-wrapper" ref={el => (this.instance = el)}>
 				{this._renderLandingContent()}
 				{/* {this._renderNewsletterContent(socials)} */}
 				<ArticleListScreen

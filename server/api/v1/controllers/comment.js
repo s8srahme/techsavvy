@@ -129,7 +129,7 @@ exports.comments_create_comment = async (req, res, next) => {
 };
 exports.comments_delete_all = (req, res, next) => {
 	const id = req.params.articleId;
-	Comment.remove({ article_id: id })
+	Comment.deleteOne({ article_id: id })
 		.exec()
 		.then(result => {
 			res.status(204).json({
@@ -153,7 +153,7 @@ exports.comments_delete_all = (req, res, next) => {
 };
 exports.comments_delete_comment = (req, res, next) => {
 	const id = req.params.commentId;
-	Comment.remove({ _id: id })
+	Comment.deleteOne({ _id: id })
 		.exec()
 		.then(result => {
 			res.status(204).json({
@@ -184,7 +184,7 @@ exports.comments_update_comment = (req, res, next) => {
 	for (const propName in req.body) {
 		updateOps[propName] = req.body[propName];
 	}
-	Comment.update({ _id: id }, { $set: updateOps })
+	Comment.updateOne({ _id: id }, { $set: updateOps })
 		.exec()
 		.then(result => {
 			res.status(200).json({

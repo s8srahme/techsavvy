@@ -326,13 +326,11 @@ export class UserEditing extends React.Component {
 			isLoadingUser
 		} = this.props;
 		return isLoadingUser ? (
-			<div className="wrapper">
-				<div className="news-loader-content">
-					<Loader />
-				</div>
+			<div className="news-loader-content">
+				<Loader />
 			</div>
 		) : (
-			<div className="wrapper">
+			<React.Fragment>
 				<div className="news-masthead">
 					<LazyLoad
 						figure
@@ -370,7 +368,7 @@ export class UserEditing extends React.Component {
 						{this._renderForm()}
 					</section>
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	};
 }

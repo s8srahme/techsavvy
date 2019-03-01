@@ -7,10 +7,6 @@ export class NotFoundScreen extends Component {
 	};
 
 	render = () => {
-		return (
-			<div className="wrapper">
-				<NotFound {...this.props} />
-			</div>
-		);
+		return <NotFound {...this.props} />;
 	};
 }
