@@ -1,15 +1,15 @@
 # ⛔️ Deprecated
 
-This repository is now deprecated and split into two new repositories, which are currently undergoing migration. You can find them here:
+This monorepository is now deprecated and split into two separate repositories, which are currently undergoing migration. You can find them here:
 
 - [techsavvy-web](https://github.com/s8srahme/techsavvy-web)
 - [techsavvy-api](https://github.com/s8srahme/techsavvy-api)
 
 # Techsavvy
 
-Techsavvy is a publishing platform built with React.js, Express and MongoDB in the Node-powered full stack workflow. This project started as an attempt towards using Create React App to bootstrap a React project, connect the React app to an Express backend and deploy the whole thing to Heroku.
+Techsavvy is a publishing platform built with React.js, Express and MongoDB in the Node-powered, full-stack workflow. This project started as an attempt towards using Create React App to bootstrap a React project, connect the React app to an Express backend and deploy the whole thing to Heroku.
 
-Think of it as a free and open platform, where anyone can publish content with an easy to use editor, create user profile, follow their favourite writers, interact with them through clapping on their articles and even leave meaningful responses.
+The idea is to build a free and open-source platform, where anyone can publish content with an easy to use editor, create user profile, follow their favourite writers, interact with them through clapping on their articles and even leave meaningful responses.
 
 ## What is inside?
 
