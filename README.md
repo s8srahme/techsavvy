@@ -2,7 +2,7 @@
 
 This repository is now deprecated and split into two new repositories, which are currently undergoing migration. You can find them here:
 
-- [techsavvy (revamp)](https://github.com/s8srahme/tech-savvy)
+- [techsavvy-web](https://github.com/s8srahme/techsavvy-web)
 - [techsavvy-api](https://github.com/s8srahme/techsavvy-api)
 
 # Techsavvy
